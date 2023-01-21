@@ -3,7 +3,7 @@ import { Db } from 'mongodb';
 import config from '@/config';
 
 export default async (): Promise<Db> => {
-  const connection = await mongoose.connect('mongodb://localhost:27017/admin', {
+  const connection = await mongoose.connect(config.databaseURL, {
     user: encodeURIComponent('root'),
     pass: encodeURIComponent('password'),
     useNewUrlParser: true,
