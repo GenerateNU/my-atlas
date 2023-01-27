@@ -2,6 +2,9 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
+  phoneNumber: number;
+  dob: string;
+  age: number;
   password: string;
   salt: string;
 }
