@@ -1,17 +1,19 @@
 import { MongoClient } from 'mongodb';
 import { IUser } from '@/interfaces/IUser';
-// Replace the uri string with your MongoDB deployment's connection string.
-const uri = "'mongodb://localhost:27017";
-const client = new MongoClient(uri);
+import userModel from '../models/user';
+import mongoose from 'mongoose';
+import { exit } from 'process';
 
 async function run() {
   try {
-    const database = client.db('testDb');
-    // Specifying a Schema is optional, but it enables type hints on
-    // finds and inserts
-    const user = database.collection<IUser>('User');
-    const result = await user.insertOne({
-      _id: '12424',
+    const mongoConnection = await mongoose.connect('mongodb://localhost:27017/admin', {
+      user: encodeURIComponent('root'),
+      pass: encodeURIComponent('password'),
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    });
+    const userRecord = await userModel.create({
       name: 'Graham mather',
       email: 'someting@eemail.com',
       phoneNumber: 9802978079,
@@ -20,9 +22,8 @@ async function run() {
       password: '123124',
       salt: 'salty',
     });
-    console.log(`A document was inserted with the _id: ${result.insertedId}`);
   } finally {
-    await client.close();
+    exit(0);
   }
 }
-run().catch(console.dir);
+run();
