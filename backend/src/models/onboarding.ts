@@ -5,57 +5,44 @@ const Onboarding = new mongoose.Schema(
   {
     userID: {
       type: Number,
-      required: true,
+      index: true
     },
     nickname: {
       type: String,
-      required: [true, 'Please enter a full name'],
-      index: true,
     },
     city: {
       type: String,
-      required: true,
     },
     zipcode: {
       type: Number,
-      required: true,
     },
     religion: {
       type: String,
-      enum: ['None', 'Protestant', 'Catholic', 'Jewish', 'Muslim', 'Buddhist', 'Hindu', 'Other'],
-      required: true,
+      enum: ['None', 'Protestant', 'Catholic', 'Jewish', 'Muslim', 'Buddhist', 'Hindu'],
     },
-    ethnicity: {
-      type: String,
-      required: true,
-    },
+    religionOther: String,
     sexualOrientation: {
       type: String,
-      required: true,
     },
     identifyYourself: String,
     gender: {
       type: String,
-      required: true,
-      enum: ['Male', 'Female', 'NonBinary', 'Other'],
+      enum: ['Male', 'Female', 'NonBinary'],
     },
+    genderOther: String,
     pronouns: {
       type: String,
-      enum: ['He/His', 'She/Her', 'Other'],
-      required: true,
+      enum: ['He/His', 'She/Her'],
     },
+    pronounsOther: String,
     concerns: {
       type: [String],
-      required: true,
-      // write validator
     },
     goals: {
       type: [String],
-      required: true,
     },
     personalityTestScore: {
       type: [Number],
-      required: true,
       validate: [arrayLength, '5 Numbers are required'],
     },
   },
