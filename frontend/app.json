@@ -34,6 +34,16 @@
       "eas": {
         "projectId": "f06e1960-114f-4013-9f5a-bb4fee7e80a8"
       }
-    }
+    },
+    "plugins": [
+      [
+        "react-native-health",
+        {
+          "isClinicalDataEnabled": true,
+          "healthSharePermission": "Custom health share permission",
+          "healthUpdatePermission": "Custom health update permission"
+        }
+      ]
+    ]
   }
 }
