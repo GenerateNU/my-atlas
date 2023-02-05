@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "owner": "my-atlas",
+    "name": "my-atlas-frontend",
+    "slug": "my-atlas-frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +33,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "f06e1960-114f-4013-9f5a-bb4fee7e80a8"
+        "projectId": "28e2d35e-4536-4c9e-96a9-3ee847f0f0ee"
       }
     },
     "plugins": [
