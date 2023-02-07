@@ -1,9 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
 import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
-} from 'react-native-health'
+} from "react-native-health";
 
 /* Permission options */
 const permissions = {
@@ -11,43 +11,59 @@ const permissions = {
     read: [AppleHealthKit.Constants.Permissions.HeartRate],
     write: [AppleHealthKit.Constants.Permissions.Steps],
   },
-} as HealthKitPermissions
+} as HealthKitPermissions;
 
 AppleHealthKit.initHealthKit(permissions, (error: string) => {
   /* Called after we receive a response from the system */
 
   if (error) {
-    console.log('[ERROR] Cannot grant permissions!')
+    console.log("[ERROR] Cannot grant permissions!");
   }
 
   /* Can now read or write to HealthKit */
 
   const options = {
     startDate: new Date(2020, 1, 1).toISOString(),
-  }
+  };
 
   AppleHealthKit.getHeartRateSamples(
     options,
     (callbackError: string, results: HealthValue[]) => {
       /* Samples are now collected from HealthKit */
-    },
-  )
-})
-
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hi, this is My Atlas.</Text>
-      <StatusBar style="auto" />
-    </View>
+    }
   );
-}
+});
+
+let options = {
+  date: new Date().toISOString(), // optional; default now
+  includeManuallyAdded: false, // optional: default true
+};
+
+var steps = 5;
+
+AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
+  if (err) {
+    return;
+  }
+  steps = results.value;
+  console.log(results);
+});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Hi, this is My Atlas, welcome.</Text>
+      <Text>Steps: {steps} </Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
