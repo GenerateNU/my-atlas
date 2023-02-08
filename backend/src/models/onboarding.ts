@@ -4,7 +4,8 @@ import { IOnboarding } from '@/interfaces/IOnboarding';
 const Onboarding = new mongoose.Schema(
   {
     userID: {
-      type: Number,
+      type: String,
+      required: true,
       index: true
     },
     nickname: {
