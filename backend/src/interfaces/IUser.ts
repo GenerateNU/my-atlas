@@ -13,4 +13,7 @@ export interface IUserInputDTO {
   name: string;
   email: string;
   password: string;
+  phoneNumber: number;
+  dob: string;
+  age: number;
 }

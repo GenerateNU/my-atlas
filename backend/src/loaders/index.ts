@@ -23,6 +23,10 @@ export default async ({ expressApp }) => {
     // Notice the require syntax and the '.default'
     model: require('../models/user').default,
   };
+  const onboardingModel = {
+    name: 'onboardingModel',
+    model: require('../models/onboarding').default,
+  }
 
   const activityModel = {
     name: 'activityModel',
@@ -35,6 +39,7 @@ export default async ({ expressApp }) => {
     mongoConnection,
     models: [
       userModel,
+      onboardingModel,
       activityModel
       // salaryModel,
       // whateverModel

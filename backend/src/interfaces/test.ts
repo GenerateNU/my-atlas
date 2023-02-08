@@ -14,7 +14,7 @@ async function run() {
       useUnifiedTopology: true,
     });
     const userRecord = await userModel.create({
-      name: 'Graham mather',
+      name: 'Test user',
       email: 'someting@eemail.com',
       phoneNumber: 9802978079,
       dob: '08/10/2222',
