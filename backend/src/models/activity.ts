@@ -33,7 +33,6 @@ const Activity = new mongoose.Schema(
             required: true,
          },
       },
-      required: true,
     }
 }
 );

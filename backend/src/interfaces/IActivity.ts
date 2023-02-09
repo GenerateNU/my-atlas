@@ -1,5 +1,5 @@
 export interface IActivity {
-    date: Date; // date when user opened app
+    date: String; // date when user opened app
     dailyStepCountSamples?: Number;
     dailyDistanceWalkingRunningSamples?: Number;
     dailyDistanceSwimmingSamples?: Number;
@@ -10,7 +10,13 @@ export interface IActivity {
     appleStandTime?: Number;
     metadata: {userID: String};
     timeseries: {
-      timeField: 'date',
-      metaField: 'metadata',
+      timeField: {
+            type: String,
+            required: true,
+         },
+      metaField: {
+            type: {userID: String},
+            required: true,
+         },
     };
 }
