@@ -79,8 +79,8 @@ export default (app: Router) => {
       logger.debug('Calling deleteOnboarding endpoint');
       try {
         const OnboardingServiceInstance = Container.get(OnboardingService);
-        const { message } = await OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id);
-        return res.json({ message }).status(200);
+        const { onboarding } = await OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id);
+        return res.json({ onboarding }).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
