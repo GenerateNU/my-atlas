@@ -42,8 +42,8 @@ export default class OnboardingService {
   // objectID). Returns a message if successfully deleted onboarding information from the database
   public async deleteOnboardingByUserID(userID: string): Promise<{ message: string }> {
     try {
-      await this.onboardingModel.deleteOne({userID: userID});
-      const message: string = "Successfully deleed onboarding inforomation associated with user " + userID; 
+      const onboardingRecord = await this.onboardingModel.deleteOne({userID: userID});
+      const message: string = "Successfully deleted onboarding inforomation associated with user " + userID; 
       return { message };
     } catch (e) {
       this.logger.error(e);

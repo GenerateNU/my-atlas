@@ -68,7 +68,7 @@ export default (app: Router) => {
     },
   );
 
-  route.post(
+  route.delete(
     '/deleteOnboarding/:id',
     // For most routes, include the two lines below. They are commented out
     // here because it does not make sense to have them
@@ -78,9 +78,8 @@ export default (app: Router) => {
       const logger: Logger = Container.get('logger');
       logger.debug('Calling deleteOnboarding endpoint');
       try {
-        const { id } = req.params;
         const OnboardingServiceInstance = Container.get(OnboardingService);
-        const { message } = await OnboardingServiceInstance.deleteOnboardingByUserID(id);
+        const { message } = await OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id);
         return res.json({ message }).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -89,7 +88,7 @@ export default (app: Router) => {
     },
   );
 
-  route.post(
+  route.patch(
     '/updateOnboarding',
     // For most routes, include the two lines below. They are commented out
     // here because it does not make sense to have them

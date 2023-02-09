@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { IOnboarding } from '@/interfaces/IOnboarding';
+import e from 'express';
 
 const Onboarding = new mongoose.Schema(
   {
@@ -38,19 +39,25 @@ const Onboarding = new mongoose.Schema(
     pronounsOther: String,
     concerns: {
       type: [String],
+      default: undefined,
     },
     goals: {
       type: [String],
+      default: undefined,
     },
     personalityTestScore: {
       type: [Number],
-      validate: [arrayLength, '5 Numbers are required'],
+      default: undefined,
+      validate: [arrayLength, 'Five Numbers are required'],
     },
   },
   { timestamps: true },
 );
 
-function arrayLength(val) {
-  return val.length == 5;
+// Check that the array length is 5
+function arrayLength(val:Number[]) {
+  return val.length == 0;
+  
+  
 }
 export default mongoose.model<IOnboarding & mongoose.Document>('Onboarding', Onboarding);

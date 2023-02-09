@@ -116,15 +116,15 @@ var OnboardingService = /** @class */ (function () {
     // objectID). Returns a message if successfully deleted onboarding information from the database
     OnboardingService.prototype.deleteOnboardingByUserID = function (userID) {
         return __awaiter(this, void 0, Promise, function () {
-            var message, e_3;
+            var onboardingRecord, message, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, this.onboardingModel.deleteOne({ userID: userID })];
                     case 1:
-                        _a.sent();
-                        message = "Successfully deleed onboarding inforomation associated with user " + userID;
+                        onboardingRecord = _a.sent();
+                        message = "Successfully deleted onboarding inforomation associated with user " + userID;
                         return [2 /*return*/, { message: message }];
                     case 2:
                         e_3 = _a.sent();

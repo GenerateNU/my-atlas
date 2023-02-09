@@ -119,13 +119,13 @@ exports["default"] = (function (app) {
             }
         });
     }); });
-    route.post('/deleteOnboarding/:id', 
+    route["delete"]('/deleteOnboarding/:id', 
     // For most routes, include the two lines below. They are commented out
     // here because it does not make sense to have them
     // middlewares.isAuth,
     // middlewares.attachCurrentUser,
     function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var logger, id, OnboardingServiceInstance, message, e_3;
+        var logger, OnboardingServiceInstance, message, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -134,9 +134,8 @@ exports["default"] = (function (app) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    id = req.params.id;
                     OnboardingServiceInstance = typedi_1.Container.get(onboarding_1["default"]);
-                    return [4 /*yield*/, OnboardingServiceInstance.deleteOnboardingByUserID(id)];
+                    return [4 /*yield*/, OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id)];
                 case 2:
                     message = (_a.sent()).message;
                     return [2 /*return*/, res.json({ message: message }).status(200)];
@@ -148,7 +147,7 @@ exports["default"] = (function (app) {
             }
         });
     }); });
-    route.post('/updateOnboarding', 
+    route.patch('/updateOnboarding', 
     // For most routes, include the two lines below. They are commented out
     // here because it does not make sense to have them
     // middlewares.isAuth,
