@@ -39,7 +39,7 @@ let options = {
   includeManuallyAdded: false, // optional: default true
 };
 
-var steps = 5;
+var steps;
 
 AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
   if (err) {
@@ -47,15 +47,6 @@ AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
   }
   steps = results.value;
   console.log(results);
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });
 
 export default function App() {
@@ -67,3 +58,12 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

@@ -14,10 +14,8 @@
 2. Sign up for an Expo account at https://expo.dev/signup/. Expo is the mobile development framework that lets us build and test our app. Message Ivan your email associated with your Expo account to be added to the My Atlas organization.
 3. In any directory, run ``` npm install -g eas-cli ```
 4. In the frontend directory, run ``` npm install ```
-5. Install the Expo Go app onto your simulator. Run ``` npx expo client:install:ios ```
-6. Run ``` npx expo install expo-dev-client ```
-7. Run ``` npx expo install react-native-health ```
-8. Download & unzip the .tar.gz file from the My Atlas organization
-9. Drag and drop the build into your simulator.
-10. Run ``` npx expo start —-dev-client ``` to start the development server
-11. Open the Expo Go app in the simulator and go to your project. The my-atlas-frontend app should open and you should be able to edit code and hot reload.
+5. In the frontend directory, run ``` expo start --ios ``` This should start a development server, pull up your simulator, and install the Expo app onto it. Stop the development server in your terminal but keep the simulator open.
+6. Download & unzip the .tar.gz file from the My Atlas organization
+7. Drag and drop the build into your simulator.
+8. Run ``` npx expo start —-dev-client ``` to start the development server
+9. Open the Expo Go app in the simulator and go to your project. The my-atlas-frontend app should open and you should be able to edit code and hot reload.
