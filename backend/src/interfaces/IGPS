@@ -1,0 +1,17 @@
+export interface IGPS {
+  userID: string;
+  latitude: number; // not sure if this should be a number or not, in expo it returns a number
+  longitude: number;
+  altitude: number; 
+  accuracy: number;
+  timestamp	: number;
+}
+
+export interface IGPSInputDTO {
+    userID: string;
+    latitude: number; // not sure if this should be a number or not, in expo it returns a number
+    longitude: number;
+    altitude: number; 
+    accuracy: number;
+    timestamp	: number;
+}
