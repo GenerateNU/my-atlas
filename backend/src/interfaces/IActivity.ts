@@ -1,5 +1,7 @@
 export interface IActivity {
+    _id: String
     date: String; // date when user opened app
+    userID: String;
     dailyStepCountSamples?: Number;
     dailyDistanceWalkingRunningSamples?: Number;
     dailyDistanceSwimmingSamples?: Number;
@@ -8,15 +10,17 @@ export interface IActivity {
     activeEnergyBurned?: Number;
     basalEnergyBurned?: Number;
     appleStandTime?: Number;
-    metadata: {userID: String};
-    timeseries: {
-      timeField: {
-            type: String,
-            required: true,
-         },
-      metaField: {
-            type: {userID: String},
-            required: true,
-         },
-    };
 }
+
+export interface IActivityDTO {
+    date: String; // date when user opened app
+    userID: String;
+    dailyStepCountSamples?: Number;
+    dailyDistanceWalkingRunningSamples?: Number;
+    dailyDistanceSwimmingSamples?: Number;
+    dailyDistanceCyclingSamples?: Number;
+    dailyFlightsClimbedSamples?: Number;
+    activeEnergyBurned?: Number;
+    basalEnergyBurned?: Number;
+    appleStandTime?: Number;
+ }
