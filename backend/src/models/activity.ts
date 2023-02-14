@@ -15,7 +15,7 @@ import mongoose from 'mongoose';
 //     dailyFlightsClimbedSamples: Number,
 //     activeEnergyBurned: Number,
 //     basalEnergyBurned: Number,
-//     appleStandTime: Number, 
+//     appleStandTime: Number,
 //     // tracks user id
 //     metadata: {
 //       type: {userID: String},
@@ -42,7 +42,7 @@ const Activity = new mongoose.Schema(
     date: {
       type: Date,
       required: true,
-    }, 
+    },
     userID: String,
     // each day the user is active
     dailyStepCountSamples: Number,
@@ -52,14 +52,14 @@ const Activity = new mongoose.Schema(
     dailyFlightsClimbedSamples: Number,
     activeEnergyBurned: Number,
     basalEnergyBurned: Number,
-    appleStandTime: Number, 
+    appleStandTime: Number,
   },
-    {
-      timeseries: {
-        timeField: "date",
-        metaField: "userID",
-      },
-    }
+  {
+    timeseries: {
+      timeField: 'date',
+      metaField: 'userID',
+    },
+  },
 );
 
 export default mongoose.model<IActivity & mongoose.Document>('Activity', Activity);
