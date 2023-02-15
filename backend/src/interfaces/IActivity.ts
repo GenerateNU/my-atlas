@@ -1,6 +1,6 @@
 export interface IActivity {
     _id: String
-    date: String; // date when user opened app
+    date: Date; // date when user opened app
     userID: String;
     dailyStepCountSamples?: Number;
     dailyDistanceWalkingRunningSamples?: Number;
@@ -13,7 +13,7 @@ export interface IActivity {
 }
 
 export interface IActivityDTO {
-    date: String; // date when user opened app
+    date: Date; // date when user opened app
     userID: String;
     dailyStepCountSamples?: Number;
     dailyDistanceWalkingRunningSamples?: Number;
