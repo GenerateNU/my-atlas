@@ -11,7 +11,10 @@ const HeadphoneExposure = new mongoose.Schema({
     type: String,
     index: true,
   },
-  //do we need duration?
+  duration: {
+    type: Number,
+    index: true,
+  },
   value: {
     type: String,
     index: true,
