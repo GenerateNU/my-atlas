@@ -34,13 +34,40 @@ export default async ({ expressApp }) => {
     model: require('../models/activity').default,
   };
 
+  const environmentalAudioExposureSampleModel = {
+    name: 'environmentalAudioExposureSampleModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/environmentalAudioExposureSample').default,
+  };
+  const mindfulSessionModel = {
+    name: 'mindfulSessionModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/mindfulSession').default,
+  };
+
+  const headphoneExposureModel = {
+    name: 'headphoneExposureModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/headphoneExposure').default,
+  };
+
+  const sleepSampleModel = {
+    name: 'sleepSampleModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/sleepSample').default,
+  };
+
   // It returns the agenda instance because it's needed in the subsequent loaders
   const { agenda } = await dependencyInjectorLoader({
     mongoConnection,
     models: [
       userModel,
       onboardingModel,
-      activityModel
+      activityModel,
+      environmentalAudioExposureSampleModel,
+      mindfulSessionModel,
+      headphoneExposureModel,
+      sleepSampleModel,
       // salaryModel,
       // whateverModel
     ],
