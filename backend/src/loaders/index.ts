@@ -33,7 +33,7 @@ export default async ({ expressApp }) => {
     // Notice the require syntax and the '.default'
     model: require('../models/activity').default,
   };
-  
+
   const environmentalAudioExposureSampleModel = {
     name: 'environmentalAudioExposureSampleModel',
     // Notice the require syntax and the '.default'
@@ -57,12 +57,19 @@ export default async ({ expressApp }) => {
     model: require('../models/sleepSample').default,
   };
 
+  const gpsModel = {
+    name: 'gpsModel',
+    model: require('../models/gpsModel')
+  };
+
   // It returns the agenda instance because it's needed in the subsequent loaders
   const { agenda } = await dependencyInjectorLoader({
     mongoConnection,
     models: [
       userModel,
       onboardingModel,
+      activityModel,
+      gpsModel,
       activityModel,
       environmentalAudioExposureSampleModel,
       mindfulSessionModel,
