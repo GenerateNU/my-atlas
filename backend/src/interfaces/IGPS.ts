@@ -10,10 +10,10 @@ export interface IGPS {
 }
 
 export interface IGPSInputDTO {
-    metadata: {userID: String};
+    userID: String;
     latitude?: number; // not sure if this should be a number or not, in expo it returns a number
     longitude?: number;
     altitude?: number;
     accuracy?: number;
-    timestamp?: number;
+    timestamp: number;
 }
