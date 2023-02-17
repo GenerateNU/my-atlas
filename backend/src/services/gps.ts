@@ -53,19 +53,5 @@ export default class GPSService {
     }
   }
 
-  // Updates the gps information associated with the given userID (not the 
-  // objectID). Returns the new data data
-  public async updateGPS(gpsInputDTO: IGPSInputDTO): Promise<{gps: IGPS}> {
-    try {
-      const userID = gpsInputDTO.userID;
-      const onboardingRecord = await this.gpsModel.findOneAndUpdate({userID: userID}, 
-        {
-          new: true}); // new implies we want to return the new document
-      const gps: IGPS = onboardingRecord.toObject();
-      return { gps };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+ 
 }
