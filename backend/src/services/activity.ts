@@ -7,13 +7,13 @@ import { IActivity, IActivityDTO } from "../interfaces/IActivity";
 @Service()
 export default class ActivityService {
   constructor(
-      // Add here whatever services/models you need here
-      @Inject('activityModel') private activityModel: Models.ActivityModel,
+      // Add services/models
+      @Inject('activityModel') private activityModel: Models.ActivityModel, // connection to database and enables CRUD commands
       @Inject('logger') private logger,
       @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
     ) {}
 
-
+    // add activity to database
     public async addActivity(activityDTO: IActivityDTO): Promise<{ activity: IActivity}> {
       try {
         const activityRecord = await this.activityModel.create({
@@ -27,7 +27,7 @@ export default class ActivityService {
       }
     }
 
-
+    // get activity from database
     public async getActivityInfoByIDAndDate(userID: String, date: Date): Promise<{ activity: IActivity}> {
       try {
         const activityRecord = await this.activityModel.findOne({userID: userID, date: date})
@@ -39,9 +39,8 @@ export default class ActivityService {
       }
     }
 
-
-   // Deletes the onboarding information associated with the given userID (not the
-   // objectID). Returns a message if successfully deleted onboarding information from the database
+   // Deletes the activity associated with the given userID and date
+   // Returns a message if successfully deleted activity information from the database
    public async deleteActivityByIDAndDate(userID: String, date: Date): Promise<{ activity : IActivity }> {
    try {
        const activityRecord = await this.activityModel.findOneAndDelete({userID: userID, date: date});
@@ -53,7 +52,7 @@ export default class ActivityService {
    }
    }
 
-
+// updates activity in database
 public async updateActivityByIDAndDate(activityDTO: IActivityDTO): Promise<{ activity: IActivity  }> {
   try {
     const userID = activityDTO.userID;

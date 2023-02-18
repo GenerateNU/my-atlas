@@ -6,14 +6,12 @@ import { Logger } from 'winston';
 import ActivityService from '../../services/activity';
 import middlewares from '../middlewares';
 
-
 const route = Router();
-
 
 export default (app: Router) => {
 app.use('/activity', route);
 
-
+// make post request to add activity
 route.post(
 '/addActivity',
 celebrate({
@@ -30,11 +28,6 @@ celebrate({
     appleStandTime: Joi.number(),
   }),
 }),
-// For most routes, include the two lines below. They are commented out
-// here because it does not make sense to have them. To use route with middleware,
-// must use bearer token generated when a user is signed up/ logged in
-// middlewares.isAuth,
-// middlewares.attachCurrentUser,
 async (req: Request, res: Response, next: NextFunction) => {
   const logger:Logger = Container.get('logger');
   logger.debug('Calling Sign-Up endpoint with body: %o', req.body );
@@ -49,24 +42,15 @@ async (req: Request, res: Response, next: NextFunction) => {
 },
 );
 
-
-// If you want to use params to query, this is how you would want to
-// create the route
+// make get request to retrieve activity, given userID and date
 route.get(
-'/getActivityInfoByIDAndDate/:userID-date',
-// For most routes, include the two lines below. They are commented out
-// here because it does not make sense to have them
-// middlewares.isAuth,
-// middlewares.attachCurrentUser,
+'/getActivityInfoByIDAndDate/userID/:userID/date/:date',
 async (req: Request, res: Response, next: NextFunction) => {
   const logger:Logger = Container.get('logger');
   logger.debug('Calling getActivityInfoByIDAndDate endpoint');
   try {
-   // retrieving correctly?
     const userID = req.params.userID;
     const date = new Date(req.params.date);
-
-
     const activityServiceInstance = Container.get(ActivityService);
     const { activity} = await activityServiceInstance.getActivityInfoByIDAndDate(userID, date);
     return res.json({ activity}).status(200);
@@ -77,14 +61,9 @@ async (req: Request, res: Response, next: NextFunction) => {
 },
 );
 
-
 // deletes activity given a userID and date
 route.delete(
-   '/deleteActivity/:userID-date',
-   // For most routes, include the two lines below. They are commented out
-   // here because it does not make sense to have them
-   // middlewares.isAuth,
-   // middlewares.attachCurrentUser,
+   '/deleteActivity/userID/:userID/date/:date',
    async (req: Request, res: Response, next: NextFunction) => {
      const logger: Logger = Container.get('logger');
      logger.debug('Calling deleteActivity endpoint');
@@ -103,13 +82,9 @@ route.delete(
    },
  );
 
-
+// using unique userID and date to update activity fields
  route.patch(
    '/updateActivity',
-   // For most routes, include the two lines below. They are commented out
-   // here because it does not make sense to have them
-   // middlewares.isAuth,
-   // middlewares.attachCurrentUser,
    celebrate({
        body: Joi.object({
            date: Joi.date().required(),
