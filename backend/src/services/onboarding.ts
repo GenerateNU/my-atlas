@@ -6,19 +6,19 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 @Service()
 export default class OnboardingService {
   constructor(
-    // Add here whatever services/models you need here
     @Inject('onboardingModel') private onboardingModel: Models.OnboardingModel,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
+  // Takes in an onboardingInputDTO and adds to to the database. Returns the added onboarding data 
+  // if there were no problems. Otherwise returns the error
   public async addOnboarding(onboardingInputDTO: IOnboardingInputDTO): Promise<{ onboarding: IOnboarding }> {
     try {
       this.logger.debug(onboardingInputDTO);
       const onboardingRecord = await this.onboardingModel.create({
         ...onboardingInputDTO,
       });
-      this.logger.debug("Here");
       const onboarding :IOnboarding= onboardingRecord.toObject();
       return { onboarding };
     } catch (e) {
@@ -26,8 +26,10 @@ export default class OnboardingService {
       throw e;
     }
   }
+
   // Gets the onboarding information associated with the given userID (not the 
-  // objectID)
+  // objectID). Others returns an error if there is no onbarding information associated 
+  // with the given ID
   public async getOnboarding(userID: string): Promise<{ onboarding: IOnboarding }> {
     try {
       const onboardingRecord = await this.onboardingModel.findOne({userID: userID});
@@ -38,8 +40,10 @@ export default class OnboardingService {
       throw e;
     }
   }
+
   // Deletes the onboarding information associated with the given userID (not the 
-  // objectID). Returns a message if successfully deleted onboarding information from the database
+  // objectID). Returns the deleted onbaording data. Otherwise returns an error
+  // if the data could not be deleted.
   public async deleteOnboardingByUserID(userID: string): Promise<{ onboarding : IOnboarding }> {
     try {
       const onboardingRecord = await this.onboardingModel.findOneAndDelete({userID: userID});
@@ -50,6 +54,10 @@ export default class OnboardingService {
       throw e;
     }
   }
+
+  // Takes in onboardingInputDTO and uses the userID within to update the onboarding data associated with 
+  // the given id. Returns an error if it could not update, either due to no onboarding data associated with
+  // the given id or could not be updated for anotehr reason
   public async updateOnboardingByUserID(onboardingInputDTO: IOnboardingInputDTO): Promise<{ onboarding: IOnboarding  }> {
     try {
       const userID = onboardingInputDTO.userID;
