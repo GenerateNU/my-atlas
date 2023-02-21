@@ -18,6 +18,9 @@ export default (app: Router) => {
         name: Joi.string().required(),
         email: Joi.string().required(),
         password: Joi.string().required(),
+        age: Joi.number(),
+        dob: Joi.string(),
+        phoneNumber: Joi.string(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {

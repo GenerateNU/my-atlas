@@ -12,22 +12,6 @@ export default class UserService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async addUser(userInputDTO: IUserInputDTO): Promise<{ user: IUser }> {
-    try {
-      const userRecord = await this.userModel.create({
-        ...userInputDTO,
-        salt: 'salty',
-      });
-      const user = userRecord.toObject();
-      Reflect.deleteProperty(user, 'password');
-      Reflect.deleteProperty(user, 'salt');
-      return { user };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
-
   public async getUser(id: string): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findById(id);
