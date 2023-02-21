@@ -45,6 +45,9 @@ export default (app: Router) => {
     },
   );
 
+  /*
+  Returns an onboarding model by providing the userID
+   */
   route.get('/getOnboarding/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling getOnboarding endpoint');
@@ -59,6 +62,9 @@ export default (app: Router) => {
     }
   });
 
+  /*
+  Deletes an onboarding model by providing the userID
+   */
   route.delete('/deleteOnboarding/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling deleteOnboarding endpoint');
