@@ -15,7 +15,7 @@ export default class UserService {
   public async getUser(id: string): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findById(id);
-      const user = userRecord.toObject();
+      const user : IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user };
@@ -28,7 +28,7 @@ export default class UserService {
   public async getUserFromEmail(email: string): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findOne({ email: email });
-      const user = userRecord.toObject();
+      const user : IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user };
