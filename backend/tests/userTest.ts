@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
-import { IUser } from '@/interfaces/IUser';
-import userModel from '../models/user';
+import { IUser } from '../src/interfaces/IUser';
+import userModel from '../src/models/user';
 import mongoose from 'mongoose';
 import { exit } from 'process';
 
