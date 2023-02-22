@@ -24,14 +24,13 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling Sign-Up endpoint with body: %o', req.body);
+      logger.debug('Calling addGPS endpoint with body: %o', req.body);
       try {
         const GPSServiceInstance = Container.get(GPSService);
         const { gps } = await GPSServiceInstance.addGPS(req.body as IGPSInputDTO);
         return res.status(201).json({ gps });
         return;
       } catch (e) {
-        logger.debug('Dave here');
         logger.error('🔥 error: %o', e);
         return next(e);
       }
@@ -41,7 +40,7 @@ export default (app: Router) => {
   // Route to get GPS information with parameter userID
   route.get('/getGPS/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
-    logger.debug('Calling getOnboarding endpoint');
+    logger.debug('Calling getGPS endpoint');
     try {
       const { id } = req.params;
       const GPSServiceInstance = Container.get(GPSService);
