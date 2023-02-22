@@ -9,6 +9,9 @@ const route = Router();
 export default (app: Router) => {
   app.use('/onboarding', route);
 
+  /*
+  Adds an onboarding model to the database and returns the entry added
+  */
   route.post(
     '/addOnboarding',
     celebrate({
@@ -78,6 +81,9 @@ export default (app: Router) => {
     }
   });
 
+  /*
+  Updated an onboarding model by the given userID
+   */
   route.patch(
     '/updateOnboarding',
     celebrate({

@@ -34,7 +34,7 @@ const Onboarding = new mongoose.Schema(
     genderOther: String,
     pronouns: {
       type: String,
-      enum: ['He/His', 'She/Her'],
+      enum: ['He/Him', 'She/Her'],
     },
     pronounsOther: String,
     concerns: {
@@ -56,8 +56,6 @@ const Onboarding = new mongoose.Schema(
 
 // Check that the array length is 5
 function arrayLength(val:Number[]) {
-  return val.length == 0;
-  
-  
+  return val.length == 5;
 }
 export default mongoose.model<IOnboarding & mongoose.Document>('Onboarding', Onboarding);
