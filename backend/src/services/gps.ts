@@ -15,24 +15,23 @@ export default class GPSService {
   public async addGPS(gpsInputDTO: IGPSInputDTO): Promise<{ gps: IGPS }> {
     try {
       this.logger.debug(gpsInputDTO);
-      const onboardingRecord = await this.gpsModel.create({
+      const gpsRecord = await this.gpsModel.create({
         ...gpsInputDTO,
       });
-      const gps: IGPS = onboardingRecord.toObject();
+      const gps: IGPS = gpsRecord.toObject();
       return { gps };
     } catch (e) {
-      
       this.logger.error(e);
       throw e;
     }
   }
 
-  // Gets the gps information associated with the given userID (not the 
+  // Gets the gps information associated with the given userID (not the
   // objectID)
-  public async getGPS(userID: string): Promise<{gps: IGPS}> {
+  public async getGPS(userID: string): Promise<{ gps: IGPS }> {
     try {
-      const gpsRecord = await this.gpsModel.findOne({userID: userID});
-      const  gps: IGPS = gpsRecord.toObject();
+      const gpsRecord = await this.gpsModel.findOne({ userID: userID });
+      const gps: IGPS = gpsRecord.toObject();
       return { gps };
     } catch (e) {
       this.logger.error(e);
@@ -40,18 +39,16 @@ export default class GPSService {
     }
   }
 
-  // Deletes the gps information associated with the given userID (not the 
+  // Deletes the gps information associated with the given userID (not the
   // objectID). Returns the deleted data
-  public async deleteGPSByUserID(userID: string): Promise<{gps: IGPS}> {
+  public async deleteGPSByUserID(userID: string): Promise<{ gps: IGPS }> {
     try {
-      const onboardingRecord = await this.gpsModel.findOneAndDelete({userID: userID});
-      const gps: IGPS = onboardingRecord.toObject();
+      const gpsRecord = await this.gpsModel.findOneAndDelete({ userID: userID });
+      const gps: IGPS = gpsRecord.toObject();
       return { gps };
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
-
- 
 }

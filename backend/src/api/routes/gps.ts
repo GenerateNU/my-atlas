@@ -29,24 +29,17 @@ export default (app: Router) => {
         const GPSServiceInstance = Container.get(GPSService);
         const { gps } = await GPSServiceInstance.addGPS(req.body as IGPSInputDTO);
         return res.status(201).json({ gps });
-        return
+        return;
       } catch (e) {
-        logger.debug("Dave here");
+        logger.debug('Dave here');
         logger.error('🔥 error: %o', e);
         return next(e);
       }
     },
   );
 
-  
   // Route to get GPS information with parameter userID
-route.get(
-  '/getGPS/:id',
-  // For most routes, include the two lines below. They are commented out
-  // here because it does not make sense to have them
-  // middlewares.isAuth,
-  // middlewares.attachCurrentUser,
-  async (req: Request, res: Response, next: NextFunction) => {
+  route.get('/getGPS/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling getOnboarding endpoint');
     try {
@@ -58,17 +51,10 @@ route.get(
       logger.error('🔥 error: %o', e);
       return next(e);
     }
-  },
-);
+  });
 
-// Route to felete GPS information with parameter userID
-route.delete(
-  '/deleteGPS/:id',
-  // For most routes, include the two lines below. They are commented out
-  // here because it does not make sense to have them
-  // middlewares.isAuth,
-  // middlewares.attachCurrentUser,
-  async (req: Request, res: Response, next: NextFunction) => {
+  // Route to delete GPS information with parameter userID
+  route.delete('/deleteGPS/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling delete GPS endpoint');
     try {
@@ -80,10 +66,5 @@ route.delete(
       logger.error('🔥 error: %o', e);
       return next(e);
     }
-  },
-);
-
-
-
-
+  });
 };
