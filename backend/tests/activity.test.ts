@@ -13,7 +13,9 @@ async function run() {
     //   useUnifiedTopology: true,
     });
     const activityRecord = await activityModel.create({
-      date: '08/10/2022',
+      _id: "id",
+      date: new Date(1478708162000),
+      userID: "hiello",
       dailyStepCountSamples: 1000,
       dailyDistanceWalkingRunningSamples: 1298,
       dailyDistanceSwimmingSamples: 193,
@@ -22,11 +24,6 @@ async function run() {
       activeEnergyBurned: 123,
       basalEnergyBurned: 23,
       appleStandTime: 3812,
-      metadata: {userID: 'userID'},
-      timeseries: {
-         timeField: '08/10/2022',
-         metaField: {userID: 'userID'},
-      },
     });
   } finally {
     exit(0);

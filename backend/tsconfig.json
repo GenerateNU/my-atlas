@@ -9,6 +9,7 @@
       "./node_modules/@types",
       "./src/types"
     ],
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
