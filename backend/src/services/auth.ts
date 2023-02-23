@@ -1,21 +1,22 @@
 import { Service, Inject } from 'typedi';
 import jwt from 'jsonwebtoken';
-import MailerService from './mailer';
 import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
 import { IUser, IUserInputDTO } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
+import winston from 'winston';
+
 
 @Service()
 export default class AuthService {
   constructor(
     @Inject('userModel') private userModel: Models.UserModel,
-    private mailer: MailerService,
-    @Inject('logger') private logger,
+    @Inject('logger') private logger: winston.Logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
-  ) {}
+  ) {
+  }
 
   public async SignUp(userInputDTO: IUserInputDTO): Promise<{ user: IUser; token: string }> {
     try {
@@ -52,10 +53,8 @@ export default class AuthService {
         throw new Error('User cannot be created');
       }
       this.logger.silly('Sending welcome email');
-      await this.mailer.SendWelcomeEmail(userRecord);
 
       this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
-
       /**
        * @TODO This is not the best way to deal with this
        * There should exist a 'Mapper' layer
@@ -121,7 +120,7 @@ export default class AuthService {
         name: user.name,
         exp: exp.getTime() / 1000,
       },
-      config.jwtSecret,
+      config.jwtSecret
     );
   }
 }
