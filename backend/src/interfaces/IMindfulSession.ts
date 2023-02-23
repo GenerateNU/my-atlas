@@ -1,10 +1,10 @@
 export interface IMindfulSession {
   _id: String;
-  startDate: String;
+  startDate: Date;
   duration: Number;
 }
 
 export interface IMindfulSessionDTO {
-  startDate: String;
+  startDate: Date;
   duration: Number;
 }
