@@ -3,10 +3,12 @@ export interface IEnvironmentalAudioExposureSample {
   startDate: Date;
   duration: Number;
   value: Number;
+  hkId: String;
 }
 
 export interface IEnvironmentalAudioExposureSampleDTO {
   startDate: Date;
   duration: Number;
   value: Number;
+  hkId: String;
 }

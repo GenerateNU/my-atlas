@@ -21,6 +21,10 @@ const EnvironmentalAudioExposureSample = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    hkId: {
+      type: String,
+      required: true
+    }
   },
   {
     timeseries: {

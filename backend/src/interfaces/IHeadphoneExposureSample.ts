@@ -3,10 +3,12 @@ export interface IHeadphoneExposureSample {
   startDate: Date;
   duration: Number;
   value: Number;
+  hkId: String;
 }
 
 export interface IHeadphoneExposureSampleDTO {
   startDate: Date;
   duration: Number;
   value: Number;
+  hkId: String;
 }

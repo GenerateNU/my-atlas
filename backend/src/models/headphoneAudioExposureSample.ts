@@ -23,7 +23,12 @@ const HeadphoneAudioExposureSample = new mongoose.Schema(
     type: Number,
     index: true,
     required: true
-  }},
+  },
+  hkId: {
+    type: String,
+    required: true
+  }
+},
   {
     timeseries: {
       timeField: 'startDate',
