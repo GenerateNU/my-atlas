@@ -1,12 +1,12 @@
 export interface IEnvironmentalAudioExposureSample {
   _id: String;
-  startDate: String;
+  startDate: Date;
   duration: Number;
   value: Number;
 }
 
 export interface IEnvironmentalAudioExposureSampleDTO {
-  startDate: String;
+  startDate: Date;
   duration: Number;
   value: Number;
 }

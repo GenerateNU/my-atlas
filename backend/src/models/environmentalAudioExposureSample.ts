@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const EnvironmentalAudioExposureSample = new mongoose.Schema(
   {
     startDate: {
-      type: String,
+      type: Date,
       required: true,
       index: true,
     },
