@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/jest": "^29.4.0",
+    "mongodb-memory-server": "^8.11.5"
+  }
+}

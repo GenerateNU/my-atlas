@@ -1,19 +1,19 @@
 import { Service, Inject } from 'typedi';
 import jwt from 'jsonwebtoken';
-import MailerService from './mailer';
 import config from '@/config';
 import argon2 from 'argon2';
 import { randomBytes } from 'crypto';
 import { IUser, IUserInputDTO } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
+import winston from 'winston';
+
 
 @Service()
 export default class AuthService {
   constructor(
     @Inject('userModel') private userModel: Models.UserModel,
-    private mailer: MailerService,
-    @Inject('logger') private logger,
+    @Inject('logger') private logger: winston.Logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {
   }
@@ -53,17 +53,15 @@ export default class AuthService {
         throw new Error('User cannot be created');
       }
       this.logger.silly('Sending welcome email');
-      await this.mailer.SendWelcomeEmail(userRecord);
 
       this.eventDispatcher.dispatch(events.user.signUp, { user: userRecord });
-
       /**
        * @TODO This is not the best way to deal with this
        * There should exist a 'Mapper' layer
        * that transforms data from layer to layer
        * but that's too over-engineering for now
        */
-      const user = userRecord.toObject();
+      const user : IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user, token };
@@ -88,7 +86,7 @@ export default class AuthService {
       this.logger.silly('Generating JWT');
       const token = this.generateToken(userRecord);
 
-      const user = userRecord.toObject();
+      const user : IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       /**

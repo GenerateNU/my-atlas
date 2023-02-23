@@ -9,6 +9,7 @@
       "./node_modules/@types",
       "./src/types"
     ],
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -27,9 +28,11 @@
     }
   },
   "include": [
-    "./src/**/*"],
+    "./src/**/*",
+    "./tests/*"
+  ],
   "exclude": [
-    "node_modules",
-    "tests"
-  ]
+    "node_modules"
+  ],
+  "types": ["jest", "node"]
 }
