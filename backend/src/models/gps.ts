@@ -13,7 +13,7 @@ const GPS = new mongoose.Schema(
   },
   {
     timeseries: {
-      timeField: 'timeStamp',
+      timeField: 'timestamp',
       metaField: 'userID',
     },
   },

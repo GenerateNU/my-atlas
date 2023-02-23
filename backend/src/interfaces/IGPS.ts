@@ -6,7 +6,7 @@ export interface IGPS {
   longitude?: number;
   altitude?: number;
   accuracy?: number;
-  timestamp: number;
+  timestamp: Date;
 }
 
 export interface IGPSInputDTO {
@@ -15,5 +15,5 @@ export interface IGPSInputDTO {
   longitude?: number;
   altitude?: number;
   accuracy?: number;
-  timestamp: number;
+  timestamp: Date;
 }
