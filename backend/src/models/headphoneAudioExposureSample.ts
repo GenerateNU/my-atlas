@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 const HeadphoneAudioExposureSample = new mongoose.Schema(
   {
-  _id: {
+  userID: {
     type: String,
     index: true,
     required: true
@@ -24,7 +24,7 @@ const HeadphoneAudioExposureSample = new mongoose.Schema(
     index: true,
     required: true
   },
-  hkId: {
+  hkID: {
     type: String,
     required: true
   }

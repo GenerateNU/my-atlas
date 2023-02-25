@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const SleepSample = new mongoose.Schema(
   {
-    _id: {
+    userID: {
       type: String,
       index: true,
       required: true

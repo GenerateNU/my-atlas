@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 
 const MindfulSession = new mongoose.Schema(
   {
+    userID: {
+      type: String,
+      index: true,
+      required: true
+    },
     startDate: {
       type: Date,
       required: true,
