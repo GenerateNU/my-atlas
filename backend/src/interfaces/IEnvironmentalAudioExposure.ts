@@ -7,7 +7,7 @@ export interface IEnvironmentalAudioExposure {
   hkID: String;
 }
 
-export interface IEnvironmentalAudioExposure {
+export interface IEnvironmentalAudioExposureDTO {
   userID: String;
   startDate: Date;
   duration: Number;
