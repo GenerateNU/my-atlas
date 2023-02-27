@@ -1,10 +1,15 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInputBase, View } from "react-native";
 import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
 } from "react-native-health";
 import { Button, Alert } from 'react-native'
+import axios from 'axios';
+import React, { useEffect, useMemo, useState } from "react";
+import useAxiosPost from "axios-hooks";
+
+
 
 /* Permission options */
 const permissions = {
@@ -36,15 +41,13 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
 });
 
 let options = {
-  startDate: new Date(2020, 1, 1, 0,0,0).toISOString(),
-  endDate: new Date(2023, 11, 25, 23, 59,59 ).toISOString(), // optional; default now
+  //startDate: new Date(2020, 1, 1, 0,0,0).toISOString(),
+  //endDate: new Date(2023, 11, 25, 23, 59,59 ).toISOString(), // optional; default now
   includeManuallyAdded: true, // optional: default true
 
 };
 
-var steps = 0;
-
-
+var steps;
 AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
   console.log(options)
   if (err) {
@@ -56,21 +59,80 @@ AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
 var name = "Dave"
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () =>{
+      setLoading(true);
+      try { 
+        console.log("Here")
+        var values = {
+          "userID" : "5",
+          "nickname" : "Dave",
+          "city" : "Boston",
+          "zipcode": "02115",
+          "religion": "None",
+          "ethnicity": "ethnicty",
+          "sexualOrientation": "sexual orientation",
+          "identifyYourself": "identify yourself test",
+          "gender": "Male",
+          "pronouns": "He/Him",
+          "concerns": ["Concern 1", "Concern 2", "Concern 3"],
+          "goals": ["Goal 1", "Goal 2"],
+          "personalityTestScore" : [10, 20, 30, 40, 50]
+          
+          }
+        
+        //const {data: response} = await axios.post('http://localhost:3000/api/onboarding/addOnboarding', values);
+        
+        const {data: response} = await axios.get('http://localhost:3000/api/onboarding/getOnboarding/2');
+        setData(response);
+        console.log(response)
+        console.log(data)
+        
+      } catch (error) {
+        console.log("Error")
+        //console.error(error.message);
+      }
+      setLoading(false);
+    }
+
+    fetchData();
+  }, []);
+  try{
   return (
     <View style={styles.container}>
       <Text>Hi, this is My Atlas, welcome.</Text>
-      <Text>Name: {name} </Text>
+     
+      <Text>userID: {data['onboarding']['userID']} </Text>
+      <Text>Name: {data['onboarding']['nickname']} </Text>
+      <Text>City: {data['onboarding']['city']} </Text>
+      <Text>ZipCode: {data['onboarding']['zipcode']} </Text>
+      <Text>Pronouns: {data['onboarding']['pronouns']} </Text>
+      <Text>Religion: {data['onboarding']['religion']} </Text>
+      <Text>Sexual Orientation: {data['onboarding']['sexualOrientation']} </Text>
+      <Text>Concerns: {data['onboarding']['concerns']} </Text>
+
+      <Text>Personaility Test Score: {data['onboarding']['personalityTestScore']} </Text>
+      <Text>Identify Yourself: {data['onboarding']['identifyYourself']} </Text>
       <Text>Steps: {steps} </Text>
+      
     
       <StatusBar style="auto" />
-      <Button 
-            title="Minus Steps"
-            onPress={() => Alert.alert(
-              'Added Onboarding')}
-        />
+    
     </View>
   );
+  }
+  catch (error){
+    return (
+      <View style={styles.container}>
+      <Text>Hi, this is My Atlas, welcome.</Text>
+      </View>
+    )
+  }
 }
+
 function  minusSteps(){
   steps = 100
   name = "James"
@@ -85,3 +147,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
