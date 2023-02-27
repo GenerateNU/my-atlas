@@ -3,6 +3,7 @@ import AuthService from '../src/services/auth';
 import User from "../src/models/user";
 import LoggerInstance from "../src/loaders/logger";
 import { EventDispatcher as EventDispatcherClass } from 'event-dispatch';
+import Activity from "../src/models/activity";
 // Next 4 lines required in every test file
 const db = require('./db');
 
@@ -14,7 +15,7 @@ afterEach(async () => await db.clearDatabase());
 afterAll (async () => await db.closeDatabase());
 
 const eventDispatcher = new EventDispatcherClass();
-const authServiceInstance = new AuthService(User, LoggerInstance, eventDispatcher);
+const authServiceInstance = new AuthService(User, Activity, LoggerInstance, eventDispatcher);
 
 describe("Add User document to database", () => {
     it('Add document', async done => {
