@@ -31,36 +31,47 @@ export default async ({ expressApp }) => {
 
   const activityModel = {
     name: 'activityModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/activity').default,
   };
 
   const environmentalAudioExposureSampleModel = {
     name: 'environmentalAudioExposureSampleModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/environmentalAudioExposureSample').default,
   };
   const mindfulSessionModel = {
     name: 'mindfulSessionModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/mindfulSession').default,
   };
 
   const headphoneAudioExposureSampleModel = {
     name: 'headphoneAudioExposureSampleModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/headphoneAudioExposureSample').default,
   };
 
   const sleepSampleModel = {
     name: 'sleepSampleModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/sleepSample').default,
   };
 
+<<<<<<< HEAD
   const gpsModel = {
     name: 'gpsModel',
     model: require('../models/gpsModel')
+=======
+  const heartRateSampleModel = {
+    name: 'heartRateSampleModel',
+    model: require('../models/heartRateSample').default,
+  };
+
+  const heartRateVariabilityModel = {
+    name: 'heartRateVariabilityModel',
+    model: require('../models/heartRateVariability').default,
+  };
+
+  const restingHeartRateModel = {
+    name: 'restingHeartRateModel',
+    model: require('../models/restingHeartRate').default,
+>>>>>>> 0b22862 (Add heart related data model and CRUD)
   };
 
   // It returns the agenda instance because it's needed in the subsequent loaders
@@ -76,8 +87,9 @@ export default async ({ expressApp }) => {
       mindfulSessionModel,
       headphoneAudioExposureSampleModel,
       sleepSampleModel,
-      // salaryModel,
-      // whateverModel
+      heartRateSampleModel,
+      heartRateVariabilityModel,
+      restingHeartRateModel
     ],
   });
   Logger.info('✌️ Dependency Injector loaded');

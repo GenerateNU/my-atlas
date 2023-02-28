@@ -4,7 +4,6 @@ import { IActivityDTO } from '../../interfaces/IActivity';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import ActivityService from '../../services/activity';
-import middlewares from '../middlewares';
 
 const route = Router();
 

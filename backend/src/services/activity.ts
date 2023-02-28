@@ -1,5 +1,4 @@
 import { Service, Inject } from "typedi";
-import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
 import { IActivity, IActivityDTO } from "../interfaces/IActivity";
 
@@ -14,7 +13,7 @@ export default class ActivityService {
     ) {}
 
     // add activity to database
-    public async addActivity(activityDTO: IActivityDTO): Promise<{ activity: IActivity}> {
+    public async addActivity(activityDTO: IActivityDTO): Promise<{activity: IActivity}> {
       try {
         const activityRecord = await this.activityModel.create({
           ...activityDTO,
