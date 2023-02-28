@@ -4,18 +4,17 @@ import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
 } from "react-native-health";
-import { Button, Alert } from 'react-native'
-import axios from 'axios';
+import { Button, Alert } from 'react-native';
 import React, { useEffect, useMemo, useState } from "react";
-import useAxiosPost from "axios-hooks";
+import axios from "axios";
 
 
 
 /* Permission options */
 const permissions = {
   permissions: {
-    write: ["StepCount"],
-    read: ["StepCount"],
+    write: ["StepCount", "HeartRate"],
+    read: ["StepCount", "HeartRate"],
   },
 } as HealthKitPermissions;
 
@@ -41,55 +40,83 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
 });
 
 let options = {
-  //startDate: new Date(2020, 1, 1, 0,0,0).toISOString(),
+  startDate: new Date(2020, 1, 1).toISOString(),
   //endDate: new Date(2023, 11, 25, 23, 59,59 ).toISOString(), // optional; default now
-  includeManuallyAdded: true, // optional: default true
+  //includeManuallyAdded: true, // optional: default true
 
 };
 
-var steps;
-AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
-  console.log(options)
-  if (err) {
-    return;
-  }
-  steps = results.value;
-  console.log(results);
-});
 var name = "Dave"
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+
+
+  const convertSample = (sample: any) => {
+    const heartRate = 
+    {
+      userID: "Test User",
+      startDate: sample.startDate,
+      duration: 0,
+      bpm: sample.value,
+      hkID: sample.id,
+      hkWasUserEntered: true
+    }
+    console.log(heartRate);
+    return heartRate;
+  }
+  const sendHeartRate = () => {
+    const size = data.length;
+    const heartRateSamples = [];
+    for (let i = 0; i < size; i++) {
+      heartRateSamples.push(convertSample(data[i]));
+    }
+    for (let i = 0; i < size; i++) {
+      axios.post('http://localhost:3000/api/heartRateSample/addHeartRateSample', heartRateSamples[i])
+    }
+  }
+
 
   useEffect(() => {
     const fetchData = async () =>{
       setLoading(true);
       try { 
-        console.log("Here")
-        var values = {
-          "userID" : "5",
-          "nickname" : "Dave",
-          "city" : "Boston",
-          "zipcode": "02115",
-          "religion": "None",
-          "ethnicity": "ethnicty",
-          "sexualOrientation": "sexual orientation",
-          "identifyYourself": "identify yourself test",
-          "gender": "Male",
-          "pronouns": "He/Him",
-          "concerns": ["Concern 1", "Concern 2", "Concern 3"],
-          "goals": ["Goal 1", "Goal 2"],
-          "personalityTestScore" : [10, 20, 30, 40, 50]
+        var steps;
+        AppleHealthKit.getHeartRateSamples(options, (err: Object, results: Array<HealthValue>) => {
+        console.log(options);
+        console.log(results);
+        if (err) {
+          return;
+        }
+        setData(results);
+      
+      });
+
+        // console.log("Here")
+        // var values = {
+        //   "userID" : "5",
+        //   "nickname" : "Dave",
+        //   "city" : "Boston",
+        //   "zipcode": "02115",
+        //   "religion": "None",
+        //   "ethnicity": "ethnicty",
+        //   "sexualOrientation": "sexual orientation",
+        //   "identifyYourself": "identify yourself test",
+        //   "gender": "Male",
+        //   "pronouns": "He/Him",
+        //   "concerns": ["Concern 1", "Concern 2", "Concern 3"],
+        //   "goals": ["Goal 1", "Goal 2"],
+        //   "personalityTestScore" : [10, 20, 30, 40, 50]
           
-          }
+        //   }
         
-        //const {data: response} = await axios.post('http://localhost:3000/api/onboarding/addOnboarding', values);
+        // //const {data: response} = await axios.post('http://localhost:3000/api/onboarding/addOnboarding', values);
         
-        const {data: response} = await axios.get('http://localhost:3000/api/onboarding/getOnboarding/2');
-        setData(response);
-        console.log(response)
-        console.log(data)
+        // const {data: response} = await axios.get('http://localhost:3000/api/onboarding/getOnboarding/2');
+        // setData(response);
+        // console.log(response)
+        // console.log(data)
         
       } catch (error) {
         console.log("Error")
@@ -100,12 +127,18 @@ export default function App() {
 
     fetchData();
   }, []);
+
+
   try{
   return (
     <View style={styles.container}>
-      <Text>Hi, this is My Atlas, welcome.</Text>
-     
-      <Text>userID: {data['onboarding']['userID']} </Text>
+      <Text>Hi, this is My Atlas, welcome!</Text>
+      <Button 
+        title="Press Me to Add Heart Rate Samples to Database"
+        onPress={() => sendHeartRate()}
+      />
+      {/* <Text>Steps: {data}</Text> */}
+      {/* <Text>userID: {data['onboarding']['userID']} </Text>
       <Text>Name: {data['onboarding']['nickname']} </Text>
       <Text>City: {data['onboarding']['city']} </Text>
       <Text>ZipCode: {data['onboarding']['zipcode']} </Text>
@@ -119,7 +152,7 @@ export default function App() {
       <Text>Steps: {steps} </Text>
       
     
-      <StatusBar style="auto" />
+      <StatusBar style="auto" /> */}
     
     </View>
   );
@@ -127,16 +160,10 @@ export default function App() {
   catch (error){
     return (
       <View style={styles.container}>
-      <Text>Hi, this is My Atlas, welcome.</Text>
+      <Text>Hi, thisf My Atlas, welcome.</Text>
       </View>
     )
   }
-}
-
-function  minusSteps(){
-  steps = 100
-  name = "James"
-
 }
 
 const styles = StyleSheet.create({

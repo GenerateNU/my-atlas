@@ -3,6 +3,7 @@ import cors from 'cors';
 import { OpticMiddleware } from '@useoptic/express-middleware';
 import routes from '@/api';
 import config from '@/config';
+const { errors, isCelebrateError } = require('celebrate');
 export default ({ app }: { app: express.Application }) => {
   /**
    * Health Check endpoints
@@ -47,10 +48,23 @@ export default ({ app }: { app: express.Application }) => {
   });
 
   /// error handlers
+
+  // middleware to log Celebrate validation errors
+  app.use((err, req, res, next) => {
+    if (isCelebrateError(err)) {
+        console.error(err);
+    }
+    next(err);
+  });
+
+  // Celebrate middleware to return validation errors
+  app.use(errors());
+  
   app.use((err, req, res, next) => {
     /**
      * Handle 401 thrown by express-jwt library
      */
+    
     if (err.name === 'UnauthorizedError') {
       return res
         .status(err.status)

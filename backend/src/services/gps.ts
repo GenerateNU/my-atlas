@@ -1,6 +1,5 @@
 import { Service, Inject } from 'typedi';
 import { IGPS, IGPSInputDTO } from '@/interfaces/IGPS';
-import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 
 @Service()
