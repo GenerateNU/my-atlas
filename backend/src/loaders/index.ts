@@ -53,11 +53,9 @@ export default async ({ expressApp }) => {
     model: require('../models/sleepSample').default,
   };
 
-<<<<<<< HEAD
   const gpsModel = {
     name: 'gpsModel',
     model: require('../models/gpsModel')
-=======
   const heartRateSampleModel = {
     name: 'heartRateSampleModel',
     model: require('../models/heartRateSample').default,
@@ -71,7 +69,6 @@ export default async ({ expressApp }) => {
   const restingHeartRateModel = {
     name: 'restingHeartRateModel',
     model: require('../models/restingHeartRate').default,
->>>>>>> 0b22862 (Add heart related data model and CRUD)
   };
 
   // It returns the agenda instance because it's needed in the subsequent loaders
