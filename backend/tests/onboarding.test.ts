@@ -22,9 +22,9 @@ describe('Add onboarding document to database', () => {
       userID: 'userTest',
       nickname: 'Timmy',
     };
-    const { onboarding } = await onboardingServiceInstance.addOnboarding(onboardingExample);
-    const onboardingDB = await Onboarding.findById(onboarding.userID);
-    expect(onboardingDB.nickname).toEqual('Timmy');
+    await onboardingServiceInstance.addOnboarding(onboardingExample);
+    const onboardingDB = await onboardingServiceInstance.getOnboarding(onboardingExample.userID);
+    expect(onboardingDB.onboarding.nickname).toEqual('Timmy');
     done();
   });
 });

@@ -1,4 +1,4 @@
-import { IGPSInputDTO } from '../src/interfaces/IGPS';
+import {IGPS, IGPSInputDTO} from '../src/interfaces/IGPS';
 import GPSService from '../src/services/gps';
 import Gps from '../src/models/gps';
 import LoggerInstance from '../src/loaders/logger';
@@ -26,10 +26,11 @@ describe('Add gps document to database', () => {
       accuracy: 50,
       timestamp: new Date(1478708162000),
     };
-    const { gps } = await gpsServiceInstance.addGPS(gpsExample);
-    const gpsDB = await Gps.findById(gps.userID);
-    expect(gpsDB.latitude).toEqual(30);
-    expect(gpsDB.accuracy).toEqual(50);
+
+    await gpsServiceInstance.addGPS(gpsExample);
+    const gpsDB: { gps: IGPS } = await gpsServiceInstance.getGPS(gpsExample.userID);
+    expect(gpsDB.gps.latitude).toEqual(20);
+    expect(gpsDB.gps.accuracy).toEqual(50);
     done();
   });
 });
