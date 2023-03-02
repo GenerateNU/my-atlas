@@ -1,9 +1,4 @@
-import { MongoClient } from 'mongodb';
-import { IActivity } from '../src/interfaces/IActivity';
 import Activity from '../src/models/activity';
-import mongoose from 'mongoose';
-import { exit } from 'process';
-
 import { IActivityDTO } from '../src/interfaces/IActivity';
 import ActivityService from '../src/services/activity';
 import AuthService from '../src/services/auth';
@@ -22,8 +17,6 @@ afterAll (async () => await db.closeDatabase());
 
 const eventDispatcher = new EventDispatcherClass();
 const activityServiceInstance = new ActivityService(Activity, LoggerInstance, eventDispatcher);
-const authServiceInstance = new AuthService(User, Activity, LoggerInstance, eventDispatcher);
-
 
 describe("Add Activity document to database", () => {
   it('Add document', async done => {
