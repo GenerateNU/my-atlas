@@ -19,7 +19,7 @@ const gpsServiceInstance = new GPSService(Gps, LoggerInstance, eventDispatcher);
 describe('Add gps document to database', () => {
   it('Add document', async done => {
     const gpsExample: IGPSInputDTO = {
-      userID: "test",
+      userID: 'userID',
       latitude: 20,
       longitude: 30,
       altitude: 10,
@@ -29,8 +29,12 @@ describe('Add gps document to database', () => {
 
     await gpsServiceInstance.addGPS(gpsExample);
     const gpsDB: { gps: IGPS } = await gpsServiceInstance.getGPS(gpsExample.userID);
+    expect(gpsDB.gps.longitude).toEqual(30);
     expect(gpsDB.gps.latitude).toEqual(20);
     expect(gpsDB.gps.accuracy).toEqual(50);
+    expect(gpsDB.gps.timestamp).toEqual(new Date(1478708162000));
+    await gpsServiceInstance.deleteGPSByUserID(gpsDB.gps.userID);
+    expect(await Gps.findOne({ userID: gpsExample.userID })).toEqual(null);
     done();
   });
 });
