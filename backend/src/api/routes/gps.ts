@@ -14,7 +14,7 @@ export default (app: Router) => {
     '/addGPS',
     celebrate({
       body: Joi.object({
-        timestamp: Joi.number().required(),
+        timestamp: Joi.date().required(),
         userID: Joi.string().required(),
         latitude: Joi.number(), // not sure if this should be a number or not, in expo it returns a number
         longitude: Joi.number(),
@@ -29,7 +29,6 @@ export default (app: Router) => {
         const GPSServiceInstance = Container.get(GPSService);
         const { gps } = await GPSServiceInstance.addGPS(req.body as IGPSInputDTO);
         return res.status(201).json({ gps });
-        return;
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
@@ -59,8 +58,8 @@ export default (app: Router) => {
     try {
       const { id } = req.params;
       const GPSServiceInstance = Container.get(GPSService);
-      const { gps } = await GPSServiceInstance.deleteGPSByUserID(id);
-      return res.json({ gps }).status(200);
+      await GPSServiceInstance.deleteGPSByUserID(id);
+      return;
     } catch (e) {
       logger.error('🔥 error: %o', e);
       return next(e);

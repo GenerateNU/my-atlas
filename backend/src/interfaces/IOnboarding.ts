@@ -1,4 +1,5 @@
 export interface IOnboarding {
+  _id: string;
   userID: string;
   nickname?: string;
   city?: string;
