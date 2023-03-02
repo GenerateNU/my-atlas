@@ -1,10 +1,10 @@
 import { IMindfulSessionDTO } from '@/interfaces/IMindfulSession';
 import MindfulSessionService from '@/services/mindfulSession';
 import MindfulSession from '@/models/mindfulSession'
-import LoggerInstance from "../../src/loaders/logger";
+import LoggerInstance from "../src/loaders/logger";
 import { EventDispatcher as EventDispatcherClass } from 'event-dispatch';
 // Next 4 lines required in every test file
-const db = require('../db');
+const db = require('./db');
 
 beforeAll(async () => await db.connect(), 18000);
 let mongoServer: any;
