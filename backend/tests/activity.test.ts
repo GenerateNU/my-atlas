@@ -6,6 +6,8 @@ import { exit } from 'process';
 
 import { IActivityDTO } from '../src/interfaces/IActivity';
 import ActivityService from '../src/services/activity';
+import AuthService from '../src/services/auth';
+import User from "../src/models/user";
 import LoggerInstance from "../src/loaders/logger";
 import { EventDispatcher as EventDispatcherClass } from 'event-dispatch';
 // Next 4 lines required in every test file
@@ -20,6 +22,7 @@ afterAll (async () => await db.closeDatabase());
 
 const eventDispatcher = new EventDispatcherClass();
 const activityServiceInstance = new ActivityService(Activity, LoggerInstance, eventDispatcher);
+const authServiceInstance = new AuthService(User, Activity, LoggerInstance, eventDispatcher);
 
 
 describe("Add Activity document to database", () => {
