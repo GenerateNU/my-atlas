@@ -32,6 +32,7 @@ const HeadphoneAudioExposure = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
+      metaField: "userID",
     },
   }
 );

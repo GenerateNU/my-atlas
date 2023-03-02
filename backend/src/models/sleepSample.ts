@@ -25,6 +25,7 @@ const SleepSample = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
+      metaField: "userID",
     },
   }
 );

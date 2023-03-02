@@ -29,6 +29,7 @@ const EnvironmentalAudioExposure = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
+      metaField: "userID"
     },
   }
 );
