@@ -21,6 +21,7 @@ const MindfulSession = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
+      metaField: "userID"
     },
   },
 );
