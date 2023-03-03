@@ -70,7 +70,6 @@ route.delete(
        const userID = req.params.userID;
        const date = new Date(req.params.date);
 
-
        const ActivityServiceInstance = Container.get(ActivityService);
        const { activity } = await ActivityServiceInstance.deleteActivityByIDAndDate(userID, date);
        return res.json({ activity }).status(200);

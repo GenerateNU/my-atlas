@@ -36,16 +36,10 @@ describe("Add Activity document to database", () => {
     const activityFromDB = await Activity.findById(activity._id);
     expect(activityFromDB.userID).toEqual("hiello");
     expect(activityFromDB.dailyStepCountSamples).toEqual(123123);
-    done();
-  })
-})
 
-describe("Get Activity document from database", () => {
-  it('Get document', async done => {
-    const {activity} = await activityServiceInstance.getActivityInfoByIDAndDate("hiello", new Date(1478708162000));
-    const activityFromDB = await Activity.findById(activity._id);
-    expect(activityFromDB.userID).toEqual("hiello");
-    expect(activityFromDB.dailyStepCountSamples).toEqual(123123);
+    const activity2 = await activityServiceInstance.getActivityInfoByIDAndDate("hiello", new Date(1478708162000));
+    expect(activity2.activity.userID).toEqual("hiello");
+    expect(activity2.activity.dailyStepCountSamples).toEqual(123123);
     done();
   })
 })
