@@ -32,14 +32,14 @@ describe("Add Activity document to database", () => {
       basalEnergyBurned: 23,
       appleStandTime: 3812
     }
-    const {activity} = await activityServiceInstance.addActivity(activityExample);
+    const activity = await activityServiceInstance.addActivity(activityExample);
     const activityFromDB = await Activity.findById(activity._id);
     expect(activityFromDB.userID).toEqual("hiello");
     expect(activityFromDB.dailyStepCountSamples).toEqual(123123);
 
     const activity2 = await activityServiceInstance.getActivityInfoByIDAndDate("hiello", new Date(1478708162000));
-    expect(activity2.activity.userID).toEqual("hiello");
-    expect(activity2.activity.dailyStepCountSamples).toEqual(123123);
+    expect(activity2.userID).toEqual("hiello");
+    expect(activity2.dailyStepCountSamples).toEqual(123123);
     done();
   })
 })

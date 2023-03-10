@@ -32,7 +32,7 @@ async (req: Request, res: Response, next: NextFunction) => {
   logger.debug('Calling Sign-Up endpoint with body: %o', req.body );
   try {
     const ActivityServiceInstance = Container.get(ActivityService);
-    const { activity} = await ActivityServiceInstance.addActivity(req.body as IActivityDTO);
+    const activity = await ActivityServiceInstance.addActivity(req.body as IActivityDTO);
     return res.status(201).json({ activity});
   } catch (e) {
     logger.error('🔥 error: %o', e);
@@ -51,7 +51,7 @@ async (req: Request, res: Response, next: NextFunction) => {
     const userID = req.params.userID;
     const date = new Date(req.params.date);
     const activityServiceInstance = Container.get(ActivityService);
-    const { activity} = await activityServiceInstance.getActivityInfoByIDAndDate(userID, date);
+    const activity = await activityServiceInstance.getActivityInfoByIDAndDate(userID, date);
     return res.json({ activity}).status(200);
   } catch (e) {
     logger.error('🔥 error: %o',  e );
@@ -71,7 +71,7 @@ route.delete(
        const date = new Date(req.params.date);
 
        const ActivityServiceInstance = Container.get(ActivityService);
-       const { activity } = await ActivityServiceInstance.deleteActivityByIDAndDate(userID, date);
+       const activity = await ActivityServiceInstance.deleteActivityByIDAndDate(userID, date);
        return res.json({ activity }).status(200);
      } catch (e) {
        logger.error(':fire: error: %o', e);
@@ -102,7 +102,7 @@ route.delete(
      logger.debug('Calling updateActivity endpoint');
      try {
        const ActivityServiceInstance = Container.get(ActivityService);
-       const { activity } = await ActivityServiceInstance.updateActivityByIDAndDate(req.body as IActivityDTO);
+       const activity = await ActivityServiceInstance.updateActivityByIDAndDate(req.body as IActivityDTO);
        return res.json({ activity }).status(200);
      } catch (e) {
        logger.error(':fire: error: %o', e);
