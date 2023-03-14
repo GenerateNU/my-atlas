@@ -1,5 +1,6 @@
 import {IGPS, IGPSInputDTO} from '../src/interfaces/IGPS';
 import GPSService from '../src/services/gps';
+import {IDeleteMany} from "@/interfaces/IDeleteMany";
 import Gps from '../src/models/gps';
 import LoggerInstance from '../src/loaders/logger';
 import { EventDispatcher as EventDispatcherClass } from 'event-dispatch';
@@ -33,7 +34,9 @@ describe('Add gps document to database', () => {
     expect(gpsDB.gps.latitude).toEqual(20);
     expect(gpsDB.gps.accuracy).toEqual(50);
     expect(gpsDB.gps.timestamp).toEqual(new Date(1478708162000));
-    await gpsServiceInstance.deleteGPSByUserID(gpsDB.gps.userID);
+    const deleteReturn: IDeleteMany = await gpsServiceInstance.deleteGPSByUserID(gpsExample.userID);
+    expect(deleteReturn.acknowledged).toEqual(true);
+    expect(deleteReturn.deletedCount).toEqual(1);
     expect(await Gps.findOne({ userID: gpsExample.userID })).toEqual(null);
     done();
   });

@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 import { IGPSInputDTO } from '@/interfaces/IGPS';
+import { IDeleteMany} from "@/interfaces/IDeleteMany";
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import GPSService from '@/services/gps';
@@ -58,7 +59,8 @@ export default (app: Router) => {
     try {
       const { id } = req.params;
       const GPSServiceInstance = Container.get(GPSService);
-      await GPSServiceInstance.deleteGPSByUserID(id);
+      const deleteReturn: IDeleteMany = await GPSServiceInstance.deleteGPSByUserID(id);
+      return res.json({ deleteReturn }).status(200);
       return;
     } catch (e) {
       logger.error('🔥 error: %o', e);
