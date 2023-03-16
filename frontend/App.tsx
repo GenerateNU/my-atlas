@@ -4,6 +4,8 @@ import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
 } from "react-native-health";
+import { AuthProvider } from "./src/contexts/Auth";
+import Router from "./src/navigation/Router";
 
 /* Permission options */
 const permissions = {
@@ -51,11 +53,14 @@ AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hi, this is My Atlas, welcome.</Text>
-      <Text>Steps: {steps} </Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <Router/>
+    </AuthProvider>
+    // <View style={styles.container}>
+    //   <Text>Hi, this is My Atlas, welcome.</Text>
+    //   <Text>Steps: {steps} </Text>
+    //   <StatusBar style="auto" />
+    // </View>
   );
 }
 
