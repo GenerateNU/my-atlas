@@ -1,6 +1,7 @@
 import { Service, Inject } from 'typedi';
 import { IGPS, IGPSInputDTO } from '@/interfaces/IGPS';
 import MailerService from './mailer';
+import {IDeleteMany} from "@/interfaces/IDeleteMany";
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 
 @Service()
@@ -41,11 +42,10 @@ export default class GPSService {
 
   // Deletes the gps information associated with the given userID (not the
   // objectID). Returns the deleted data
-  public async deleteGPSByUserID(userID: string): Promise<{ gps: IGPS }> {
+  public async deleteGPSByUserID(userID: string): Promise<IDeleteMany> {
     try {
-      const gpsRecord = await this.gpsModel.findOneAndDelete({ userID: userID });
-      const gps: IGPS = gpsRecord.toObject();
-      return { gps };
+      const deleteReturn: IDeleteMany = await this.gpsModel.deleteMany({ userID: userID });
+      return deleteReturn;
     } catch (e) {
       this.logger.error(e);
       throw e;

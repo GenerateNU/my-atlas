@@ -55,7 +55,7 @@ export default async ({ expressApp }) => {
 
   const gpsModel = {
     name: 'gpsModel',
-    model: require('../models/gps').default
+    model: require('../models/gps').default,
   };
 
   const heartRateSampleModel = {

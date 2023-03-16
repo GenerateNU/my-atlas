@@ -11,7 +11,7 @@ export default class OnboardingService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // Takes in an onboardingInputDTO and adds to to the database. Returns the added onboarding data 
+  // Takes in an onboardingInputDTO and adds to to the database. Returns the added onboarding data
   // if there were no problems. Otherwise returns the error
   public async addOnboarding(onboardingInputDTO: IOnboardingInputDTO): Promise<{ onboarding: IOnboarding }> {
     try {
@@ -27,8 +27,8 @@ export default class OnboardingService {
     }
   }
 
-  // Gets the onboarding information associated with the given userID (not the 
-  // objectID). Others returns an error if there is no onbarding information associated 
+  // Gets the onboarding information associated with the given userID (not the
+  // objectID). Others returns an error if there is no onbarding information associated
   // with the given ID
   public async getOnboarding(userID: string): Promise<{ onboarding: IOnboarding }> {
     try {
@@ -41,7 +41,7 @@ export default class OnboardingService {
     }
   }
 
-  // Deletes the onboarding information associated with the given userID (not the 
+  // Deletes the onboarding information associated with the given userID (not the
   // objectID). Returns the deleted onbaording data. Otherwise returns an error
   // if the data could not be deleted.
   public async deleteOnboardingByUserID(userID: string): Promise<{ onboarding : IOnboarding }> {
@@ -55,13 +55,14 @@ export default class OnboardingService {
     }
   }
 
-  // Takes in onboardingInputDTO and uses the userID within to update the onboarding data associated with 
+  // Takes in onboardingInputDTO and uses the userID within to update the onboarding data associated with
   // the given id. Returns an error if it could not update, either due to no onboarding data associated with
   // the given id or could not be updated for anotehr reason
   public async updateOnboardingByUserID(onboardingInputDTO: IOnboardingInputDTO): Promise<{ onboarding: IOnboarding  }> {
     try {
       const userID = onboardingInputDTO.userID;
       const onboardingRecord = await this.onboardingModel.findOneAndUpdate({userID: userID}, onboardingInputDTO,{
+        runValidators: true,
         new: true}); // new implies we want to return the new document
       const onboarding : IOnboarding = onboardingRecord.toObject();
       return { onboarding };

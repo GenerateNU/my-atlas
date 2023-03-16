@@ -27,6 +27,7 @@ const Onboarding = new mongoose.Schema(
       type: String,
     },
     identifyYourself: String,
+    ethnicity: String,
     gender: {
       type: String,
       enum: ['Male', 'Female', 'NonBinary'],
