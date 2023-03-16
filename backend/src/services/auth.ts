@@ -8,7 +8,6 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import events from '@/subscribers/events';
 import winston from 'winston';
 
-
 @Service()
 export default class AuthService {
   constructor(
