@@ -13,7 +13,7 @@ export default class HeadphoneExposureSample {
   ) {}
 
   // add headphoneExposure to database
-  public async addActivity(
+  public async addHeadphoneAudioExposure(
     IHeadphoneExposureSampleDTO: IHeadphoneAudioExposureDTO,
   ): Promise<{ headphoneExposure: IHeadphoneAudioExposure }> {
     try {

@@ -2,9 +2,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { Container } from 'typedi';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
-import HeadphoneAudioExposureService from '@/services/headphoneExposure';
+import HeadphoneAudioExposureService from '@/services/headphoneAudioExposure';
 import { IHeadphoneAudioExposureDTO } from '@/interfaces/IHeadphoneAudioExposure';
-//wtf
 
 const route = Router();
 
@@ -27,11 +26,11 @@ export default (app: Router) => {
       const logger: Logger = Container.get('logger');
       try {
         const HeadphoneAudioExposureInstance = Container.get(HeadphoneAudioExposureService);
-        const { headphoneAudioExposure } = await HeadphoneAudioExposureInstance.addHeadphoneAudioExposure(
+        const { headphoneExposure } = await HeadphoneAudioExposureInstance.addHeadphoneAudioExposure(
           req.body as IHeadphoneAudioExposureDTO,
         );
 
-        return res.status(201).json({ headphoneAudioExposure });
+        return res.status(201).json({ headphoneExposure });
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
@@ -50,11 +49,11 @@ export default (app: Router) => {
         const startDate = new Date(req.params.date);
 
         const HeadphoneAudioExposureInstance = Container.get(HeadphoneAudioExposureService);
-        const { headphoneAudioExposure } = await HeadphoneAudioExposureInstance.deleteHeadphoneAudioExposure(
+        const { headphoneExposure } = await HeadphoneAudioExposureInstance.deleteHeadphoneExposureSampleByIDAndDate(
           userID,
           startDate,
         );
-        return res.json({ headphoneAudioExposure }).status(200);
+        return res.json({ headphoneExposure }).status(200);
       } catch (e) {
         logger.error(':fire: error: %o', e);
         return next(e);
