@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import { IGPS, IGPSInputDTO } from '@/interfaces/IGPS';
 import MailerService from './mailer';
-import {IDeleteMany} from "@/interfaces/IDeleteMany";
+import { IDeleteMany } from '@/interfaces/IDeleteMany';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 
 @Service()
@@ -27,6 +27,23 @@ export default class GPSService {
     }
   }
 
+  public async addManyGPS(gpsInputDTO: IGPSInputDTO[]): Promise<{ gpsMany: IGPS[] }> {
+    try {
+      this.logger.debug(gpsInputDTO);
+      const gpsRecord = await this.gpsModel.create({
+        ...gpsInputDTO,
+      });
+      const gpsMany: IGPS[] = [];
+      for (let i = 0; i < gpsRecord.length; i++) {
+        const gps: IGPS = gpsRecord[i].toObject();
+        gpsMany.push(gps);
+      }
+      return { gpsMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Gets the gps information associated with the given userID (not the
   // objectID)
   public async getGPS(userID: string): Promise<{ gps: IGPS }> {
