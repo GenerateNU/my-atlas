@@ -13,13 +13,13 @@ export default class HeartRateSampleService {
     ) {}
 
     // add heart rate sample to database
-    public async addHeartRateSample(heartRateSampleDTO: IHeartRateSampleDTO): Promise<{ heartRateSample: IHeartRateSample}> {
+    public async addHeartRateSample(heartRateSampleDTO: IHeartRateSampleDTO): Promise<IHeartRateSample> {
       try {
         const heartRateSampleRecord = await this.heartRateSampleModel.create({
           ...heartRateSampleDTO,
         });
         const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
-        return { heartRateSample };
+        return heartRateSample;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -27,11 +27,11 @@ export default class HeartRateSampleService {
     }
 
     // get heartRateSample from database
-    public async getHeartRateSampleByID(id: String): Promise<{ heartRateSample: IHeartRateSample}> {
+    public async getHeartRateSampleByID(id: String): Promise<IHeartRateSample> {
       try {
         const heartRateSampleRecord = await this.heartRateSampleModel.findById(id);
         const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
-        return { heartRateSample };
+        return heartRateSample;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -39,11 +39,11 @@ export default class HeartRateSampleService {
     }
 
    // Deletes the heartRateSample associated with the given ID
-   public async deleteHeartRateSampleByID(id: String): Promise<{ heartRateSample : IHeartRateSample }> {
+   public async deleteHeartRateSampleByID(id: String): Promise<IHeartRateSample> {
    try {
        const heartRateSampleRecord = await this.heartRateSampleModel.findByIdAndDelete(id);
        const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
-       return { heartRateSample };
+       return heartRateSample;
    } catch (e) {
        this.logger.error(e);
        throw e;

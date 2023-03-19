@@ -13,14 +13,14 @@ export default class GPSService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async addGPS(gpsInputDTO: IGPSInputDTO): Promise<{ gps: IGPS }> {
+  public async addGPS(gpsInputDTO: IGPSInputDTO): Promise<IGPS> {
     try {
       this.logger.debug(gpsInputDTO);
       const gpsRecord = await this.gpsModel.create({
         ...gpsInputDTO,
       });
       const gps: IGPS = gpsRecord.toObject();
-      return { gps };
+      return gps;
     } catch (e) {
       this.logger.error(e);
       throw e;
@@ -29,11 +29,11 @@ export default class GPSService {
 
   // Gets the gps information associated with the given userID (not the
   // objectID)
-  public async getGPS(userID: string): Promise<{ gps: IGPS }> {
+  public async getGPS(userID: string): Promise<IGPS> {
     try {
       const gpsRecord = await this.gpsModel.findOne({ userID: userID });
       const gps: IGPS = gpsRecord.toObject();
-      return { gps };
+      return gps;
     } catch (e) {
       this.logger.error(e);
       throw e;

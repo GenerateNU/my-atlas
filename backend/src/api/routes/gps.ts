@@ -29,7 +29,7 @@ export default (app: Router) => {
      logger.debug('Calling addGPS endpoint with body: %o', req.body);
      try {
        const GPSServiceInstance = Container.get(GPSService);
-       const { gps } = await GPSServiceInstance.addGPS(req.body as IGPSInputDTO);
+       const gps = await GPSServiceInstance.addGPS(req.body as IGPSInputDTO);
        return res.status(201).json({ gps });
        return;
      } catch (e) {
@@ -48,7 +48,7 @@ export default (app: Router) => {
    try {
      const { id } = req.params;
      const GPSServiceInstance = Container.get(GPSService);
-     const { gps } = await GPSServiceInstance.getGPS(id);
+     const gps = await GPSServiceInstance.getGPS(id);
      return res.json({ gps }).status(200);
    } catch (e) {
      logger.error('🔥 error: %o', e);
@@ -65,7 +65,7 @@ export default (app: Router) => {
    try {
      const { id } = req.params;
      const GPSServiceInstance = Container.get(GPSService);
-     const { gps } = await GPSServiceInstance.deleteGPSByUserID(id);
+     const gps = await GPSServiceInstance.deleteGPSByUserID(id);
      return res.json({ gps }).status(200);
    } catch (e) {
      logger.error('🔥 error: %o', e);

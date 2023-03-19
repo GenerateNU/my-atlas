@@ -33,7 +33,7 @@ async (req: Request, res: Response, next: NextFunction) => {
  logger.debug('Calling addHeartRateSample endpoint with body: %o', req.body );
  try {
    const HeartRateSampleServiceInstance = Container.get(HeartRateSampleService);
-   const { heartRateSample } = await HeartRateSampleServiceInstance.addHeartRateSample(req.body as IHeartRateSampleDTO);
+   const heartRateSample = await HeartRateSampleServiceInstance.addHeartRateSample(req.body as IHeartRateSampleDTO);
    return res.status(201).json({ heartRateSample });
  } catch (e) {
    logger.error('🔥 error: %o', e);
@@ -53,7 +53,7 @@ async (req: Request, res: Response, next: NextFunction) => {
  try {
    const id = req.params.id;
    const HeartRateSampleServiceInstance = Container.get(HeartRateSampleService);
-   const { heartRateSample } = await HeartRateSampleServiceInstance.getHeartRateSampleByID(id);
+   const heartRateSample = await HeartRateSampleServiceInstance.getHeartRateSampleByID(id);
    return res.json({ heartRateSample }).status(200);
  } catch (e) {
    logger.error('🔥 error: %o',  e );
@@ -73,7 +73,7 @@ route.delete(
     try {
       const id = req.params.id;
       const HeartRateSampleServiceInstance = Container.get(HeartRateSampleService);
-      const { heartRateSample } = await HeartRateSampleServiceInstance.deleteHeartRateSampleByID(id);
+      const heartRateSample = await HeartRateSampleServiceInstance.deleteHeartRateSampleByID(id);
       return res.json({ heartRateSample }).status(200);
     } catch (e) {
       logger.error('🔥 error: %o', e);

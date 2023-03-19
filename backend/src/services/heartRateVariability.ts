@@ -13,13 +13,13 @@ export default class HeartRateVariabilityService {
     ) {}
 
     // add heart rate variability to database
-    public async addHeartRateVariability(heartRateVariabilityDTO: IHeartRateVariabilityDTO): Promise<{ heartRateVariability: IHeartRateVariability}> {
+    public async addHeartRateVariability(heartRateVariabilityDTO: IHeartRateVariabilityDTO): Promise<IHeartRateVariability> {
       try {
         const heartRateVariabilityRecord = await this.heartRateVariabilityModel.create({
           ...heartRateVariabilityDTO,
         });
         const heartRateVariability : IHeartRateVariability = heartRateVariabilityRecord.toObject();
-        return { heartRateVariability };
+        return heartRateVariability;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -27,11 +27,11 @@ export default class HeartRateVariabilityService {
     }
 
     // get heart rate variability from database
-    public async getHeartRateVariabilityByID(id: String): Promise<{ heartRateVariability: IHeartRateVariability}> {
+    public async getHeartRateVariabilityByID(id: String): Promise<IHeartRateVariability> {
       try {
         const heartRateVariabilityRecord = await this.heartRateVariabilityModel.findById(id);
         const heartRateVariability : IHeartRateVariability = heartRateVariabilityRecord.toObject();
-        return { heartRateVariability };
+        return heartRateVariability;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -39,11 +39,11 @@ export default class HeartRateVariabilityService {
     }
 
    // Deletes the heart rate variability associated with the given ID
-   public async deleteHeartRateVariabilityByID(id: String): Promise<{ heartRateVariability : IHeartRateVariability }> {
+   public async deleteHeartRateVariabilityByID(id: String): Promise<IHeartRateVariability> {
    try {
        const heartRateVariabilityRecord = await this.heartRateVariabilityModel.findByIdAndDelete(id);
        const heartRateVariability : IHeartRateVariability = heartRateVariabilityRecord.toObject();
-       return { heartRateVariability };
+       return heartRateVariability;
    } catch (e) {
        this.logger.error(e);
        throw e;
