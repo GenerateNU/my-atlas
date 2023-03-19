@@ -7,14 +7,21 @@ import AppleHealthKit, {
 import { Button, Alert } from 'react-native';
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { IHeartRateSampleDTO } from "./interfaces/IHeartRateSample";
+import { IHeartRateVariabilityDTO } from "./interfaces/IHeartRateVariability";
+import { IRestingHeartRateDTO } from './interfaces/IRestingHeartRate';
+import { IHeadphoneExposureSampleDTO } from "./interfaces/IHeadphoneExposureSample";
+import { IActivityDTO } from './interfaces/IActivity';
 
+
+const testUserID :string= "Test User";
 
 
 /* Permission options */
 const permissions = {
   permissions: {
-    write: ["StepCount", "HeartRate"],
-    read: ["StepCount", "HeartRate"],
+    write: ["HeartRate", "HeartRateVariability"],
+    read: ["StepCount", "HeartRate", "HeartRateVariability", "RestingHeartRate", "SleepAnalysis"],
   },
 } as HealthKitPermissions;
 
@@ -27,16 +34,14 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
 
   /* Can now read or write to HealthKit */
 
-  const options = {
-    startDate: new Date(2020, 1, 1).toISOString(),
-  };
+  let options = {
+    unit: 'milliseconds', // optional; default 'second'
+    startDate: new Date(2021, 0, 0).toISOString(), // required
+    endDate: new Date().toISOString(), // optional; default now
+    ascending: false, // optional; default false
+    limit: 10, // optional; default no limit
+  }
 
-  AppleHealthKit.getHeartRateSamples(
-    options,
-    (callbackError: string, results: HealthValue[]) => {
-      /* Samples are now collected from HealthKit */
-    }
-  );
 });
 
 let options = {
@@ -45,37 +50,35 @@ let options = {
   //includeManuallyAdded: true, // optional: default true
 
 };
-
-var name = "Dave"
-
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
 
-  const convertSample = (sample: any) => {
-    const heartRate = 
-    {
-      userID: "Test User",
-      startDate: sample.startDate,
-      duration: 0,
-      bpm: sample.value,
-      hkID: sample.id,
-      hkWasUserEntered: true
-    }
-    console.log(heartRate);
-    return heartRate;
-  }
-  const sendHeartRate = () => {
-    const size = data.length;
-    const heartRateSamples = [];
-    for (let i = 0; i < size; i++) {
-      heartRateSamples.push(convertSample(data[i]));
-    }
-    for (let i = 0; i < size; i++) {
-      axios.post('http://localhost:3000/api/heartRateSample/addHeartRateSample', heartRateSamples[i])
-    }
-  }
+  // const convertSample = (sample: any) => {
+  //   const heartRate = 
+  //   {
+  //     userID: "Test User",
+  //     startDate: sample.startDate,
+  //     duration: 0,
+  //     bpm: sample.value,
+  //     hkID: sample.id,
+  //     hkWasUserEntered: true
+  //   }
+  //   console.log(heartRate);
+  //   return heartRate;
+  // }
+  // const sendHeartRate = () => {
+  //   const size = data.length;
+  //   const heartRateSamples = [];
+  //   for (let i = 0; i < size; i++) {
+  //     heartRateSamples.push(convertSample(data[i]));
+  //   }
+  //   for (let i = 0; i < size; i++) {
+  //     const post= axios.post('http://localhost:3000/api/heartRateSample/addHeartRateSample', heartRateSamples[i])
+  //     console.log(post)
+  //   }
+  // }
 
 
   useEffect(() => {
@@ -84,8 +87,14 @@ export default function App() {
       try { 
         var steps;
         AppleHealthKit.getHeartRateSamples(options, (err: Object, results: Array<HealthValue>) => {
-        console.log(options);
+        console.log("HEART")
         console.log(results);
+        let result = results[1]
+        let date1: Date= new Date(result.startDate);
+        let date2 : Date= new Date(result.endDate);
+
+        console.log(dateDifferenceInMiiliseconds(date1, date2))
+        //console.log(convertHeartRateVariability(results[1]))
         if (err) {
           return;
         }
@@ -93,30 +102,6 @@ export default function App() {
       
       });
 
-        // console.log("Here")
-        // var values = {
-        //   "userID" : "5",
-        //   "nickname" : "Dave",
-        //   "city" : "Boston",
-        //   "zipcode": "02115",
-        //   "religion": "None",
-        //   "ethnicity": "ethnicty",
-        //   "sexualOrientation": "sexual orientation",
-        //   "identifyYourself": "identify yourself test",
-        //   "gender": "Male",
-        //   "pronouns": "He/Him",
-        //   "concerns": ["Concern 1", "Concern 2", "Concern 3"],
-        //   "goals": ["Goal 1", "Goal 2"],
-        //   "personalityTestScore" : [10, 20, 30, 40, 50]
-          
-        //   }
-        
-        // //const {data: response} = await axios.post('http://localhost:3000/api/onboarding/addOnboarding', values);
-        
-        // const {data: response} = await axios.get('http://localhost:3000/api/onboarding/getOnboarding/2');
-        // setData(response);
-        // console.log(response)
-        // console.log(data)
         
       } catch (error) {
         console.log("Error")
@@ -135,7 +120,7 @@ export default function App() {
       <Text>Hi, this is My Atlas, welcome!</Text>
       <Button 
         title="Press Me to Add Heart Rate Samples to Database"
-        onPress={() => sendHeartRate()}
+         
       />
       {/* <Text>Steps: {data}</Text> */}
       {/* <Text>userID: {data['onboarding']['userID']} </Text>
@@ -160,7 +145,7 @@ export default function App() {
   catch (error){
     return (
       <View style={styles.container}>
-      <Text>Hi, thisf My Atlas, welcome.</Text>
+      <Text>Hi, this My Atlas, welcome.</Text>
       </View>
     )
   }
@@ -174,3 +159,83 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+// Daves Main Edits
+interface ActivityHealthValues {
+  dailyStepCountSamples:Array<HealthValue>;
+  dailyDistanceWalkingRunningSamples:Array<HealthValue>;
+  dailyDistanceSwimmingSamples: Array<HealthValue>;
+  dailyDistanceCyclingSamples: Array<HealthValue>;
+  dailyFlightsClimbedSamples: Array<HealthValue>;
+  activeEnergyBurned: Array<HealthValue>;
+  basalEnergyBurned: Array<HealthValue>;
+  appleStandTime: Array<HealthValue>
+
+
+}
+function convertActivity(activityHealthValues: ActivityHealthValues) {
+  const dailyStepCountSamples = activityHealthValues.dailyStepCountSamples.shift()
+  return null;
+}
+function convertHeartRateSample(sample:HealthValue) : IHeartRateSampleDTO {
+  const heartRateSampleDTO : IHeartRateSampleDTO= {
+      userID: testUserID,
+      startDate: new Date(sample.startDate),
+      bpm: sample.value,
+      hkID: sample.id,
+      hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+  }
+  return heartRateSampleDTO;
+
+}
+
+
+function convertHeartRateVariability(sample:HealthValue) : IHeartRateVariabilityDTO {
+  const heartRateVariabilityDTO : IHeartRateVariabilityDTO = {
+      userID: testUserID,
+      startDate: new Date(sample.startDate),
+      variability: Number(sample.value),
+      hkID: sample.id,
+      hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+  }
+  return heartRateVariabilityDTO;
+
+}
+
+function convertRestingHeartRate(sample:HealthValue): IRestingHeartRateDTO{
+  const heartRateVariabilityDTO : IRestingHeartRateDTO = {
+    userID: testUserID,
+    startDate: new Date(sample.startDate),
+    bpm: Number(sample.value),
+    hkID: sample.id,
+    hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+}
+  return heartRateVariabilityDTO
+}
+
+function convertHeadphoneExposureSample(sample: HealthValue) : IHeadphoneExposureSampleDTO{
+  const headphoneExposureSampleDTO : IHeadphoneExposureSampleDTO = {
+    userID: testUserID,
+    startDate: new Date(sample.startDate),
+    duration: 0,
+    value: 0,
+    hkID: sample.id,
+    //hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+}
+  return headphoneExposureSampleDTO;
+}
+
+/* 
+Gets the difference between two dates in seconds. Date1 should be less than (earlier)
+than Date2, or else the difference will be negative.
+*/
+function dateDifferenceInMiiliseconds(startDate: Date, endDate: Date): number{
+  console.log(startDate)
+  console.log(endDate)
+  const startDateInSeconds : number = startDate.getTime();
+  console.log(startDateInSeconds)
+  const endDateInSeconds : number = endDate.getTime();
+  console.log(endDateInSeconds)
+  const difference = - startDateInSeconds + endDateInSeconds;
+  return difference;
+}
