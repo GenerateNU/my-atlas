@@ -37,6 +37,7 @@ export default (app: Router) => {
     },
   );
 
+  // post endpoint for adding multiple gps models
   route.post(
     '/addManyGPS',
     celebrate({
@@ -62,6 +63,7 @@ export default (app: Router) => {
       }
     },
   );
+
   // Route to get GPS information with parameter userID
   route.get('/getGPS/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');

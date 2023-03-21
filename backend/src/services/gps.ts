@@ -16,6 +16,7 @@ export default class GPSService {
   public async addGPS(gpsInputDTO: IGPSInputDTO): Promise<{ gps: IGPS }> {
     try {
       this.logger.debug(gpsInputDTO);
+      console.log(gpsInputDTO);
       const gpsRecord = await this.gpsModel.create({
         ...gpsInputDTO,
       });
@@ -27,12 +28,11 @@ export default class GPSService {
     }
   }
 
+  // adds multiple gps models to the database
   public async addManyGPS(gpsInputDTO: IGPSInputDTO[]): Promise<{ gpsMany: IGPS[] }> {
     try {
       this.logger.debug(gpsInputDTO);
-      const gpsRecord = await this.gpsModel.create({
-        ...gpsInputDTO,
-      });
+      const gpsRecord = await this.gpsModel.create(gpsInputDTO);
       const gpsMany: IGPS[] = [];
       for (let i = 0; i < gpsRecord.length; i++) {
         const gps: IGPS = gpsRecord[i].toObject();
