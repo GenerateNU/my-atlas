@@ -38,21 +38,26 @@ export default (app: Router) => {
   );
 
   /*
-  Returns a mindfulSession model by providing the userID
+  Returns an array of environmentalAudioExposures by providing the userID, a startDate and an endDate.
    */
-//   route.get('/getMindfulSession/:id', async (req: Request, res: Response, next: NextFunction) => {
-//     const logger: Logger = Container.get('logger');
-//     logger.debug('Calling getMindfulSession endpoint');
-//     try {
-//       const { id } = req.params;
-//       const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
-//       const { mindfulSession } = await MindfulSessionServiceInstance.getMindfulSession(id);
-//       return res.json({ mindfulSession }).status(200);
-//     } catch (e) {
-//       logger.error('🔥 error: %o', e);
-//       return next(e);
-//     }
-//   });
+  route.get('/getEnvironmentalAudioExposureByDateRange/:id/', celebrate({
+    body: Joi.object({
+      userID: Joi.string().required(),
+      startDate: Joi.date().required(),
+      endDate: Joi.date().required(),
+    })
+  }), async (req: Request, res: Response, next: NextFunction) => {
+    const logger: Logger = Container.get('logger');
+    logger.debug('Calling getEnvironmentalAudioExposureByDateRange endpoint');
+    try {
+      const EnvironmentalAudioExposureInstance : EnvironmentalAudioExposureService = Container.get(EnvironmentalAudioExposureService);
+      const environmentalAudioExposureRecords = await EnvironmentalAudioExposureInstance.getEnvironmentalAudioExposureByDateRange(req.body.userID, req.body.startDate, req.body.endDate);
+      return res.json({ environmentalAudioExposureRecords } ).status(200);
+    } catch (e) {
+      logger.error('🔥 error: %o', e);
+      return next(e);
+    }
+  });
 
   /*
   Deletes a EnvironmentalAudioExposure model by providing the userID

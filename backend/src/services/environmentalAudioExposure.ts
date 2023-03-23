@@ -27,20 +27,28 @@ export default class EnvironmentalAudioExposureService {
     }
   }
 
-  // Gets the onboarding information associated with the given userID (not the 
-  // objectID). Others returns an error if there is no onbarding information associated 
-  // with the given ID
-//   public async getOnboarding(userID: string): Promise<{ onboarding: IOnboarding }> {
-//     try {
-//       const onboardingRecord = await this.onboardingModel.findOne({userID: userID});
-//       const onboarding : IOnboarding = onboardingRecord.toObject();
-//       return { onboarding };
-//     } catch (e) {
-//       this.logger.error(e);
-//       throw e;
-//     }
-//   }
-
+  // Gets the mindfulSession information associated with the given userID (not the 
+  // objectID) with a specified range. Others returns an error if there is no mindfulSession 
+  // information associated with the given ID in the given range
+  public async getEnvironmentalAudioExposureByDateRange(userID: string, startDate: Date, endDate: Date): Promise<IEnvironmentalAudioExposure[]> {
+    try {
+      const environmentalAudioExposureRecords : IEnvironmentalAudioExposure[] = await this.environmentalAudioExposureModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            sessionDate: {
+              $gte: startDate,
+              $lte: endDate
+            }
+          }
+        }
+      ])
+      return environmentalAudioExposureRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Deletes the mindfulSession information associated with the given userID (not the 
   // objectID). Returns the deleted mindfulSession data. Otherwise returns an error
   // if the data could not be deleted.
