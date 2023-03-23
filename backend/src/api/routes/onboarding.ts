@@ -4,6 +4,7 @@ import { IOnboardingInputDTO } from '@/interfaces/IOnboarding';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import OnboardingService from '@/services/onboarding';
+import GPSService from "@/services/gps";
 
 const route = Router();
 export default (app: Router) => {
@@ -41,6 +42,43 @@ export default (app: Router) => {
         const OnboardingServiceInstance = Container.get(OnboardingService);
         const { onboarding } = await OnboardingServiceInstance.addOnboarding(req.body as IOnboardingInputDTO);
         return res.status(201).json({ onboarding });
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  // post endpoint for adding multiple onboarding models
+  route.post(
+    '/addManyOnboarding',
+    celebrate({
+      body: Joi.array().items({
+        userID: Joi.string().required(),
+        nickname: Joi.string(),
+        city: Joi.string(),
+        zipcode: Joi.string(),
+        religion: Joi.string(),
+        religionOther: Joi.string(),
+        ethnicity: Joi.string(),
+        sexualOrientation: Joi.string(),
+        identifyYourself: Joi.string(),
+        gender: Joi.string(),
+        genderOther: Joi.string(),
+        pronouns: Joi.string(),
+        pronounsOther: Joi.string(),
+        concerns: Joi.array(),
+        goals: Joi.array(),
+        personalityTestScore: Joi.array(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManyOnboarding endpoint with body: %o', req.body);
+      try {
+        const OnboardingServiceInstance = Container.get(OnboardingService);
+        const { onboardingMany } = await OnboardingServiceInstance.addManyOnboarding(req.body);
+        return onboardingMany;
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
