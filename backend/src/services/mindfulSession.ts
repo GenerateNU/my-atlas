@@ -27,19 +27,28 @@ export default class MindfulSessionService {
     }
   }
 
-  // Gets the onboarding information associated with the given userID (not the 
-  // objectID). Others returns an error if there is no onbarding information associated 
-  // with the given ID
-//   public async getOnboarding(userID: string): Promise<{ onboarding: IOnboarding }> {
-//     try {
-//       const onboardingRecord = await this.onboardingModel.findOne({userID: userID});
-//       const onboarding : IOnboarding = onboardingRecord.toObject();
-//       return { onboarding };
-//     } catch (e) {
-//       this.logger.error(e);
-//       throw e;
-//     }
-//   }
+  // Gets the mindfulSession information associated with the given userID (not the 
+  // objectID) with a specified range. Others returns an error if there is no mindfulSession 
+  // information associated with the given ID in the given range
+  public async getMindfulSessionByDateRange(userID: string, startDate: Date, endDate: Date): Promise<IMindfulSession[]> {
+    try {
+      const mindfulSessionRecords : IMindfulSession[] = await this.mindfulSessionModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            sessionDate: {
+              $gte: startDate,
+              $lte: endDate
+            }
+          }
+        }
+      ])
+      return mindfulSessionRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
 
   // Deletes the mindfulSession information associated with the given userID (not the 
   // objectID). Returns the deleted mindfulSession data. Otherwise returns an error
