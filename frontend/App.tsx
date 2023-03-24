@@ -6,22 +6,31 @@ import AppleHealthKit, {
 } from "react-native-health";
 import { Button, Alert } from 'react-native';
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { IActivityDTO } from './interfaces/IActivity';
 import { IHeartRateSampleDTO } from "./interfaces/IHeartRateSample";
 import { IHeartRateVariabilityDTO } from "./interfaces/IHeartRateVariability";
 import { IRestingHeartRateDTO } from './interfaces/IRestingHeartRate';
 import { IHeadphoneExposureSampleDTO } from "./interfaces/IHeadphoneExposureSample";
-import { IActivityDTO } from './interfaces/IActivity';
+import moment, { duration } from "moment";
+import { IMindfulSessionDTO } from './interfaces/IMindfulSession';
+import { ISleepSampleDTO } from "./interfaces/ISleepSample";
+import { timeStamp } from 'console';
 
 
-const testUserID :string= "Test User";
+const userId: string = "Test User"; // User Id (Using Test Id for now)
+const lastRetrievalDate = new Date(2023, 2, 16); // Last retrival date of the user
+const readPermissions = ["StepCount", "DistanceWalkingRunning", "DistanceSwimming", "DistanceCycling",   // Activity Permissions
+                        "FlightsClimbed", "ActiveEnergyBurned", "BasalEnergyBurned", "AppleStandTime",   // Activity Permissions
+                        "HeartRate", "HeartRateVariability", "RestingHeartRate",                         // Heart Rate Related Permissions
+                        "HeadphoneAudioExposure", "MindfulSession", "SleepAnalysis",];                   // Other Permissions
 
 
+                                           
 /* Permission options */
 const permissions = {
   permissions: {
-    write: ["HeartRate", "HeartRateVariability"],
-    read: ["StepCount", "HeartRate", "HeartRateVariability", "RestingHeartRate", "SleepAnalysis"],
+    write: [],
+    read: readPermissions,
   },
 } as HealthKitPermissions;
 
@@ -34,118 +43,35 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
 
   /* Can now read or write to HealthKit */
 
-  let options = {
-    unit: 'milliseconds', // optional; default 'second'
-    startDate: new Date(2021, 0, 0).toISOString(), // required
-    endDate: new Date().toISOString(), // optional; default now
-    ascending: false, // optional; default false
-    limit: 10, // optional; default no limit
-  }
+  
 
 });
 
-let options = {
-  startDate: new Date(2020, 1, 1).toISOString(),
-  //endDate: new Date(2023, 11, 25, 23, 59,59 ).toISOString(), // optional; default now
-  //includeManuallyAdded: true, // optional: default true
 
-};
 export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  console.log("****************");
+  console.log(new Date().toLocaleString());
+  getActivities(lastRetrievalDate);
 
 
-  // const convertSample = (sample: any) => {
-  //   const heartRate = 
-  //   {
-  //     userID: "Test User",
-  //     startDate: sample.startDate,
-  //     duration: 0,
-  //     bpm: sample.value,
-  //     hkID: sample.id,
-  //     hkWasUserEntered: true
-  //   }
-  //   console.log(heartRate);
-  //   return heartRate;
-  // }
-  // const sendHeartRate = () => {
-  //   const size = data.length;
-  //   const heartRateSamples = [];
-  //   for (let i = 0; i < size; i++) {
-  //     heartRateSamples.push(convertSample(data[i]));
-  //   }
-  //   for (let i = 0; i < size; i++) {
-  //     const post= axios.post('http://localhost:3000/api/heartRateSample/addHeartRateSample', heartRateSamples[i])
-  //     console.log(post)
-  //   }
-  // }
-
-
-  useEffect(() => {
-    const fetchData = async () =>{
-      setLoading(true);
-      try { 
-        var steps;
-        AppleHealthKit.getHeartRateSamples(options, (err: Object, results: Array<HealthValue>) => {
-        console.log("HEART")
-        console.log(results);
-        let result = results[1]
-        let date1: Date= new Date(result.startDate);
-        let date2 : Date= new Date(result.endDate);
-
-        console.log(dateDifferenceInMiiliseconds(date1, date2))
-        //console.log(convertHeartRateVariability(results[1]))
-        if (err) {
-          return;
-        }
-        setData(results);
-      
-      });
-
-        
-      } catch (error) {
-        console.log("Error")
-        //console.error(error.message);
-      }
-      setLoading(false);
-    }
-
-    fetchData();
-  }, []);
-
-
-  try{
-  return (
-    <View style={styles.container}>
-      <Text>Hi, this is My Atlas, welcome!</Text>
-      <Button 
-        title="Press Me to Add Heart Rate Samples to Database"
-         
-      />
-      {/* <Text>Steps: {data}</Text> */}
-      {/* <Text>userID: {data['onboarding']['userID']} </Text>
-      <Text>Name: {data['onboarding']['nickname']} </Text>
-      <Text>City: {data['onboarding']['city']} </Text>
-      <Text>ZipCode: {data['onboarding']['zipcode']} </Text>
-      <Text>Pronouns: {data['onboarding']['pronouns']} </Text>
-      <Text>Religion: {data['onboarding']['religion']} </Text>
-      <Text>Sexual Orientation: {data['onboarding']['sexualOrientation']} </Text>
-      <Text>Concerns: {data['onboarding']['concerns']} </Text>
-
-      <Text>Personaility Test Score: {data['onboarding']['personalityTestScore']} </Text>
-      <Text>Identify Yourself: {data['onboarding']['identifyYourself']} </Text>
-      <Text>Steps: {steps} </Text>
-      
-    
-      <StatusBar style="auto" /> */}
-    
-    </View>
-  );
-  }
-  catch (error){
+  try {
     return (
       <View style={styles.container}>
-      <Text>Hi, this My Atlas, welcome.</Text>
+        <Text>Hi, this is My Atlas, welcome!</Text>
+
+        <Button
+          title="Press Me to Add Heart Rate Samples to Database"
+
+        />
+
+
+      </View>
+    );
+  }
+  catch (error) {
+    return (
+      <View style={styles.container}>
+        <Text>Hi, this My Atlas, welcome.</Text>
       </View>
     )
   }
@@ -160,82 +86,278 @@ const styles = StyleSheet.create({
   },
 });
 
-// Daves Main Edits
+/**
+ * Gets the Healthkit data for the particular method using the given options
+ * @param method healthkit method to call
+ * @param options Healthkit options including data and acending 
+ * @returns 
+ */
+async function retrieveHealthKitData(method: string, startDate: Date): Promise<HealthValue[]> {
+  const options = {
+    startDate: startDate.toISOString(),
+    ascending: true,
+  };
+  return new Promise((resolve, reject) => {
+    AppleHealthKit[method](
+      options,
+      (err: string, results: Array<HealthValue>) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      },
+    );
+  });
+}
+
+
+
+async function getActivities(startDate: Date) {
+  try {
+    const steps : HealthValue[] = await retrieveHealthKitData("getDailyStepCountSamples", startDate)
+    const walkingRunning : HealthValue[] = await retrieveHealthKitData("getDailyDistanceWalkingRunningSamples", startDate)
+    const swimming : HealthValue[] = await  retrieveHealthKitData("getDailyDistanceSwimmingSamples", startDate)
+    const cycling : HealthValue[] = await retrieveHealthKitData("getDailyDistanceCyclingSamples", startDate)
+    const flights : HealthValue[]= await retrieveHealthKitData("getDailyFlightsClimbedSamples", startDate)
+    const activeEnergy : HealthValue[] = await retrieveHealthKitData("getActiveEnergyBurned", startDate)
+    const basalEnergy : HealthValue[] = await retrieveHealthKitData("getBasalEnergyBurned", startDate)
+    const standTime : HealthValue[] = await retrieveHealthKitData("getAppleStandTime", startDate)
+
+    const activitySamples: ActivityHealthValues = {
+      steps, walkingRunning, swimming, cycling, flights,
+      activeEnergy, basalEnergy, standTime
+    }
+    
+    convertActivity(new Date(2023, 2, 16), activitySamples);
+   
+  } catch (err) {
+    console.log(err);
+  }
+}
 interface ActivityHealthValues {
-  dailyStepCountSamples:Array<HealthValue>;
-  dailyDistanceWalkingRunningSamples:Array<HealthValue>;
-  dailyDistanceSwimmingSamples: Array<HealthValue>;
-  dailyDistanceCyclingSamples: Array<HealthValue>;
-  dailyFlightsClimbedSamples: Array<HealthValue>;
-  activeEnergyBurned: Array<HealthValue>;
-  basalEnergyBurned: Array<HealthValue>;
-  appleStandTime: Array<HealthValue>
-
-
+  steps: Array<HealthValue>;
+  walkingRunning: Array<HealthValue>;
+  swimming: Array<HealthValue>;
+  cycling: Array<HealthValue>;
+  flights: Array<HealthValue>;
+  activeEnergy: Array<HealthValue>;
+  basalEnergy: Array<HealthValue>;
+  standTime: Array<HealthValue>
 }
-function convertActivity(activityHealthValues: ActivityHealthValues) {
-  const dailyStepCountSamples = activityHealthValues.dailyStepCountSamples.shift()
-  return null;
+
+/**
+ * Convert the Activity to a list of a IActivtyDTO using a start date. This start date will typically be the last retrieval date
+ * or something along those lines
+ * @param startDate 
+ * @param activityHealthValues 
+ * @returns IActivityDTO[]
+ */
+function convertActivity(startDate: Date, activityHealthValues: ActivityHealthValues) : IActivityDTO[]{
+  //let activtyDTOFields = ['steps', 'walkingRunning', 'swimming', 'cycling', 'flights', 'activeEnergy', 'basalEnergy', '']
+  var activityDTOs : IActivityDTO[] = [];
+  //console.log(startDate)
+  var today = new Date();
+  var daysBetween = 0;
+  for (var d = startDate; d <= today; d.setDate(d.getDate() + 1)) {
+    let activityDTO: IActivityDTO = {
+      userID: userId,
+      date: d
+    }
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'steps', 'dailyStepCountSamples');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'walkingRunning', 'dailyDistanceWalkingRunningSamples');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'swimming', 'dailyDistanceSwimmingSamples');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'cycling', 'dailyDistanceCyclingSamples');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'flights', 'dailyFlightsClimbedSamples');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'activeEnergy', 'activeEnergyBurned');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'basalEnergy', 'basalEnergyBurned');
+    updateActivityDTO(activityHealthValues, activityDTO, d, 'standTime', 'appleStandTime');
+    // If only user and date no need to push
+    if (Object.keys(activityDTO).length > 2){
+      activityDTOs.push(activityDTO)
+    }
+
+  }
+  console.log(activityDTOs);
+  return activityDTOs;
 }
-function convertHeartRateSample(sample:HealthValue) : IHeartRateSampleDTO {
-  const heartRateSampleDTO : IHeartRateSampleDTO= {
-      userID: testUserID,
+
+/**
+ * Are these two dates the same?
+ * @param date1
+ * @param date2 
+ * @returns boolean
+ */
+function sameDate(date1: Date, date2: Date): boolean {
+  return date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth() && date1.getDate() == date2.getDate();
+}
+
+/**
+ * activityDTO  object based on if the first date in activityHealthValues for the healthValueFieldName is equal to the given date
+ * For example: activityHealthValues contains "steps". "steps" would be the healthValueFieldName. If the first HealthValue in "steps" 
+ * has a date matching the given date update the dtoFieldName in activityDTO
+ * @param activityHealthValues 
+ * @param activityDTO 
+ * @param date 
+ * @param healthValueFieldName 
+ * @param dtoFieldName 
+ */
+function updateActivityDTO(activityHealthValues: ActivityHealthValues, activityDTO: IActivityDTO, date: Date, healthValueFieldName: string, dtoFieldName: string ){
+  if (activityHealthValues[healthValueFieldName].length > 0 && sameDate(new Date(activityHealthValues[healthValueFieldName][0].startDate), date)) {
+    activityDTO[dtoFieldName] = activityHealthValues[healthValueFieldName].shift().value;
+  }
+}
+
+/**
+ * Converts array of HealthValues to array of IHeartRateSampleDTO.
+ * @param heartRateSamples 
+ * @returns Array<IHeartRateSampleDTO>
+ */
+function convertHeartRateSamples(heartRateSamples: Array<HealthValue>): Array<IHeartRateSampleDTO> {
+  // Initialize array of IHeartRateSampleDTO
+  var heartRateSampleDTOs: Array<IHeartRateSampleDTO> = [];
+  heartRateSamples.forEach(sample => {
+    const heartRateSampleDTO: IHeartRateSampleDTO = {
+      userID: userId,
       startDate: new Date(sample.startDate),
       bpm: sample.value,
       hkID: sample.id,
       hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+    }
+    // Add each sample
+    heartRateSampleDTOs.push(heartRateSampleDTO)
   }
-  return heartRateSampleDTO;
-
+  );
+  return heartRateSampleDTOs;
 }
 
-
-function convertHeartRateVariability(sample:HealthValue) : IHeartRateVariabilityDTO {
-  const heartRateVariabilityDTO : IHeartRateVariabilityDTO = {
-      userID: testUserID,
+/**
+ * Converts array of HealthValues to array of IHeartRateVariabilityDTO.
+ * @param heartRateVariabilities 
+ * @returns Array<IHeartRateVariabilityDTO>
+ */
+function convertHeartRateVariabilities(heartRateVariabilities: Array<HealthValue>): Array<IHeartRateVariabilityDTO> {
+  // Initialize array of IHeartRateSampleDTO
+  var heartRateVariabilityDTOs: Array<IHeartRateVariabilityDTO> = [];
+  heartRateVariabilities.forEach(sample => {
+    const heartRateVariabilitity: IHeartRateVariabilityDTO = {
+      userID: userId,
       startDate: new Date(sample.startDate),
       variability: Number(sample.value),
       hkID: sample.id,
       hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+    }
+    // Add each sample
+    heartRateVariabilityDTOs.push(heartRateVariabilitity)
   }
-  return heartRateVariabilityDTO;
+  );
+  return heartRateVariabilityDTOs;
 
 }
 
-function convertRestingHeartRate(sample:HealthValue): IRestingHeartRateDTO{
-  const heartRateVariabilityDTO : IRestingHeartRateDTO = {
-    userID: testUserID,
-    startDate: new Date(sample.startDate),
-    bpm: Number(sample.value),
-    hkID: sample.id,
-    hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
-}
-  return heartRateVariabilityDTO
-}
-
-function convertHeadphoneExposureSample(sample: HealthValue) : IHeadphoneExposureSampleDTO{
-  const headphoneExposureSampleDTO : IHeadphoneExposureSampleDTO = {
-    userID: testUserID,
-    startDate: new Date(sample.startDate),
-    duration: 0,
-    value: 0,
-    hkID: sample.id,
-    //hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
-}
-  return headphoneExposureSampleDTO;
+/**
+ * Converts array of HealthValues to array of IRestingHeartRateDTO.
+ * @param heartRateVariabilities 
+ * @returns Array<IRestingHeartRateDTO>
+ */
+function convertRestingHeartRate(restingHeartRate: Array<HealthValue>): Array<IRestingHeartRateDTO> {
+  var restingHeartRateDTOs: Array<IRestingHeartRateDTO> = [];
+  restingHeartRate.forEach(sample => {
+    const restingHeartRateDTO: IRestingHeartRateDTO = {
+      userID: userId,
+      startDate: new Date(sample.startDate),
+      bpm: Number(sample.value),
+      hkID: sample.id,
+      hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+    }
+    // Add each sample
+    restingHeartRateDTOs.push(restingHeartRateDTO);
+  });
+  return restingHeartRateDTOs;
 }
 
-/* 
-Gets the difference between two dates in seconds. Date1 should be less than (earlier)
-than Date2, or else the difference will be negative.
-*/
-function dateDifferenceInMiiliseconds(startDate: Date, endDate: Date): number{
-  console.log(startDate)
-  console.log(endDate)
-  const startDateInSeconds : number = startDate.getTime();
-  console.log(startDateInSeconds)
-  const endDateInSeconds : number = endDate.getTime();
-  console.log(endDateInSeconds)
-  const difference = - startDateInSeconds + endDateInSeconds;
-  return difference;
+/**
+ * Converts array of HealthValues to array of IHeadphoneExposureSampleDTO.
+ * @param headphoneExposureSamples 
+ * @returns Array<IHeadphoneExposureSampleDTO>
+ */
+function convertHeadphoneExposureSamples(headphoneExposureSamples: Array<HealthValue>): Array<IHeadphoneExposureSampleDTO> {
+  var headphoneExposureSampleDTOs: Array<IHeadphoneExposureSampleDTO> = [];
+  headphoneExposureSamples.forEach(sample => {
+    let startDate = new Date(sample.startDate);
+    let duration = dateDifferenceInMilliSeconds(startDate, new Date(sample.endDate));
+    const headphoneExposureSampleDTO: IHeadphoneExposureSampleDTO = {
+      userID: userId,
+      startDate: startDate,
+      duration: duration,
+      value: sample.value,
+      hkID: sample.id,
+      //hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
+    }
+    // Add each sample
+    headphoneExposureSampleDTOs.push(headphoneExposureSampleDTO)
+  });
+  return headphoneExposureSampleDTOs;
 }
+
+/**
+ * Converts array of HealthValues to array of IMindfulSessionDTO.
+ * @param mindfulSessions 
+ * @returns Array<IMindfulSessionDTO>
+ */
+function convertMindfulSessions(mindfulSessions: Array<HealthValue>): Array<IMindfulSessionDTO> {
+  var mindfulSessionDTOs: Array<IMindfulSessionDTO> = [];
+  mindfulSessions.forEach(sample => {
+    let startDate = new Date(sample.startDate);
+    let duration = dateDifferenceInMilliSeconds(startDate, new Date(sample.endDate));
+    const mindfulSessionDTO: IMindfulSessionDTO = {
+      userID: userId,
+      startDate: startDate,
+      duration: duration,
+    }
+    // Add each sample
+    mindfulSessionDTOs.push(mindfulSessionDTO)
+  });
+  return mindfulSessionDTOs;
+}
+
+/**
+ * Converts array of HealthValues to array of ISleepSampleDTO.
+ * @param sleepSamples 
+ * @returns 
+ */
+function convertSleepSamples(sleepSamples: Array<HealthValue>): Array<ISleepSampleDTO> {
+  var sleepSampleDTOS: Array<ISleepSampleDTO> = [];
+  sleepSamples.forEach(sample => {
+    let startDate = new Date(sample.startDate);
+    let duration = dateDifferenceInMilliSeconds(startDate, new Date(sample.endDate));
+    const sleepSampleDTO: ISleepSampleDTO = {
+      userID: userId,
+      startDate: startDate,
+      duration: duration,
+      sleepState: sample.value.toString()
+    }
+    // Add each sample
+    sleepSampleDTOS.push(sleepSampleDTO)
+  });
+  return sleepSampleDTOS;
+}
+
+
+/**
+ * Computes the difference in dates in milliseconds for duration fields
+ * @param date1 
+ * @param date2 
+ * @returns 
+ */
+function dateDifferenceInMilliSeconds(date1: Date, date2: Date): number {
+  var date1Time: number = date1.getTime();
+  var date2Time: number = date2.getTime();
+  return Math.abs(date1Time - date2Time);
+
+
+}
+
+
+
+
