@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Question from '../../components/Question';
 import { useAuth } from '../../contexts/Auth';
 
 const HomeScreen = () => {
@@ -13,13 +14,17 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
-      <Text>HOME SCREEN</Text>
+      {/* <Text>HOME SCREEN</Text>
       <Button title="Sign Out" onPress={signOut} />
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
-      )}
+      )} */}
+      <Question
+        question={
+          'Have you sought behavioral health or wellness care in the past?'
+        }></Question>
     </SafeAreaView>
   );
 };
