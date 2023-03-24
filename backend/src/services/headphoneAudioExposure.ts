@@ -28,6 +28,30 @@ export default class HeadphoneExposureSample {
     }
   }
 
+  //gets and aggregates a headphoneExposure by startDate
+  public async readHeadphoneAudioExposure(
+    userID: String,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IHeadphoneAudioExposure[]> {
+    try {
+      return this.headphoneExposureModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+      ]);
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
   // Deletes the headphoneExposureSample associated with the given userID and date
   // Returns a message if successfully deleted activity information from the database
   public async deleteHeadphoneExposureSampleByIDAndDate(

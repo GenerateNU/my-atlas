@@ -55,3 +55,31 @@ export default (app: Router) => {
     },
   );
 };
+
+//Returns an array of sleepSample, given userID, and start-end date
+route.get(
+  '/getSleepSampleByDateRange/:id/',
+  celebrate({
+    body: Joi.object({
+      userID: Joi.string().required(),
+      startDate: Joi.date().required(),
+      endDate: Joi.date().required(),
+    }),
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const logger: Logger = Container.get('logger');
+    logger.debug('Calling getSleepSampleByDateRange endpoint');
+    try {
+      const SleepSampleServiceInstance: SleepSampleService = Container.get(SleepSampleService);
+      const sleepSampleRecords = await SleepSampleServiceInstance.getSleepSampleByDateRange(
+        req.body.userID,
+        req.body.startDate,
+        req.body.endDate,
+      );
+      return res.json({ sleepSampleRecords }).status(200);
+    } catch (e) {
+      logger.error('🔥 error: %o', e);
+      return next(e);
+    }
+  },
+);

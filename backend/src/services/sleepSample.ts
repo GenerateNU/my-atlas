@@ -12,7 +12,7 @@ export default class SleepSampleService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // add activity to database
+  // add sleep sample to database
   public async addSleepSample(sleepSampleDTO: ISleepSampleDTO): Promise<{ sleepSample: ISleepSample }> {
     try {
       const sleepSampleRecord = await this.sleepSampleModel.create({
@@ -33,6 +33,29 @@ export default class SleepSampleService {
       const sleepSampleRecord = await this.sleepSampleModel.findOneAndDelete({ userID: userID, date: date });
       const sleepSample: ISleepSample = sleepSampleRecord.toObject();
       return { sleepSample };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  // Gets the sleepSample information associated with the given userID (not the
+  // objectID) with a specified range. Otherwise returns an error if there is no sleepSample
+  // information associated with the given ID in the given range
+  public async getSleepSampleByDateRange(userID: string, startDate: Date, endDate: Date): Promise<ISleepSample[]> {
+    try {
+      const sleepSampleRecords: ISleepSample[] = await this.sleepSampleModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            sessionDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+      ]);
+      return sleepSampleRecords;
     } catch (e) {
       this.logger.error(e);
       throw e;
