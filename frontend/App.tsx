@@ -112,8 +112,12 @@ async function retrieveHealthKitData(method: string, startDate: Date): Promise<H
 }
 
 
-
+/**
+ * Can get the activities, but needs to be wrapped in a promise. I would use this to send healthvalues 
+ * @param startDate 
+ */
 async function getActivities(startDate: Date) {
+  
   try {
     const steps : HealthValue[] = await retrieveHealthKitData("getDailyStepCountSamples", startDate)
     const walkingRunning : HealthValue[] = await retrieveHealthKitData("getDailyDistanceWalkingRunningSamples", startDate)
@@ -128,12 +132,14 @@ async function getActivities(startDate: Date) {
       steps, walkingRunning, swimming, cycling, flights,
       activeEnergy, basalEnergy, standTime
     }
-    
-    convertActivity(new Date(2023, 2, 16), activitySamples);
+    // Convert the Activities to IActivityDTO[]
+    const activityDTOS : IActivityDTO[] = convertActivity(new Date(2023, 2, 16), activitySamples);
+
    
   } catch (err) {
     console.log(err);
   }
+
 }
 interface ActivityHealthValues {
   steps: Array<HealthValue>;
@@ -178,7 +184,6 @@ function convertActivity(startDate: Date, activityHealthValues: ActivityHealthVa
     }
 
   }
-  console.log(activityDTOs);
   return activityDTOs;
 }
 
