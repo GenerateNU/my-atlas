@@ -20,7 +20,7 @@ export default (app: Router) => {
         startDate: Joi.date().required(),
         duration: Joi.number().required(),
         value: Joi.number().required(),
-        hkID: Joi.string().required()
+        hkID: Joi.string().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +28,9 @@ export default (app: Router) => {
       logger.debug('Calling addEnvironmentalAudioExposure endpoint with body: %o', req.body);
       try {
         const EnvironmentalAudioExposureInstance = Container.get(EnvironmentalAudioExposureService);
-        const { environmentalAudioExposure } = await EnvironmentalAudioExposureInstance.addEnvironmentalAudioExposure(req.body as IEnvironmentalAudioExposureDTO);
+        const { environmentalAudioExposure } = await EnvironmentalAudioExposureInstance.addEnvironmentalAudioExposure(
+          req.body as IEnvironmentalAudioExposureDTO,
+        );
         return res.status(201).json({ environmentalAudioExposure });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -40,24 +42,72 @@ export default (app: Router) => {
   /*
   Returns an array of environmentalAudioExposures by providing the userID, a startDate and an endDate.
    */
-  route.get('/getEnvironmentalAudioExposureByDateRange/:id/', celebrate({
-    body: Joi.object({
-      userID: Joi.string().required(),
-      startDate: Joi.date().required(),
-      endDate: Joi.date().required(),
-    })
-  }), async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getEnvironmentalAudioExposureByDateRange endpoint');
-    try {
-      const EnvironmentalAudioExposureInstance : EnvironmentalAudioExposureService = Container.get(EnvironmentalAudioExposureService);
-      const environmentalAudioExposureRecords = await EnvironmentalAudioExposureInstance.getEnvironmentalAudioExposureByDateRange(req.body.userID, req.body.startDate, req.body.endDate);
-      return res.json({ environmentalAudioExposureRecords } ).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
+  route.get(
+    '/getEnvironmentalAudioExposureByDateRange/:id/',
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        endDate: Joi.date().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getEnvironmentalAudioExposureByDateRange endpoint');
+      try {
+        const EnvironmentalAudioExposureInstance: EnvironmentalAudioExposureService = Container.get(
+          EnvironmentalAudioExposureService,
+        );
+        const environmentalAudioExposureRecords = await EnvironmentalAudioExposureInstance.getEnvironmentalAudioExposureByDateRange(
+          req.body.userID,
+          req.body.startDate,
+          req.body.endDate,
+        );
+        return res.json({ environmentalAudioExposureRecords }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  route.get(
+    '/getAverageEnvironmentalAudioExposureByDateRange/:id/',
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        endDate: Joi.date().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getEnvironmentalAudioExposureByDateRange endpoint');
+      try {
+        const EnvironmentalAudioExposureInstance: EnvironmentalAudioExposureService = Container.get(
+          EnvironmentalAudioExposureService,
+        );
+        const environmentalAudioExposureRecords = await EnvironmentalAudioExposureInstance.getEnvironmentalAudioExposureByDateRange(
+          req.body.userID,
+          req.body.startDate,
+          req.body.endDate,
+        );
+        let average = 0;
+        let duration = 0;
+        for (let i = 0; i < environmentalAudioExposureRecords.length; i++) {
+          duration += environmentalAudioExposureRecords[i].duration;
+        }
+        for (let i = 0; i < environmentalAudioExposureRecords.length; i++) {
+          average +=
+            (environmentalAudioExposureRecords[i].duration / duration) * environmentalAudioExposureRecords[i].value;
+        }
+        return res.json({ average }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
 
   /*
   Deletes a EnvironmentalAudioExposure model by providing the userID
@@ -67,7 +117,9 @@ export default (app: Router) => {
     logger.debug('Calling deleteEnvironmentalAudioExposure endpoint');
     try {
       const EnvironmentalAudioExposureInstance = Container.get(EnvironmentalAudioExposureService);
-      const { environmentalAudioExposure } = await EnvironmentalAudioExposureInstance.deleteEnvironmentalAudioExposureByUserID(req.params.id);
+      const {
+        environmentalAudioExposure,
+      } = await EnvironmentalAudioExposureInstance.deleteEnvironmentalAudioExposureByUserID(req.params.id);
       return res.json({ environmentalAudioExposure }).status(200);
     } catch (e) {
       logger.error('🔥 error: %o', e);

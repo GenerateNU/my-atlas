@@ -28,7 +28,7 @@ export default class SleepSampleService {
 
   // Deletes the sleepSample associated with the given userID and date
   // Returns a message if successfully deleted activity information from the database
-  public async deleteSleepSample(userID: String, date: Date): Promise<{ sleepSample: ISleepSample }> {
+  public async deleteSleepSample(userID: string, date: Date): Promise<{ sleepSample: ISleepSample }> {
     try {
       const sleepSampleRecord = await this.sleepSampleModel.findOneAndDelete({ userID: userID, date: date });
       const sleepSample: ISleepSample = sleepSampleRecord.toObject();
@@ -48,7 +48,7 @@ export default class SleepSampleService {
         {
           $match: {
             userID: userID,
-            sessionDate: {
+            startDate: {
               $gte: startDate,
               $lte: endDate,
             },

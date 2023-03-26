@@ -6,20 +6,23 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 @Service()
 export default class EnvironmentalAudioExposureService {
   constructor(
-    @Inject('environmentalAudioExposureModel') private environmentalAudioExposureModel: Models.EnvironmentalAudioExposureModel,
+    @Inject('environmentalAudioExposureModel')
+    private environmentalAudioExposureModel: Models.EnvironmentalAudioExposureModel,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // Takes in a environmentalAudioExposureDTO and adds to to the database. Returns the added environmentalAudioExposure data 
+  // Takes in a environmentalAudioExposureDTO and adds to to the database. Returns the added environmentalAudioExposure data
   // if there were no problems. Otherwise returns the error
-  public async addEnvironmentalAudioExposure(environmentalAudioExposureDTO: IEnvironmentalAudioExposureDTO): Promise<{ environmentalAudioExposure: IEnvironmentalAudioExposure }> {
+  public async addEnvironmentalAudioExposure(
+    environmentalAudioExposureDTO: IEnvironmentalAudioExposureDTO,
+  ): Promise<{ environmentalAudioExposure: IEnvironmentalAudioExposure }> {
     try {
       this.logger.debug(environmentalAudioExposureDTO);
       const environmentalAudioExposureRecord = await this.environmentalAudioExposureModel.create({
         ...environmentalAudioExposureDTO,
       });
-      const environmentalAudioExposure : IEnvironmentalAudioExposure= environmentalAudioExposureRecord.toObject();
+      const environmentalAudioExposure: IEnvironmentalAudioExposure = environmentalAudioExposureRecord.toObject();
       return { environmentalAudioExposure };
     } catch (e) {
       this.logger.error(e);
@@ -27,35 +30,45 @@ export default class EnvironmentalAudioExposureService {
     }
   }
 
-  // Gets the mindfulSession information associated with the given userID (not the 
-  // objectID) with a specified range. Others returns an error if there is no mindfulSession 
+  // Gets the mindfulSession information associated with the given userID (not the
+  // objectID) with a specified range. Others returns an error if there is no mindfulSession
   // information associated with the given ID in the given range
-  public async getEnvironmentalAudioExposureByDateRange(userID: string, startDate: Date, endDate: Date): Promise<IEnvironmentalAudioExposure[]> {
+  public async getEnvironmentalAudioExposureByDateRange(
+    userID: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IEnvironmentalAudioExposure[]> {
     try {
-      const environmentalAudioExposureRecords : IEnvironmentalAudioExposure[] = await this.environmentalAudioExposureModel.aggregate([
-        {
-          $match: {
-            userID: userID,
-            sessionDate: {
-              $gte: startDate,
-              $lte: endDate
-            }
-          }
-        }
-      ])
+      const environmentalAudioExposureRecords: IEnvironmentalAudioExposure[] = await this.environmentalAudioExposureModel.aggregate(
+        [
+          {
+            $match: {
+              userID: userID,
+              startDate: {
+                $gte: startDate,
+                $lte: endDate,
+              },
+            },
+          },
+        ],
+      );
       return environmentalAudioExposureRecords;
     } catch (e) {
       this.logger.error(e);
       throw e;
     }
   }
-  // Deletes the mindfulSession information associated with the given userID (not the 
+  // Deletes the mindfulSession information associated with the given userID (not the
   // objectID). Returns the deleted mindfulSession data. Otherwise returns an error
   // if the data could not be deleted.
-  public async deleteEnvironmentalAudioExposureByUserID(userID: string): Promise<{ environmentalAudioExposure : IEnvironmentalAudioExposure }> {
+  public async deleteEnvironmentalAudioExposureByUserID(
+    userID: string,
+  ): Promise<{ environmentalAudioExposure: IEnvironmentalAudioExposure }> {
     try {
-      const environmentalAudioExposureRecord = await this.environmentalAudioExposureModel.findOneAndDelete({userID: userID});
-      const environmentalAudioExposure : IEnvironmentalAudioExposure = environmentalAudioExposureRecord.toObject();
+      const environmentalAudioExposureRecord = await this.environmentalAudioExposureModel.findOneAndDelete({
+        userID: userID,
+      });
+      const environmentalAudioExposure: IEnvironmentalAudioExposure = environmentalAudioExposureRecord.toObject();
       return { environmentalAudioExposure };
     } catch (e) {
       this.logger.error(e);

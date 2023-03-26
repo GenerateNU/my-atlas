@@ -30,7 +30,7 @@ export default class HeadphoneExposureSample {
 
   //gets and aggregates a headphoneExposure by startDate
   public async readHeadphoneAudioExposure(
-    userID: String,
+    userID: string,
     startDate: Date,
     endDate: Date,
   ): Promise<IHeadphoneAudioExposure[]> {
@@ -55,7 +55,7 @@ export default class HeadphoneExposureSample {
   // Deletes the headphoneExposureSample associated with the given userID and date
   // Returns a message if successfully deleted activity information from the database
   public async deleteHeadphoneExposureSampleByIDAndDate(
-    userID: String,
+    userID: string,
     startDate: Date,
   ): Promise<{ headphoneExposure: IHeadphoneAudioExposure }> {
     try {
