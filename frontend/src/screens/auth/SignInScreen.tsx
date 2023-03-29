@@ -3,7 +3,7 @@ import { ActivityIndicator, SafeAreaView, Text} from "react-native";
 const SignInScreen = () => {
     return (
         <SafeAreaView>
-          <Text>ACCESS SCREEN</Text>
+          <Text>Sign In SCREEN</Text>
         </SafeAreaView>
       );
 }

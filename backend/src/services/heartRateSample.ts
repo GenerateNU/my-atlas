@@ -1,16 +1,16 @@
-import { Service, Inject } from "typedi";
+import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
-import { IHeartRateSample, IHeartRateSampleDTO } from "@/interfaces/IHeartRateSample";
-
+import { IHeartRateSample, IHeartRateSampleDTO } from '@/interfaces/IHeartRateSample';
+import { IGPS, IGPSInputDTO } from '@/interfaces/IGPS';
 
 @Service()
 export default class HeartRateSampleService {
   constructor(
-      // Add services/models
-      @Inject('heartRateSampleModel') private heartRateSampleModel: Models.HeartRateSampleModel, // connection to database and enables CRUD commands
-      @Inject('logger') private logger,
-      @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
-    ) {}
+    // Add services/models
+    @Inject('heartRateSampleModel') private heartRateSampleModel: Models.HeartRateSampleModel, // connection to database and enables CRUD commands
+    @Inject('logger') private logger,
+    @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
+  ) {}
 
     // add heart rate sample to database
     public async addHeartRateSample(heartRateSampleDTO: IHeartRateSampleDTO): Promise<IHeartRateSample> {
@@ -37,6 +37,25 @@ export default class HeartRateSampleService {
         throw e;
       }
     }
+
+  // adds multiple heartRate models to the database
+  public async addManyHeartRateSample(
+    heartRateSampleDTO: IHeartRateSampleDTO[],
+  ): Promise<{ heartRateMany: IHeartRateSample[] }> {
+    try {
+      this.logger.debug(heartRateSampleDTO);
+      const heartRateRecord = await this.heartRateSampleModel.create(heartRateSampleDTO);
+      const heartRateMany: IHeartRateSample[] = [];
+      for (let i = 0; i < heartRateRecord.length; i++) {
+        const heartRate: IHeartRateSample = heartRateRecord[i].toObject();
+        heartRateMany.push(heartRate);
+      }
+      return { heartRateMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
 
    // Deletes the heartRateSample associated with the given ID
    public async deleteHeartRateSampleByID(id: String): Promise<IHeartRateSample> {

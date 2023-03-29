@@ -1,11 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar } from 'expo-status-bar';
+import { extendTheme, NativeBaseProvider } from 'native-base';
+import { StyleSheet, Text, View } from 'react-native';
 import AppleHealthKit, {
   HealthValue,
   HealthKitPermissions,
-} from "react-native-health";
-import { AuthProvider } from "./src/contexts/Auth";
-import Router from "./src/navigation/Router";
+} from 'react-native-health';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './src/contexts/Auth';
+import Router from './src/navigation/Router';
 
 /* Permission options */
 const permissions = {
@@ -19,7 +21,7 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
   /* Called after we receive a response from the system */
 
   if (error) {
-    console.log("[ERROR] Cannot grant permissions!");
+    console.log('[ERROR] Cannot grant permissions!');
   }
 
   /* Can now read or write to HealthKit */
@@ -32,7 +34,7 @@ AppleHealthKit.initHealthKit(permissions, (error: string) => {
     options,
     (callbackError: string, results: HealthValue[]) => {
       /* Samples are now collected from HealthKit */
-    }
+    },
   );
 });
 
@@ -52,9 +54,25 @@ AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
 });
 
 export default function App() {
+  // colors used in our app
+  const theme = extendTheme({
+    colors: {
+      navy: '#271E41',
+      cream: '#E5E5E5',
+      lightOrange: '#F1C3A9',
+      gray: '#666666',
+      lighterPurple: '#F5F6FF',
+      lightPurple: '#E8EAF6',
+    },
+  });
+
   return (
     <AuthProvider>
-      <Router/>
+      <SafeAreaProvider>
+        <NativeBaseProvider theme={theme}>
+          <Router />
+        </NativeBaseProvider>
+      </SafeAreaProvider>
     </AuthProvider>
     // <View style={styles.container}>
     //   <Text>Hi, this is My Atlas, welcome.</Text>
@@ -67,8 +85,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

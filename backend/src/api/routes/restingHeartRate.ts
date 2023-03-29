@@ -5,6 +5,7 @@ import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import RestingHeartRateService from '@/services/restingHeartRate';
 import middlewares from '../middlewares';
+import HeartRateVariabilityService from '@/services/heartRateVariability';
 
 const route = Router();
 
@@ -30,7 +31,7 @@ async (req: Request, res: Response, next: NextFunction) => {
  logger.debug('Calling addRestingHeartRate endpoint with body: %o', req.body );
  try {
    const RestingHeartRateServiceInstance = Container.get(RestingHeartRateService);
-   const { restingHeartRate } = await RestingHeartRateServiceInstance.addRestingHeartRate(req.body as IRestingHeartRateDTO);
+   const restingHeartRate  = await RestingHeartRateServiceInstance.addRestingHeartRate(req.body as IRestingHeartRateDTO);
    return res.status(201).json({ restingHeartRate });
  } catch (e) {
    logger.error('🔥 error: %o', e);
@@ -49,7 +50,7 @@ async (req: Request, res: Response, next: NextFunction) => {
  try {
    const id = req.params.id;
    const RestingHeartRateServiceInstance = Container.get(RestingHeartRateService);
-   const { restingHeartRate } = await RestingHeartRateServiceInstance.getRestingHeartRateByID(id);
+   const restingHeartRate = await RestingHeartRateServiceInstance.getRestingHeartRateByID(id);
    return res.json({ restingHeartRate }).status(200);
  } catch (e) {
    logger.error('🔥 error: %o',  e );
@@ -58,17 +59,42 @@ async (req: Request, res: Response, next: NextFunction) => {
 },
 );
 
-// deletes heart rate sample given an id
-route.delete(
-  '/deleteRestingHeartRateByID/id/:id',
-  middlewares.isAuth, middlewares.authorizeUser,
-  async (req: Request, res: Response, next: NextFunction) => {
+
+  // make post request for adding many resting heart rate models
+  route.post(
+    '/addManyRestingHeartRate',
+    celebrate({
+      body: Joi.array().items({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        duration: Joi.number().required(),
+        variability: Joi.number().required(),
+        hkID: Joi.string().required(),
+        hkWasUserEntered: Joi.boolean().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManyHeartRateSample endpoint with body: %o', req.body);
+      try {
+        const RestingHeartRateServiceInstance = Container.get(RestingHeartRateService);
+        const { heartRateMany } = await RestingHeartRateServiceInstance.addManyRestingHeartRate(req.body);
+        return heartRateMany;
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  // deletes heart rate sample given an id
+  route.delete('/deleteRestingHeartRateByID/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling deleteRestingHeartRateByID endpoint');
     try {
       const id = req.params.id;
       const RestingHeartRateServiceInstance = Container.get(RestingHeartRateService);
-      const { restingHeartRate } = await RestingHeartRateServiceInstance.deleteRestingHeartRateByID(id);
+      const restingHeartRate = await RestingHeartRateServiceInstance.deleteRestingHeartRateByID(id);
       return res.json({ restingHeartRate }).status(200);
     } catch (e) {
       logger.error('🔥 error: %o', e);

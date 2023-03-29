@@ -1,6 +1,7 @@
 import { Service, Inject } from "typedi";
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
 import { IHeartRateVariability, IHeartRateVariabilityDTO } from "@/interfaces/IHeartRateVariability";
+import {IHeartRateSample, IHeartRateSampleDTO} from "@/interfaces/IHeartRateSample";
 
 
 @Service()
@@ -25,7 +26,24 @@ export default class HeartRateVariabilityService {
         throw e;
       }
     }
-
+    // Adds multiple heart rate variability models
+  public async addManyHeartRateVariability(
+    heartRateVariabilityDTO: IHeartRateVariabilityDTO[],
+  ): Promise<{ heartRateMany: IHeartRateVariability[] }> {
+    try {
+      this.logger.debug(heartRateVariabilityDTO);
+      const heartRateRecord = await this.heartRateVariabilityModel.create(heartRateVariabilityDTO);
+      const heartRateMany: IHeartRateVariability[] = [];
+      for (let i = 0; i < heartRateRecord.length; i++) {
+        const heartRate: IHeartRateVariability = heartRateRecord[i].toObject();
+        heartRateMany.push(heartRate);
+      }
+      return { heartRateMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
     // get heart rate variability from database
     public async getHeartRateVariabilityByID(id: String): Promise<IHeartRateVariability> {
       try {

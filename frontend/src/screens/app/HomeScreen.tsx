@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ProgressBar from '../../components/ProgressBar';
+import Question from '../../components/Question';
 import { useAuth } from '../../contexts/Auth';
 
 const HomeScreen = () => {
@@ -20,6 +22,11 @@ const HomeScreen = () => {
       ) : (
         <Text>Not loaded</Text>
       )}
+      <Question
+        question={
+          'Have you sought behavioral health or wellness care in the past?'
+        }></Question>
+        <ProgressBar progress={20} hasSkip={true} ></ProgressBar>
     </SafeAreaView>
   );
 };
