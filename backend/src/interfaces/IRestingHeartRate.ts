@@ -8,6 +8,10 @@ export interface IRestingHeartRate {
   hkWasUserEntered: boolean;
 }
 
+export interface IRestingHeartRateAverage {
+  _id: string;
+  averageBPM: number;
+}
 export interface IRestingHeartRateDTO {
   userID: string;
   startDate: Date;

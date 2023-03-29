@@ -8,6 +8,10 @@ export interface IHeartRateSample {
   hkWasUserEntered: boolean;
 }
 
+export interface IHeartRateSampleAverage {
+  _id: string;
+  averageBPM: number;
+}
 export interface IHeartRateSampleDTO {
   userID: string;
   startDate: Date;

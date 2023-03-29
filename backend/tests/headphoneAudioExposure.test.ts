@@ -33,7 +33,7 @@ describe('Add HeadphoneAudioExposure document to database', () => {
     const { headphoneExposure } = await HeadphoneAudioExposureServiceInstance.addHeadphoneAudioExposure(
       headphoneAudioExposureExample,
     );
-    const headphoneAudioExposureFromDB = await HeadphoneAudioExposure.findById(headphoneExposure._id);
+    const headphoneAudioExposureFromDB = await HeadphoneExposureSample.findById(headphoneExposure._id);
     expect(headphoneAudioExposureFromDB.userID).toEqual('54321');
     expect(headphoneAudioExposureFromDB.startDate).toEqual(dateRightNow);
     expect(headphoneAudioExposureFromDB.duration).toEqual(1000);
