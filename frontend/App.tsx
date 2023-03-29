@@ -8,6 +8,7 @@ import AppleHealthKit, {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/contexts/Auth';
 import Router from './src/navigation/Router';
+import ScreenWideButton from './src/components/question/ScreenWideButton';
 
 /* Permission options */
 const permissions = {
@@ -70,7 +71,7 @@ export default function App() {
     <AuthProvider>
       <SafeAreaProvider>
         <NativeBaseProvider theme={theme}>
-          <Router />
+          <Router/>
         </NativeBaseProvider>
       </SafeAreaProvider>
     </AuthProvider>

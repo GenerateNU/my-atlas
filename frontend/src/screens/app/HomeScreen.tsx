@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Question from '../../components/Question';
 import { useAuth } from '../../contexts/Auth';
+import ScreenWideButton from '../../components/question/ScreenWideButton';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -10,6 +10,9 @@ const HomeScreen = () => {
   const signOut = async () => {
     isLoading(true);
     await auth.signOut();
+  };
+  const handlePress = () => {
+    console.log('Button pressed!');
   };
 
   return (
@@ -20,11 +23,9 @@ const HomeScreen = () => {
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
-      )} */}
-      <Question
-        question={
-          'Have you sought behavioral health or wellness care in the past?'
-        }></Question>
+        
+      )} */
+      <ScreenWideButton text="Hi!" onPress={handlePress}/>}
     </SafeAreaView>
   );
 };
