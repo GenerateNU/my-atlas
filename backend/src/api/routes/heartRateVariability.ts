@@ -100,6 +100,7 @@ route.delete(
   // make post request for adding many heart variability  models
   route.post(
     '/addManyHeartRateVariability',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -123,21 +124,5 @@ route.delete(
       }
     },
   );
-
-  // deletes heart rate variability given an id
-  route.delete('/deleteHeartRateVariabilityByID/id/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling deleteHeartRateVariabilityByID endpoint');
-    try {
-      const id = req.params.id;
-      const HeartRateVariabilityServiceInstance = Container.get(HeartRateVariabilityService);
-      const heartRateVariability = await HeartRateVariabilityServiceInstance.deleteHeartRateVariabilityByID(id);
-      return res.json({ heartRateVariability }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  },
-);
   });
 };

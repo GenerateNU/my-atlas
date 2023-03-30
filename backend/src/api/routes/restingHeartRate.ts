@@ -63,6 +63,7 @@ async (req: Request, res: Response, next: NextFunction) => {
   // make post request for adding many resting heart rate models
   route.post(
     '/addManyRestingHeartRate',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -88,7 +89,9 @@ async (req: Request, res: Response, next: NextFunction) => {
   );
 
   // deletes heart rate sample given an id
-  route.delete('/deleteRestingHeartRateByID/id/:id', async (req: Request, res: Response, next: NextFunction) => {
+  route.delete('/deleteRestingHeartRateByID/id/:id',
+  middlewares.isAuth, middlewares.authorizeUser,
+  async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling deleteRestingHeartRateByID endpoint');
     try {

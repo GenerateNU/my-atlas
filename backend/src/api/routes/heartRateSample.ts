@@ -99,6 +99,7 @@ route.delete(
   // make post request for adding many heart rate sample models
   route.post(
     '/addManyHeartRateSample',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -123,36 +124,5 @@ route.delete(
     },
   );
 
-  // make get request to retrieve heart rate sample, given id
-  route.get('/getHeartRateSampleByID/id/:id/', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getHeartRateSampleByID endpoint');
-    try {
-      const id = req.params.id;
-      const HeartRateSampleServiceInstance = Container.get(HeartRateSampleService);
-      const heartRateSample = await HeartRateSampleServiceInstance.getHeartRateSampleByID(id);
-      return res.json({ heartRateSample }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
-
-  // deletes heart rate sample given an id
-  route.delete('/deleteHeartRateSampleByID/id/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling deleteHeartRateSampleByID endpoint');
-    try {
-      const id = req.params.id;
-      const HeartRateSampleServiceInstance = Container.get(HeartRateSampleService);
-
-      const heartRateSample = await HeartRateSampleServiceInstance.deleteHeartRateSampleByID(id);
-      return res.json({ heartRateSample }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  },
-);
   });
 };

@@ -46,6 +46,7 @@ export default (app: Router) => {
   // post endpoint for adding multiple gps models
   route.post(
     '/addManyGPS',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         timestamp: Joi.date().required(),
@@ -69,21 +70,6 @@ export default (app: Router) => {
       }
     },
   );
-
-  // Route to get GPS information with parameter userID
-  route.get('/getGPS/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getGPS endpoint');
-    try {
-      const { id } = req.params;
-      const GPSServiceInstance = Container.get(GPSService);
-      const gps = await GPSServiceInstance.getGPS(id);
-      return res.json({ gps }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
 
  // Route to get GPS information with parameter userID
  route.get('/getGPS/:id', middlewares.isAuth, middlewares.authorizeUser,
@@ -118,5 +104,3 @@ export default (app: Router) => {
    }
  });
 };
-
-

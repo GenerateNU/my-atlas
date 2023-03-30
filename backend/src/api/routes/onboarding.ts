@@ -73,6 +73,7 @@ export default (app: Router) => {
   // post endpoint for adding multiple onboarding models
   route.post(
     '/addManyOnboarding',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -106,23 +107,6 @@ export default (app: Router) => {
       }
     },
   );
-
-  /*
-  Returns an onboarding model by providing the userID
-   */
-  route.get('/getOnboarding/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getOnboarding endpoint');
-    try {
-      const { id } = req.params;
-      const OnboardingServiceInstance = Container.get(OnboardingService);
-      const { onboarding } = await OnboardingServiceInstance.getOnboarding(id);
-      return res.json({ onboarding }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
 
  /*
  Deletes an onboarding model by providing the userID
