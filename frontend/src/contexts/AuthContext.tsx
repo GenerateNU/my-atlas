@@ -9,7 +9,7 @@ type AuthContextData = {
   signOut(): void;
 };
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children?: React.ReactNode;
 }
 
