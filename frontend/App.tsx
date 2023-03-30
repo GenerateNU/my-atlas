@@ -6,7 +6,7 @@ import AppleHealthKit, {
   HealthKitPermissions,
 } from 'react-native-health';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AuthProvider } from './src/contexts/Auth';
+import { AuthProvider } from './src/contexts/AuthContext';
 import Router from './src/navigation/Router';
 
 /* Permission options */
@@ -58,8 +58,10 @@ export default function App() {
   const theme = extendTheme({
     colors: {
       navy: '#271E41',
+      offWhite: '#FFF9F1',
       cream: '#E5E5E5',
       lightOrange: '#F1C3A9',
+      darkOrange: '#C55415',
       gray: '#666666',
       lighterPurple: '#F5F6FF',
       lightPurple: '#E8EAF6',
