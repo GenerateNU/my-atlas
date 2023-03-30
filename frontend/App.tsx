@@ -6,11 +6,7 @@ import AppleHealthKit, {
   HealthKitPermissions,
 } from 'react-native-health';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-<<<<<<< HEAD
 import { AuthProvider } from './src/contexts/AuthContext';
-=======
-import { AuthProvider } from './src/contexts/Auth';
->>>>>>> main
 import Router from './src/navigation/Router';
 
 /* Permission options */
