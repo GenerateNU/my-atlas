@@ -14,13 +14,13 @@ export default class RestingHeartRateService {
     ) {}
 
     // add heart rate sample to database
-    public async addRestingHeartRate(restingHeartRateDTO: IRestingHeartRateDTO): Promise<{ restingHeartRate: IRestingHeartRate}> {
+    public async addRestingHeartRate(restingHeartRateDTO: IRestingHeartRateDTO): Promise<IRestingHeartRate> {
       try {
         const restingHeartRateRecord = await this.restingHeartRateModel.create({
           ...restingHeartRateDTO,
         });
         const restingHeartRate : IRestingHeartRate = restingHeartRateRecord.toObject();
-        return { restingHeartRate };
+        return restingHeartRate;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -46,11 +46,11 @@ export default class RestingHeartRateService {
     }
   }
     // get resting heart rate from database
-    public async getRestingHeartRateByID(id: String): Promise<{ restingHeartRate: IRestingHeartRate}> {
+    public async getRestingHeartRateByID(id: String): Promise<IRestingHeartRate> {
       try {
         const restingHeartRateRecord = await this.restingHeartRateModel.findById(id);
         const restingHeartRate : IRestingHeartRate = restingHeartRateRecord.toObject();
-        return { restingHeartRate };
+        return restingHeartRate;
       } catch (e) {
         this.logger.error(e);
         throw e;
@@ -58,11 +58,11 @@ export default class RestingHeartRateService {
     }
 
    // Deletes the resting heart rate associated with the given ID
-   public async deleteRestingHeartRateByID(id: String): Promise<{ restingHeartRate : IRestingHeartRate }> {
+   public async deleteRestingHeartRateByID(id: String): Promise<IRestingHeartRate> {
    try {
        const restingHeartRateRecord = await this.restingHeartRateModel.findByIdAndDelete(id);
        const restingHeartRate : IRestingHeartRate = restingHeartRateRecord.toObject();
-       return { restingHeartRate };
+       return restingHeartRate;
    } catch (e) {
        this.logger.error(e);
        throw e;
