@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Container, Heading } from 'native-base';
+=======
+import { Container } from 'native-base';
+>>>>>>> main
 import { background } from 'native-base/lib/typescript/theme/styled-system';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View, Image, _Text } from 'react-native';

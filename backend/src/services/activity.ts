@@ -1,6 +1,7 @@
 import { Service, Inject } from "typedi";
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
 import { IActivity, IActivityDTO } from "../interfaces/IActivity";
+import {IGPS, IGPSInputDTO} from "@/interfaces/IGPS";
 
 
 @Service()
@@ -26,6 +27,22 @@ export default class ActivityService {
       }
     }
 
+  // adds multiple activity models to the database
+  public async addManyActivity(activityDTO: IActivityDTO[]): Promise<{ activityMany: IActivity[] }> {
+    try {
+      this.logger.debug(activityDTO);
+      const activityRecord = await this.activityModel.create(activityDTO);
+      const activityMany: IActivity[] = [];
+      for (let i = 0; i < activityRecord.length; i++) {
+        const activity: IActivity = activityRecord[i].toObject();
+        activityMany.push(activity);
+      }
+      return { activityMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
     // get activity from database
     public async getActivityInfoByIDAndDate(userID: String, date: Date): Promise<IActivity> {
       try {
