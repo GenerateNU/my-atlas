@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 
 type SignUpContextData = {
-  page: Number;
+  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   signUpState: Object;
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
@@ -162,11 +162,11 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
 
 const useSignUp = (): SignUpContextData => {
     const context = useContext(SignUpContext);
-  
+
     if (!context) {
       throw new Error('useSignUp must be used within an AuthProvider');
     }
-  
+
     return context;
   };
 

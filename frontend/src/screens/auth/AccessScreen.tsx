@@ -4,19 +4,22 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View, Image, _Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
-import { Button } from 'native-base';
+import { Button, Progress } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { AtlasLogo } from '../../img';
+import ProgressBar from '../../components/ProgressBar';
+import { useSignUp } from '../../contexts/SignUpContext';
 
 const AccessScreen = ({ navigation }) => {
   const [loading, isLoading] = useState(false);
 
+
   const signUp = async () => {
     isLoading(true);
-    navigation.navigate('Sign Up Stack', { screen: 'Sign Up Screen' });
+    navigation.navigate('Sign Up Stack', { screen: 'Single Question Screen' });
   };
 
   const signIn = async () => {
@@ -43,7 +46,7 @@ const AccessScreen = ({ navigation }) => {
             letterSpacing: 'lg',
           }}
           _pressed={{
-            backgroundColor:'darkOrange',
+            backgroundColor: 'darkOrange',
             _text: { color: 'white' },
           }}
           onPress={signUp}
@@ -61,7 +64,7 @@ const AccessScreen = ({ navigation }) => {
             letterSpacing: 'lg',
           }}
           onPress={signIn}
-          variant={"unstyled"}>
+          variant={'unstyled'}>
           Sign in
         </Button>
       </Container>
