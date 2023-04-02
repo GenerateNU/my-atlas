@@ -17,11 +17,6 @@ const SelectOne = (props : SelectOneProps) => {
     return (
         <View>
             <Text
-                position="absolute"
-                width="196px"
-                height="58px"
-                left="32px"
-                top="153px"
                 font-family="body"
                 fontStyle="normal"
                 fontWeight="700"
@@ -32,8 +27,7 @@ const SelectOne = (props : SelectOneProps) => {
             </Text>
             {props.answers.map((o : Answer) => (
                 <ScreenWideButton 
-                    text={o.text} 
-                    pressed={false} 
+                    text={o.text}
                     onPress={() => props.onAnswerPress(o.id)}
                 />))}
         </View>

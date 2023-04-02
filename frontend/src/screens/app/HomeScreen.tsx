@@ -3,6 +3,8 @@ import { Button, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/Auth';
 import ScreenWideButton from '../../components/question/ScreenWideButton';
+import SelectOne from '../../components/question/SelectOne';
+import OtherScreenWideButton from '../../components/question/OtherScreenWideButton';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -17,15 +19,16 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
-      {/* <Text>HOME SCREEN</Text>
+      {/* /** <Text>HOME SCREEN</Text>
       <Button title="Sign Out" onPress={signOut} />
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
         
-      )} */
-      <ScreenWideButton text="Hi!" onPress={handlePress}/>}
+      )} */}
+      <ScreenWideButton text="Hi!" onPress={handlePress}/>
+      <OtherScreenWideButton onPress={handlePress}/>
     </SafeAreaView>
   );
 };

@@ -62,6 +62,7 @@ export default function App() {
       cream: '#E5E5E5',
       lightOrange: '#F1C3A9',
       gray: '#666666',
+      darkOrange: '#C55415',
       lighterPurple: '#F5F6FF',
       lightPurple: '#E8EAF6',
     },
