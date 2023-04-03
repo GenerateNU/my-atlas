@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
 
 type SignUpContextData = {
-  page: Number;
+  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   signUpState: IOnboardingFlowState;
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
@@ -29,12 +29,17 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   });
   const signUpFlow = [
     {
+      page: 'Sign Up Screen',
+      props: {},
+    },
+    {
       page: 'Single Question Screen',
       props: {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
       },
+      progress: 14
     },
     {
       page: 'Transition Screen',
@@ -46,6 +51,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your phone number",
         stateName: 'phoneNumber',
       },
+      progress: 28
     },
     {
       page: 'Select One Screen',
@@ -60,6 +66,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
           },
         ],
       },
+      progress: 43
     },
     {
       page: 'Select Date Screen',
@@ -75,6 +82,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         inputName: 'Zip Code',
         stateName: 'zipcode',
       },
+      progress: 57
     },
     {
       page: 'Select One Screen',
@@ -140,6 +148,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
           },
         ],
       },
+      progress: 71
     },
     {
       page: 'Select One Screen',
@@ -147,6 +156,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'When it comes to taking care of your mental health, you are...',
         answers: ['Informed', 'Curious', 'Skeptical'],
       },
+      progress: 85
     },
   ];
 

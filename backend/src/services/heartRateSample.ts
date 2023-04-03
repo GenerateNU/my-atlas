@@ -12,21 +12,32 @@ export default class HeartRateSampleService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // add heart rate sample to database
-  public async addHeartRateSample(
-    heartRateSampleDTO: IHeartRateSampleDTO,
-  ): Promise<{ heartRateSample: IHeartRateSample }> {
-    try {
-      const heartRateSampleRecord = await this.heartRateSampleModel.create({
-        ...heartRateSampleDTO,
-      });
-      const heartRateSample: IHeartRateSample = heartRateSampleRecord.toObject();
-      return { heartRateSample };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
+    // add heart rate sample to database
+    public async addHeartRateSample(heartRateSampleDTO: IHeartRateSampleDTO): Promise<IHeartRateSample> {
+      try {
+        const heartRateSampleRecord = await this.heartRateSampleModel.create({
+          ...heartRateSampleDTO,
+        });
+        const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
+        return heartRateSample;
+      } catch (e) {
+        this.logger.error(e);
+        throw e;
+      }
     }
-  }
+
+    // get heartRateSample from database
+    public async getHeartRateSampleByID(id: String): Promise<IHeartRateSample> {
+      try {
+        const heartRateSampleRecord = await this.heartRateSampleModel.findById(id);
+        const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
+        return heartRateSample;
+      } catch (e) {
+        this.logger.error(e);
+        throw e;
+      }
+    }
+
   // adds multiple heartRate models to the database
   public async addManyHeartRateSample(
     heartRateSampleDTO: IHeartRateSampleDTO[],
@@ -45,27 +56,16 @@ export default class HeartRateSampleService {
       throw e;
     }
   }
-  // get heartRateSample from database
-  public async getHeartRateSampleByID(id: string): Promise<{ heartRateSample: IHeartRateSample }> {
-    try {
-      const heartRateSampleRecord = await this.heartRateSampleModel.findById(id);
-      const heartRateSample: IHeartRateSample = heartRateSampleRecord.toObject();
-      return { heartRateSample };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
 
-  // Deletes the heartRateSample associated with the given ID
-  public async deleteHeartRateSampleByID(id: string): Promise<{ heartRateSample: IHeartRateSample }> {
-    try {
-      const heartRateSampleRecord = await this.heartRateSampleModel.findByIdAndDelete(id);
-      const heartRateSample: IHeartRateSample = heartRateSampleRecord.toObject();
-      return { heartRateSample };
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+   // Deletes the heartRateSample associated with the given ID
+   public async deleteHeartRateSampleByID(id: String): Promise<IHeartRateSample> {
+   try {
+       const heartRateSampleRecord = await this.heartRateSampleModel.findByIdAndDelete(id);
+       const heartRateSample : IHeartRateSample = heartRateSampleRecord.toObject();
+       return heartRateSample;
+   } catch (e) {
+       this.logger.error(e);
+       throw e;
+   }
+   }
 }
