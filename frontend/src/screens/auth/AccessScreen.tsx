@@ -43,7 +43,7 @@ const AccessScreen = ({ navigation }) => {
             letterSpacing: 'lg',
           }}
           _pressed={{
-            backgroundColor:'darkOrange',
+            backgroundColor: 'darkOrange',
             _text: { color: 'white' },
           }}
           onPress={signUp}
@@ -61,7 +61,7 @@ const AccessScreen = ({ navigation }) => {
             letterSpacing: 'lg',
           }}
           onPress={signIn}
-          variant={"unstyled"}>
+          variant={'unstyled'}>
           Sign in
         </Button>
       </Container>
