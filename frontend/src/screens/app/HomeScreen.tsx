@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Question from '../../components/Question';
+import Big5Button from '../../components/Big5Button';
 import { useAuth } from '../../contexts/Auth';
 
 const HomeScreen = () => {
@@ -11,20 +12,24 @@ const HomeScreen = () => {
     isLoading(true);
     await auth.signOut();
   };
+  const handlePress = () => {
+    console.log('Button pressed!');
+  };
 
   return (
     <SafeAreaView>
-      {/* <Text>HOME SCREEN</Text>
-      <Button title="Sign Out" onPress={signOut} />
-      {auth.authData ? (
-        <Text>{auth.authData.user.name}</Text>
-      ) : (
-        <Text>Not loaded</Text>
-      )} */}
-      <Question
-        question={
-          'Have you sought behavioral health or wellness care in the past?'
-        }></Question>
+      <Big5Button
+        title="I am the life of the party"
+        options={[
+          { id: 1, text: 'Disagree' },
+          { id: 2, text: 'Slightly Disagree' },
+          { id: 3, text: 'Neutral' },
+          { id: 4, text: 'Slightly Agree' },
+          { id: 5, text: 'Agree' },
+        ]}
+        pressed={false}
+        onAnswerPress={handlePress}
+      />
     </SafeAreaView>
   );
 };
