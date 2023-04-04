@@ -5,7 +5,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
 import { Progress } from 'native-base';
 import { useAuth } from '../../contexts/AuthContext';
-
+import DatePickers from '../../components/DatePicker';
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
   const auth = useAuth();
@@ -19,19 +19,22 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: '#FFF9F1' }}>
       <ProgressBar
         progress={20}
         hasSkip={true}
         hasProgress={true}
         backFunction={alert}
         skipFunction={alert}></ProgressBar>
-      <Text>HOME SCREEN</Text>
+    <Question question={
+          'What\'s your date of birth?'
+        }>
 
-      <Question
+    </Question>
+      <DatePickers
         question={
           'Have you sought behavioral health or wellness care in the past?'
-        }></Question>
+        }></DatePickers>
     </SafeAreaView>
   );
 };
