@@ -19,6 +19,7 @@ const OtherScreenWideButton = (props : OtherScreenWideButtonProps) => {
             placeholder='Other'
             variant="outline"
             mx={wp("5%")}
+            my={hp("1%")}
             placeholderTextColor={"navy"}
             backgroundColor={"cream"}
             borderRadius="10px"

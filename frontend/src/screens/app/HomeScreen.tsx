@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/Auth';
 import ScreenWideButton from '../../components/question/ScreenWideButton';
 import SelectOne from '../../components/question/SelectOne';
 import OtherScreenWideButton from '../../components/question/OtherScreenWideButton';
+import Question from '../../components/question/Question';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -27,11 +28,25 @@ const HomeScreen = () => {
         <Text>Not loaded</Text>
         
       )} */}
-      <SelectOne 
-        title="Sex assigned at birth" 
-        options={[{id: 1, text: "female"}, {id: 2, text:"male"}]} 
-        other={true} 
-        onAnswerPress={handlePress}/>
+      <Question question={"Which best describes you?"}>
+        <SelectOne 
+          title="Sex assigned at birth" 
+          options={[{id: 1, text: "female"}, {id: 2, text:"male"}]} 
+          other={true}
+          onAnswerPress={handlePress}
+        />
+        <SelectOne 
+          title="Gender Identity" 
+          options={[{id: 1, text: "Woman"}, 
+                    {id: 2, text:"Man"},
+                    {id: 3, text:"Transgender woman"},
+                    {id: 4, text:"Transgender man"},
+                    {id: 5, text:"Non-binary"},
+                    {id: 6, text:"Prefer not to say"},]} 
+          other={false} 
+          onAnswerPress={handlePress}
+        />
+      </Question>
     </SafeAreaView>
   );
 };
