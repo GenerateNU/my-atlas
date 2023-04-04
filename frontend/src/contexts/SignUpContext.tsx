@@ -38,8 +38,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
+        progress: 14
       },
-      progress: 14
     },
     {
       page: 'Transition Screen',
@@ -50,8 +50,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: "What's your phone number",
         stateName: 'phoneNumber',
+        progress: 28
       },
-      progress: 28
     },
     {
       page: 'Select One Screen',
@@ -65,14 +65,15 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'pronouns',
           },
         ],
+        progress: 43
       },
-      progress: 43
     },
     {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
         stateName: 'dob',
+        progress: 57
       },
     },
     {
@@ -81,8 +82,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
+        progress: 71
       },
-      progress: 57
     },
     {
       page: 'Select One Screen',
@@ -147,16 +148,16 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
+        progress: 86
       },
-      progress: 71
     },
     {
       page: 'Select One Screen',
       props: {
         question: 'When it comes to taking care of your mental health, you are...',
         answers: ['Informed', 'Curious', 'Skeptical'],
+        progress: 100
       },
-      progress: 85
     },
   ];
 

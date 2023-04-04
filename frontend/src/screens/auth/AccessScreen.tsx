@@ -12,7 +12,7 @@ import {
 import { AtlasLogo } from '../../img';
 import { useSignUp } from '../../contexts/SignUpContext';
 
-const AccessScreen = ({ navigation }) => {
+const AccessScreen = ({route, navigation }) => {
   const [loading, isLoading] = useState(false);
 
   const signUp = async () => {

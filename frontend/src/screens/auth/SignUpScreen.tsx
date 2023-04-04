@@ -15,7 +15,7 @@ import ProgressBar from '../../components/ProgressBar';
 import ScreenWideInput from '../../components/ScreenWideInput';
 import { useSignUp } from '../../contexts/SignUpContext';
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({route, navigation}) => {
   const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
 
     const back = async () => {
@@ -27,7 +27,7 @@ const SignUpScreen = ({navigation}) => {
     const skip = async () => {
       const nextPage = signUpFlow[page + 1];
       setPage(page + 1);
-      navigation.push(nextPage.page);
+      navigation.push(nextPage.page, {props: nextPage.props});
     };
   const {
     control,
