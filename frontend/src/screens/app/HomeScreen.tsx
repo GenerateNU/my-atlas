@@ -27,8 +27,11 @@ const HomeScreen = () => {
         <Text>Not loaded</Text>
         
       )} */}
-      <ScreenWideButton text="Hi!" onPress={handlePress}/>
-      <OtherScreenWideButton onPress={handlePress}/>
+      <SelectOne 
+        title="Sex assigned at birth" 
+        options={[{id: 1, text: "female"}, {id: 2, text:"male"}]} 
+        other={true} 
+        onAnswerPress={handlePress}/>
     </SafeAreaView>
   );
 };

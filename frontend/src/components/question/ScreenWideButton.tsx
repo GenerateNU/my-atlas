@@ -17,6 +17,7 @@ const ScreenWideButton = (props : ScreenWideButtonProps) => {
             onPress={props.onPress}
             borderRadius="10px"
             mx={wp("5%")}
+            my={hp("1%")}
             _text={{
                 fontSize: 'xl',
                 fontWeight: 'semibold',
@@ -29,7 +30,7 @@ const ScreenWideButton = (props : ScreenWideButtonProps) => {
                 _text: { color: 'white' }
             }}
             bg={'lightOrange'}>
-            Hello!
+            {props.text}
         </Button>
     );
 }
