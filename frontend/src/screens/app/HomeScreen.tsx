@@ -33,23 +33,6 @@ const HomeScreen = () => {
         
       )} */}
       <Question question={"Which best describes you?"}>
-        <SelectOne 
-          title="Sex assigned at birth" 
-          options={[{id: 1, text: "female"}, {id: 2, text:"male"}]} 
-          other={true}
-          onAnswerPress={handlePress}
-        />
-        <SelectOne 
-          title="Gender Identity" 
-          options={[{id: 1, text: "Woman"}, 
-                    {id: 2, text:"Man"},
-                    {id: 3, text:"Transgender woman"},
-                    {id: 4, text:"Transgender man"},
-                    {id: 5, text:"Non-binary"},
-                    {id: 6, text:"Prefer not to say"},]} 
-          other={false} 
-          onAnswerPress={handlePress}
-        />
       </Question>
     </SafeAreaView>
   );
