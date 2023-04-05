@@ -6,7 +6,7 @@ const MindfulSession = new mongoose.Schema(
     userID: {
       type: String,
       index: true,
-      required: true
+      required: true,
     },
     startDate: {
       type: Date,
@@ -21,7 +21,7 @@ const MindfulSession = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
-      metaField: "userID"
+      metaField: 'userID',
     },
   },
 );

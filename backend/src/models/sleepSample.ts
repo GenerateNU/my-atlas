@@ -25,11 +25,7 @@ const SleepSample = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
-<<<<<<< HEAD
-      metaField: "userID",
-=======
       metaField: 'userID',
->>>>>>> 29f5e6e... aggregation for sleepSample, headphoneAudioExposure
     },
   },
 );
