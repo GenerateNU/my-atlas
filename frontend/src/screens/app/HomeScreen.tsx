@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProgressBar from '../../components/ProgressBar';
-import Question from '../../components/Question';
-import { Progress } from 'native-base';
 import { useAuth } from '../../contexts/AuthContext';
+import ScreenWideButton from '../../components/question/ScreenWideButton';
+import SelectOne from '../../components/question/SelectOne';
+import OtherScreenWideButton from '../../components/question/OtherScreenWideButton';
+import Question from '../../components/Question';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -13,6 +14,9 @@ const HomeScreen = () => {
     isLoading(true);
     await auth.signOut();
   };
+  const handlePress = () => {
+    console.log('Button pressed!');
+  };
 
   const alert = () => {
     Alert.alert('You tapped a button!');
@@ -20,18 +24,16 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
-      <ProgressBar
-        progress={20}
-        hasSkip={true}
-        hasProgress={true}
-        backFunction={alert}
-        skipFunction={alert}></ProgressBar>
-      <Text>HOME SCREEN</Text>
-
-      <Question
-        question={
-          'Have you sought behavioral health or wellness care in the past?'
-        }></Question>
+      {/* /** <Text>HOME SCREEN</Text>
+      <Button title="Sign Out" onPress={signOut} />
+      {auth.authData ? (
+        <Text>{auth.authData.user.name}</Text>
+      ) : (
+        <Text>Not loaded</Text>
+        
+      )} */}
+      <Question question={"Which best describes you?"}>
+      </Question>
     </SafeAreaView>
   );
 };

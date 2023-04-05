@@ -1,11 +1,13 @@
 import { createContext, useContext, useState } from 'react';
+import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
 
 type SignUpContextData = {
-  page: Number;
+  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  signUpState: Object;
+  signUpState: IOnboardingFlowState;
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
   signUpFlow: Object;
+  handleChange: (name: string, value: any) => void;
 };
 
 type SignUpProviderProps = {
@@ -15,14 +17,28 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
-  const [signUpState, setSignUpState] = useState();
+  const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
+    user: {
+      name: undefined,
+      email: undefined,
+      password: undefined,
+      phoneNumber: undefined,
+      dob: undefined,
+      age: undefined,
+    },
+  });
   const signUpFlow = [
+    {
+      page: 'Sign Up Screen',
+      props: {},
+    },
     {
       page: 'Single Question Screen',
       props: {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
+        progress: 14,
       },
     },
     {
@@ -33,7 +49,9 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Single Question Screen',
       props: {
         question: "What's your phone number",
+        inputName: '',
         stateName: 'phoneNumber',
+        progress: 28,
       },
     },
     {
@@ -43,16 +61,12 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         stateName: 'pronouns',
         sections: [
           {
-            answers: [
-              'she/her/hers',
-              'he/him/his',
-              'they/them/theirs',
-              'ze/hir/hirs',
-            ],
+            answers: ['she/her/hers', 'he/him/his', 'they/them/theirs', 'ze/hir/hirs'],
             other: true,
             stateName: 'pronouns',
           },
         ],
+        progress: 43,
       },
     },
     {
@@ -60,6 +74,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: "What's your date of birth?",
         stateName: 'dob',
+        progress: 57,
       },
     },
     {
@@ -68,6 +83,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
+        progress: 71,
       },
     },
     {
@@ -97,14 +113,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
           },
           {
             title: 'Sexual Orientation',
-            answers: [
-              'Lesbian',
-              'Gay',
-              'Bisexual',
-              'Queer',
-              'Asexual',
-              'Straight',
-            ],
+            answers: ['Lesbian', 'Gay', 'Bisexual', 'Queer', 'Asexual', 'Straight'],
             other: true,
             stateName: 'sexualOrientation',
           },
@@ -140,34 +149,48 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
+        progress: 86,
       },
     },
     {
       page: 'Select One Screen',
       props: {
-        question:
-          'When it comes to taking care of your mental health, you are...',
-        answers: ['Informed', 'Curious', 'Skeptical'],
+        sections: [
+          {
+            question: 'When it comes to taking care of your mental health, you are...',
+            answers: ['Informed', 'Curious', 'Skeptical'],
+          },
+        ],
+        progress: 100,
       },
     },
   ];
 
+  const handleChange = (name: string, value: any) => {
+    console.log(value);
+    console.log(signUpState);
+    setSignUpState(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <SignUpContext.Provider
-      value={{ page, setPage, signUpState, setSignUpState, signUpFlow}}>
+      value={{ page, setPage, signUpState, setSignUpState, signUpFlow, handleChange }}>
       {children}
     </SignUpContext.Provider>
   );
 };
 
 const useSignUp = (): SignUpContextData => {
-    const context = useContext(SignUpContext);
-  
-    if (!context) {
-      throw new Error('useSignUp must be used within an AuthProvider');
-    }
-  
-    return context;
-  };
+  const context = useContext(SignUpContext);
+
+  if (!context) {
+    throw new Error('useSignUp must be used within an AuthProvider');
+  }
+
+  return context;
+};
 
 export { SignUpContext, SignUpProvider, useSignUp };
