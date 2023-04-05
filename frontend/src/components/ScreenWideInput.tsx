@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input } from 'native-base';
+import { Input, InputGroup, InputLeftAddon } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -19,12 +19,13 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
   return (
     <Input
       size="xl"
-      py={hp('1.25%')}
+      marginTop={hp('1%')}
+      py={hp('1.5%')}
       paddingLeft={wp('5%')}
-      marginBottom={props.marginBottom ? wp(props.marginBottom) : wp('5%)')}
+      marginBottom={props.marginBottom ? hp(props.marginBottom) : hp('1%)')}
       placeholder={props.placeholderText}
       variant="outline"
-      mx={wp('5%')}
+      mx={wp('2%')}
       placeholderTextColor={'navy'}
       borderRadius="10px"
       borderColor={'lightOrange'}

@@ -7,7 +7,7 @@ type SignUpContextData = {
   signUpState: IOnboardingFlowState;
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
   signUpFlow: Object;
-  handleChange: (name: string, value: any) => void
+  handleChange: (name: string, value: any) => void;
 };
 
 type SignUpProviderProps = {
@@ -38,7 +38,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
-        progress: 14
+        progress: 14,
       },
     },
     {
@@ -49,8 +49,9 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Single Question Screen',
       props: {
         question: "What's your phone number",
+        inputName: '',
         stateName: 'phoneNumber',
-        progress: 28
+        progress: 28,
       },
     },
     {
@@ -65,7 +66,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'pronouns',
           },
         ],
-        progress: 43
+        progress: 43,
       },
     },
     {
@@ -73,7 +74,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: "What's your date of birth?",
         stateName: 'dob',
-        progress: 57
+        progress: 57,
       },
     },
     {
@@ -82,7 +83,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
-        progress: 71
+        progress: 71,
       },
     },
     {
@@ -148,15 +149,19 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
-        progress: 86
+        progress: 86,
       },
     },
     {
       page: 'Select One Screen',
       props: {
-        question: 'When it comes to taking care of your mental health, you are...',
-        answers: ['Informed', 'Curious', 'Skeptical'],
-        progress: 100
+        sections: [
+          {
+            question: 'When it comes to taking care of your mental health, you are...',
+            answers: ['Informed', 'Curious', 'Skeptical'],
+          },
+        ],
+        progress: 100,
       },
     },
   ];
@@ -166,12 +171,13 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     console.log(signUpState);
     setSignUpState(prevData => ({
       ...prevData,
-      [name]: value
-  }))
-  }
+      [name]: value,
+    }));
+  };
 
   return (
-    <SignUpContext.Provider value={{ page, setPage, signUpState, setSignUpState, signUpFlow, handleChange }}>
+    <SignUpContext.Provider
+      value={{ page, setPage, signUpState, setSignUpState, signUpFlow, handleChange }}>
       {children}
     </SignUpContext.Provider>
   );

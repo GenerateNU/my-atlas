@@ -46,7 +46,7 @@ const SignUpScreen = ({route, navigation}) => {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
           <ProgressBar backFunction={back} hasProgress={false} hasSkip={true} skipFunction={skip}/>
-          <Heading size="3xl" marginTop={hp('5%')} marginBottom={hp('4%')} marginX={wp('10%')}>
+          <Heading size="3xl" marginTop={hp('5%')} marginBottom={hp('3%')} ml={wp('4%')} marginX={wp('10%')}>
             Welcome to My Atlas
           </Heading>
           <ScreenWideInput

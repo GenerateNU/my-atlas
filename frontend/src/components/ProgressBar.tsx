@@ -1,6 +1,10 @@
 import React, { Fragment, ReactNode } from 'react';
 import { Box, Text, Center, Progress, VStack, View, Pressable } from 'native-base';
 import { Alert, GestureResponderEvent } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 // The library used above is how we make our frontend responsive. Responsive means
 // being able to adapt our code to whatever screen size/format we like.
 
@@ -29,7 +33,7 @@ const ProgressBar = (props: ProgressBarProps) => {
     }
 
   return (
-    <Center w="100%">
+    <Center w="100%" paddingBottom={hp("1%")}>
       <Box w="90%" maxW="400">
         <VStack>
           <VStack mx="4" space="2xs">
