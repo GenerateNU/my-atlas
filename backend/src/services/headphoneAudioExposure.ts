@@ -2,6 +2,7 @@ import { Service, Inject } from 'typedi';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/eventDispatcher';
 import { IHeadphoneAudioExposure, IHeadphoneAudioExposureDTO } from '../interfaces/IHeadphoneAudioExposure';
+import { IEnvironmentalAudioExposure } from '@/interfaces/IEnvironmentalAudioExposure';
 
 @Service()
 export default class HeadphoneExposureSample {
@@ -51,7 +52,32 @@ export default class HeadphoneExposureSample {
       throw e;
     }
   }
-
+  // Gets the headphone audio exposure information associated with the given userID (not the
+  // objectID) with a specified range. Others returns an error if there is no mindfulSession
+  // information associated with the given ID in the given range
+  public async getHeadphoneAudioExposureByDateRange(
+    userID: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IHeadphoneAudioExposure[]> {
+    try {
+      const headphoneAudioExposureRecords: IHeadphoneAudioExposure[] = await this.headphoneExposureModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+      ]);
+      return headphoneAudioExposureRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Deletes the headphoneExposureSample associated with the given userID and date
   // Returns a message if successfully deleted activity information from the database
   public async deleteHeadphoneExposureSampleByIDAndDate(

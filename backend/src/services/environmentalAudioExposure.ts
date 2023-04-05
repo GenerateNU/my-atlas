@@ -30,7 +30,7 @@ export default class EnvironmentalAudioExposureService {
     }
   }
 
-  // Gets the mindfulSession information associated with the given userID (not the
+  // Gets the environmental audio exposure information associated with the given userID (not the
   // objectID) with a specified range. Others returns an error if there is no mindfulSession
   // information associated with the given ID in the given range
   public async getEnvironmentalAudioExposureByDateRange(

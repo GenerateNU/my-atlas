@@ -34,6 +34,36 @@ export default (app: Router) => {
       }
     },
   );
+  // gets the sum of sleep samples with a given userid and sleep state
+  route.get(
+    '/getSumSleepSample/:id/',
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        sleepState: Joi.string().required(),
+        startDate: Joi.date().required(),
+        endDate: Joi.date().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getSumSleepSample endpoint');
+      try {
+        const SleepSampleServiceInstance: SleepSampleService = Container.get(SleepSampleService);
+        const sleepSampleSum = await SleepSampleServiceInstance.getSumSleepSample(
+          req.body.userID,
+          req.body.sleepState,
+          req.body.startDate,
+          req.body.endDate,
+        );
+
+        return res.json({ sleepSampleSum }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
 
   // deletes sleepSample given a userID and startDdate
   route.delete(

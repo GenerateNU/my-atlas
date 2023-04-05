@@ -4,6 +4,7 @@ import { IMindfulSessionDTO } from '@/interfaces/IMindfulSession';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import MindfulSessionService from '@/services/mindfulSession';
+import SleepSampleService from "@/services/sleepSample";
 
 const route = Router();
 export default (app: Router) => {
@@ -18,7 +19,7 @@ export default (app: Router) => {
       body: Joi.object({
         userID: Joi.string().required(),
         startDate: Joi.date().required(),
-        duration: Joi.number().required()
+        duration: Joi.number().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +27,9 @@ export default (app: Router) => {
       logger.debug('Calling mindfulSession endpoint with body: %o', req.body);
       try {
         const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
-        const { mindfulSession } = await MindfulSessionServiceInstance.addMindfulSession(req.body as IMindfulSessionDTO);
+        const { mindfulSession } = await MindfulSessionServiceInstance.addMindfulSession(
+          req.body as IMindfulSessionDTO,
+        );
         return res.status(201).json({ mindfulSession });
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -38,24 +41,60 @@ export default (app: Router) => {
   /*
   Returns an array of mindfulSession by providing the userID, a startDate and an endDate.
    */
-  route.get('/getMindfulSessionByDateRange/:id/', celebrate({
-    body: Joi.object({
-      userID: Joi.string().required(),
-      startDate: Joi.date().required(),
-      endDate: Joi.date().required(),
-    })
-  }), async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getMindfulSessionByDateRange endpoint');
-    try {
-      const MindfulSessionServiceInstance : MindfulSessionService = Container.get(MindfulSessionService);
-      const mindfulSessionRecords = await MindfulSessionServiceInstance.getMindfulSessionByDateRange(req.body.userID, req.body.startDate, req.body.endDate);
-      return res.json({ mindfulSessionRecords } ).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
+  route.get(
+    '/getMindfulSessionByDateRange/:id/',
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        endDate: Joi.date().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getMindfulSessionByDateRange endpoint');
+      try {
+        const MindfulSessionServiceInstance: MindfulSessionService = Container.get(MindfulSessionService);
+        const mindfulSessionRecords = await MindfulSessionServiceInstance.getMindfulSessionByDateRange(
+          req.body.userID,
+          req.body.startDate,
+          req.body.endDate,
+        );
+        return res.json({ mindfulSessionRecords }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  // gets the sum of mindful session
+  route.get(
+    '/getMindfulSessionSum/:id/',
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        endDate: Joi.date().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getMindfulSessionSum endpoint');
+      try {
+        const MindfulSessionServiceInstance: MindfulSessionService = Container.get(MindfulSessionService);
+        const mindfulSessionSum = await MindfulSessionServiceInstance.getSumMindfulSession(
+          req.body.userID,
+          req.body.startDate,
+          req.body.endDate,
+        );
+        return res.json({ mindfulSessionSum }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
 
   /*
   Deletes a MindfulSession model by providing the userID

@@ -59,7 +59,6 @@ export default class RestingHeartRateService {
     }
   }
 
-
   // Gets the restingHeartRate information associated with the given userID (not the
   // objectID) with a specified range.
   public async getRestingHeartRateByDateRange(

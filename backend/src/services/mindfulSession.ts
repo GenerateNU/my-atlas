@@ -1,7 +1,8 @@
 import { Service, Inject } from 'typedi';
-import { IMindfulSession, IMindfulSessionDTO } from '@/interfaces/IMindfulSession'
+import { IMindfulSession, IMindfulSessionDTO, IMindfulSessionSum } from '@/interfaces/IMindfulSession';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { ISleepSampleSum } from '@/interfaces/ISleepSample';
 
 @Service()
 export default class MindfulSessionService {
@@ -11,7 +12,7 @@ export default class MindfulSessionService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // Takes in a mindfulSessionDTO and adds to to the database. Returns the added mindfulSession data 
+  // Takes in a mindfulSessionDTO and adds to to the database. Returns the added mindfulSession data
   // if there were no problems. Otherwise returns the error
   public async addMindfulSession(mindfulSessionDTO: IMindfulSessionDTO): Promise<{ mindfulSession: IMindfulSession }> {
     try {
@@ -19,7 +20,7 @@ export default class MindfulSessionService {
       const mindfulSessionRecord = await this.mindfulSessionModel.create({
         ...mindfulSessionDTO,
       });
-      const mindfulSession : IMindfulSession= mindfulSessionRecord.toObject();
+      const mindfulSession: IMindfulSession = mindfulSessionRecord.toObject();
       return { mindfulSession };
     } catch (e) {
       this.logger.error(e);
@@ -27,22 +28,26 @@ export default class MindfulSessionService {
     }
   }
 
-  // Gets the mindfulSession information associated with the given userID (not the 
-  // objectID) with a specified range. Others returns an error if there is no mindfulSession 
+  // Gets the mindfulSession information associated with the given userID (not the
+  // objectID) with a specified range. Others returns an error if there is no mindfulSession
   // information associated with the given ID in the given range
-  public async getMindfulSessionByDateRange(userID: string, startDate: Date, endDate: Date): Promise<IMindfulSession[]> {
+  public async getMindfulSessionByDateRange(
+    userID: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IMindfulSession[]> {
     try {
-      const mindfulSessionRecords : IMindfulSession[] = await this.mindfulSessionModel.aggregate([
+      const mindfulSessionRecords: IMindfulSession[] = await this.mindfulSessionModel.aggregate([
         {
           $match: {
             userID: userID,
             sessionDate: {
               $gte: startDate,
-              $lte: endDate
-            }
-          }
-        }
-      ])
+              $lte: endDate,
+            },
+          },
+        },
+      ]);
       return mindfulSessionRecords;
     } catch (e) {
       this.logger.error(e);
@@ -50,13 +55,39 @@ export default class MindfulSessionService {
     }
   }
 
-  // Deletes the mindfulSession information associated with the given userID (not the 
+  // returns the sum of mindful sessions with a given  user id
+  public async getSumMindfulSession(userID: string, startDate: Date, endDate: Date): Promise<IMindfulSessionSum> {
+    try {
+      const mindfulSessionSum: IMindfulSessionSum[] = await this.mindfulSessionModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$userID',
+            sleepSum: { $sum: '$duration' },
+          },
+        },
+      ]);
+      return mindfulSessionSum[0];
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+  // Deletes the mindfulSession information associated with the given userID (not the
   // objectID). Returns the deleted mindfulSession data. Otherwise returns an error
   // if the data could not be deleted.
-  public async deleteMindfulSessionByUserID(userID: string): Promise<{ mindfulSession : IMindfulSession }> {
+  public async deleteMindfulSessionByUserID(userID: string): Promise<{ mindfulSession: IMindfulSession }> {
     try {
-      const mindfulSessionRecord = await this.mindfulSessionModel.findOneAndDelete({userID: userID});
-      const mindfulSession : IMindfulSession = mindfulSessionRecord.toObject();
+      const mindfulSessionRecord = await this.mindfulSessionModel.findOneAndDelete({ userID: userID });
+      const mindfulSession: IMindfulSession = mindfulSessionRecord.toObject();
       return { mindfulSession };
     } catch (e) {
       this.logger.error(e);

@@ -5,6 +5,11 @@ export interface IMindfulSession {
   duration: number;
 }
 
+export interface IMindfulSessionSum {
+  _id: string;
+  mindfulSessionSum: number;
+}
+
 export interface IMindfulSessionDTO {
   userID: string;
   startDate: Date;

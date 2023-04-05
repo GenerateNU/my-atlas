@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
-import { ISleepSample, ISleepSampleDTO } from '../interfaces/ISleepSample';
+import { ISleepSample, ISleepSampleDTO, ISleepSampleSum } from '../interfaces/ISleepSample';
 
 @Service()
 export default class SleepSampleService {
@@ -56,6 +56,39 @@ export default class SleepSampleService {
         },
       ]);
       return sleepSampleRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  // returns the sum of time slept with a given sleep state and user id
+  public async getSumSleepSample(
+    userID: string,
+    sleepState: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<ISleepSampleSum> {
+    try {
+      const sleepSum: ISleepSampleSum[] = await this.sleepSampleModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            sleepState: sleepState,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$userID',
+            sleepSum: { $sum: '$duration' },
+          },
+        },
+      ]);
+      return sleepSum[0];
     } catch (e) {
       this.logger.error(e);
       throw e;

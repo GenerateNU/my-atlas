@@ -71,6 +71,7 @@ export default (app: Router) => {
     },
   );
 
+  // gets average environmental audio expose over a date range
   route.get(
     '/getAverageEnvironmentalAudioExposureByDateRange/:id/',
     celebrate({
