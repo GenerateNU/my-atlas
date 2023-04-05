@@ -2,6 +2,7 @@ import { Service, Inject } from 'typedi';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
 import { ISleepSample, ISleepSampleDTO, ISleepSampleSum } from '../interfaces/ISleepSample';
+import {IRestingHeartRate, IRestingHeartRateDTO} from "@/interfaces/IRestingHeartRate";
 
 @Service()
 export default class SleepSampleService {
@@ -25,7 +26,24 @@ export default class SleepSampleService {
       throw e;
     }
   }
-
+  // Adds multiple sleep sample models to the database
+  public async addManySleepSample(
+    sleepSampleDTO: ISleepSampleDTO[],
+  ): Promise<{ sleepSampleMany: ISleepSample[] }> {
+    try {
+      this.logger.debug(sleepSampleDTO);
+      const sleepSampleRecord = await this.sleepSampleModel.create(sleepSampleDTO);
+      const sleepSampleMany: ISleepSample[] = [];
+      for (let i = 0; i < sleepSampleRecord.length; i++) {
+        const sleepSample: ISleepSample = sleepSampleRecord[i].toObject();
+        sleepSampleMany.push(sleepSample);
+      }
+      return { sleepSampleMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Deletes the sleepSample associated with the given userID and date
   // Returns a message if successfully deleted activity information from the database
   public async deleteSleepSample(userID: string, date: Date): Promise<{ sleepSample: ISleepSample }> {

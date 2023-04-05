@@ -38,6 +38,29 @@ export default (app: Router) => {
     },
   );
 
+  // make post request for adding many resting mindful session models
+  route.post(
+    '/addManyMindfulSessoin',
+    celebrate({
+      body: Joi.array().items({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        duration: Joi.number().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManyMindfulSessoin endpoint with body: %o', req.body);
+      try {
+        const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
+        const { mindfulSessionMany } = await MindfulSessionServiceInstance.addManyMindfulSession(req.body);
+        return mindfulSessionMany;
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
   /*
   Returns an array of mindfulSession by providing the userID, a startDate and an endDate.
    */

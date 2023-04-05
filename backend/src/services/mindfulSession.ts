@@ -2,7 +2,7 @@ import { Service, Inject } from 'typedi';
 import { IMindfulSession, IMindfulSessionDTO, IMindfulSessionSum } from '@/interfaces/IMindfulSession';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { ISleepSampleSum } from '@/interfaces/ISleepSample';
+import {ISleepSample, ISleepSampleDTO, ISleepSampleSum} from '@/interfaces/ISleepSample';
 
 @Service()
 export default class MindfulSessionService {
@@ -12,7 +12,7 @@ export default class MindfulSessionService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // Takes in a mindfulSessionDTO and adds to to the database. Returns the added mindfulSession data
+  // Takes in a mindfulSessionDTO and adds to the database. Returns the added mindfulSession data
   // if there were no problems. Otherwise returns the error
   public async addMindfulSession(mindfulSessionDTO: IMindfulSessionDTO): Promise<{ mindfulSession: IMindfulSession }> {
     try {
@@ -27,7 +27,24 @@ export default class MindfulSessionService {
       throw e;
     }
   }
-
+// Adds multiple mindful session  models to the database
+  public async addManyMindfulSession(
+    mindfulSessionDTO: IMindfulSessionDTO[],
+  ): Promise<{ mindfulSessionMany: IMindfulSession[] }> {
+    try {
+      this.logger.debug(mindfulSessionDTO);
+      const mindfulSessionRecord = await this.mindfulSessionModel.create(mindfulSessionDTO);
+      const mindfulSessionMany: IMindfulSession[] = [];
+      for (let i = 0; i < mindfulSessionRecord.length; i++) {
+        const sleepSample: ISleepSample = mindfulSessionRecord[i].toObject();
+        mindfulSessionMany.push(sleepSample);
+      }
+      return { mindfulSessionMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Gets the mindfulSession information associated with the given userID (not the
   // objectID) with a specified range. Others returns an error if there is no mindfulSession
   // information associated with the given ID in the given range

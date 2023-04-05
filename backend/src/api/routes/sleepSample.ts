@@ -4,6 +4,7 @@ import { ISleepSampleDTO } from '../../interfaces/ISleepSample';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import SleepSampleService from '../../services/sleepSample';
+import RestingHeartRateService from "@/services/restingHeartRate";
 
 const route = Router();
 
@@ -17,8 +18,8 @@ export default (app: Router) => {
       body: Joi.object({
         userID: Joi.string().required(),
         date: Joi.date().required(),
-        duration: Joi.number(),
-        sleepState: Joi.string(),
+        duration: Joi.number().required(),
+        sleepState: Joi.string().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -34,6 +35,32 @@ export default (app: Router) => {
       }
     },
   );
+
+  // make post request for adding many sleep sample rate models
+  route.post(
+    '/addManySleepSample',
+    celebrate({
+      body: Joi.array().items({
+        userID: Joi.string().required(),
+        date: Joi.date().required(),
+        duration: Joi.number().required(),
+        sleepState: Joi.string().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManySleepSample endpoint with body: %o', req.body);
+      try {
+        const sleepSampleServiceInstance = Container.get(SleepSampleService);
+        const { sleepSampleMany } = await sleepSampleServiceInstance.addManySleepSample(req.body);
+        return sleepSampleMany;
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
   // gets the sum of sleep samples with a given userid and sleep state
   route.get(
     '/getSumSleepSample/:id/',
@@ -86,7 +113,7 @@ export default (app: Router) => {
   );
 };
 
-//Returns an array of sleepSample, given userID, and start-end date
+// Returns an array of sleepSample, given userID, and start-end date
 route.get(
   '/getSleepSampleByDateRange/:id/',
   celebrate({
