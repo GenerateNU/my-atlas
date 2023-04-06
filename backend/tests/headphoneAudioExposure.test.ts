@@ -3,6 +3,7 @@ import HeadphoneAudioExposure from '@/services/headphoneAudioExposure';
 import HeadphoneExposureSample from '@/models/headphoneAudioExposure';
 import LoggerInstance from '../src/loaders/logger';
 import { EventDispatcher as EventDispatcherClass } from 'event-dispatch';
+import * as console from "console";
 // Next 4 lines required in every test file
 const db = require('./db');
 
@@ -23,22 +24,33 @@ const HeadphoneAudioExposureServiceInstance = new HeadphoneAudioExposure(
 describe('Add HeadphoneAudioExposure document to database', () => {
   it('Add document', async done => {
     const dateRightNow = new Date();
-    const headphoneAudioExposureExample: IHeadphoneAudioExposureDTO = {
-      userID: '54321',
-      startDate: dateRightNow,
-      duration: 1000,
-      value: 500,
-      hkID: '54321',
-    };
-    const { headphoneExposure } = await HeadphoneAudioExposureServiceInstance.addHeadphoneAudioExposure(
-      headphoneAudioExposureExample,
-    );
-    const headphoneAudioExposureFromDB = await HeadphoneExposureSample.findById(headphoneExposure._id);
-    expect(headphoneAudioExposureFromDB.userID).toEqual('54321');
-    expect(headphoneAudioExposureFromDB.startDate).toEqual(dateRightNow);
-    expect(headphoneAudioExposureFromDB.duration).toEqual(1000);
-    expect(headphoneAudioExposureFromDB.value).toEqual(500);
-    expect(headphoneAudioExposureFromDB.hkID).toEqual('54321');
+    const earlierDate = new Date(2020);
+    const earliestDate = new Date(2020);
+    const headphoneAudioExposureExample: IHeadphoneAudioExposureDTO[] = [
+      {
+        userID: '54321',
+        startDate: dateRightNow,
+        duration: 500,
+        value: 250,
+        hkID: '54321',
+      },
+      {
+        userID: '54321',
+        startDate: dateRightNow,
+        duration: 1000,
+        value: 500,
+        hkID: '54321',
+      },
+    ];
+    await HeadphoneAudioExposureServiceInstance.addManyHeadphoneAudioExposure(headphoneAudioExposureExample);
+
+    const headphoneAudioExposureFromDB = await HeadphoneAudioExposureServiceInstance.getHeadphoneAudioExposureByDateRange('54321', earliestDate, dateRightNow);
+    expect(headphoneAudioExposureFromDB[0].userID).toEqual('54321');
+    expect(headphoneAudioExposureFromDB[0].startDate).toEqual(dateRightNow);
+    expect(headphoneAudioExposureFromDB[0].duration).toEqual(500);
+    expect(headphoneAudioExposureFromDB[0].value).toEqual(250);
+    expect(headphoneAudioExposureFromDB[0].hkID).toEqual('54321');
+
     done();
   });
 });

@@ -1,4 +1,4 @@
-import { IHeartRateAverage, IHeartRateSample, IHeartRateSampleDTO } from '@/interfaces/IHeartRateSample';
+import { IHeartRateSampleAverage, IHeartRateSample, IHeartRateSampleDTO } from '@/interfaces/IHeartRateSample';
 import HeartRateSampleService from '@/services/heartRateSample';
 import HeartRateSample from '@/models/heartRateSample';
 import LoggerInstance from '../src/loaders/logger';
@@ -42,7 +42,7 @@ describe('Test average multiple heart rate', () => {
     const { heartRateMany } = await heartRateSampleService.addManyHeartRateSample(
       heartRateExample,
     );
-    const averageHeartRate: IHeartRateAverage = await heartRateSampleService.getAverageHeartRateSampleByDateRange(
+    const averageHeartRate : IHeartRateSampleAverage = await heartRateSampleService.getAverageHeartRateSampleByDateRange(
       '54321',
       earlierDate,
       dateRightNow,

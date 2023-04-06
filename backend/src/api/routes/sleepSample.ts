@@ -4,7 +4,6 @@ import { ISleepSampleDTO } from '../../interfaces/ISleepSample';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import SleepSampleService from '../../services/sleepSample';
-import RestingHeartRateService from "@/services/restingHeartRate";
 
 const route = Router();
 
@@ -83,7 +82,6 @@ export default (app: Router) => {
           req.body.startDate,
           req.body.endDate,
         );
-
         return res.json({ sleepSampleSum }).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
@@ -92,7 +90,7 @@ export default (app: Router) => {
     },
   );
 
-  // deletes sleepSample given a userID and startDdate
+  // deletes sleepSample given a userID and start date
   route.delete(
     '/deleteSleepSample/userID/:userID/startDdate/:date',
     async (req: Request, res: Response, next: NextFunction) => {

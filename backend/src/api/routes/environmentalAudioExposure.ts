@@ -4,6 +4,7 @@ import { IEnvironmentalAudioExposureDTO } from '@/interfaces/IEnvironmentalAudio
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import EnvironmentalAudioExposureService from '@/services/environmentalAudioExposure';
+import HeadphoneAudioExposureService from "@/services/headphoneAudioExposure";
 
 const route = Router();
 export default (app: Router) => {
@@ -64,6 +65,32 @@ export default (app: Router) => {
           req.body.endDate,
         );
         return res.json({ environmentalAudioExposureRecords }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  // make post request for adding many environmental  audio models
+  route.post(
+    '/addManyEnvironmentalAudioExposure',
+    celebrate({
+      body: Joi.array().items({
+        userID: Joi.string().required(),
+        startDate: Joi.date().required(),
+        duration: Joi.number().required(),
+        value: Joi.number().required(),
+        hkID: Joi.string().required(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManyEnvironmentalAudioExposure endpoint with body: %o', req.body);
+      try {
+        const EnvironmentalAudioExposureServiceInstance = Container.get(EnvironmentalAudioExposureService);
+        const { environmentalMany } = await EnvironmentalAudioExposureServiceInstance.addManyEnvironmentalAudioExposure(req.body);
+        return environmentalMany;
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

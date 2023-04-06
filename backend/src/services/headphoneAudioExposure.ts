@@ -3,6 +3,7 @@ import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '../decorators/eventDispatcher';
 import { IHeadphoneAudioExposure, IHeadphoneAudioExposureDTO } from '../interfaces/IHeadphoneAudioExposure';
 import { IEnvironmentalAudioExposure } from '@/interfaces/IEnvironmentalAudioExposure';
+import {IGPS, IGPSInputDTO} from "@/interfaces/IGPS";
 
 @Service()
 export default class HeadphoneExposureSample {
@@ -73,6 +74,25 @@ export default class HeadphoneExposureSample {
         },
       ]);
       return headphoneAudioExposureRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  // adds multiple headphone models to the database
+  public async addManyHeadphoneAudioExposure(
+    headphoneAudioExposureDTO: IHeadphoneAudioExposureDTO[],
+  ): Promise<{ headphoneMany: IHeadphoneAudioExposure[] }> {
+    try {
+      this.logger.debug(headphoneAudioExposureDTO);
+      const headphoneRecord = await this.headphoneExposureModel.create(headphoneAudioExposureDTO);
+      const headphoneMany: IHeadphoneAudioExposure[] = [];
+      for (let i = 0; i < headphoneRecord.length; i++) {
+        const headphone: IHeadphoneAudioExposure = headphoneRecord[i].toObject();
+        headphoneMany.push(headphone);
+      }
+      return { headphoneMany };
     } catch (e) {
       this.logger.error(e);
       throw e;

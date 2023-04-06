@@ -49,12 +49,13 @@ describe('Add EnvironmentalAudioExposure document to database', () => {
       dateRightNow,
       dateSecond,
     );
-    console.log(environmentalAudioExposureFromDB.length);
-    /*  expect(environmentalAudioExposureFromDB.userID).toEqual("12345");
-        expect(environmentalAudioExposureFromDB.startDate).toEqual(dateRightNow);
-        expect(environmentalAudioExposureFromDB.duration).toEqual(1000);
-        expect(environmentalAudioExposureFromDB.value).toEqual(500);
-        expect(environmentalAudioExposureFromDB.hkID).toEqual('12345');*/
+
+    expect(environmentalAudioExposureFromDB.length).toEqual(2);
+    expect(environmentalAudioExposureFromDB[0].userID).toEqual("12345");
+    expect(environmentalAudioExposureFromDB[0].startDate).toEqual(dateRightNow);
+    expect(environmentalAudioExposureFromDB[0].duration).toEqual(1000);
+    expect(environmentalAudioExposureFromDB[0].value).toEqual(500);
+    expect(environmentalAudioExposureFromDB[0].hkID).toEqual('12345');
     done();
   });
 });

@@ -2,6 +2,7 @@ import { Service, Inject } from 'typedi';
 import { IEnvironmentalAudioExposure, IEnvironmentalAudioExposureDTO } from '@/interfaces/IEnvironmentalAudioExposure';
 import MailerService from './mailer';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import {IHeadphoneAudioExposure, IHeadphoneAudioExposureDTO} from "@/interfaces/IHeadphoneAudioExposure";
 
 @Service()
 export default class EnvironmentalAudioExposureService {
@@ -30,6 +31,24 @@ export default class EnvironmentalAudioExposureService {
     }
   }
 
+  // adds multiple environmental models to the database
+  public async addManyEnvironmentalAudioExposure(
+    environmentalAudioExposureDTO: IEnvironmentalAudioExposureDTO[],
+  ): Promise<{ environmentalMany: IEnvironmentalAudioExposure[] }> {
+    try {
+      this.logger.debug(environmentalAudioExposureDTO);
+      const environmentalRecord = await this.environmentalAudioExposureModel.create(environmentalAudioExposureDTO);
+      const environmentalMany: IHeadphoneAudioExposure[] = [];
+      for (let i = 0; i < environmentalRecord.length; i++) {
+        const environment: IHeadphoneAudioExposure = environmentalRecord[i].toObject();
+        environmentalMany.push(environment);
+      }
+      return { environmentalMany };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Gets the environmental audio exposure information associated with the given userID (not the
   // objectID) with a specified range. Others returns an error if there is no mindfulSession
   // information associated with the given ID in the given range

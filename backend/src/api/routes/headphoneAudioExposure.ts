@@ -6,13 +6,12 @@ import HeadphoneAudioExposureService from '@/services/headphoneAudioExposure';
 import { IHeadphoneAudioExposureDTO } from '@/interfaces/IHeadphoneAudioExposure';
 import { start } from 'repl';
 import EnvironmentalAudioExposureService from "@/services/environmentalAudioExposure";
+import HeartRateSampleService from "@/services/heartRateSample";
 
 const route = Router();
 
 export default (app: Router) => {
   app.use('/headphoneAudioExposure', route);
-
-  //make get request to get and aggregate headphoneAudioExposure
 
   // make post request to add headphoneAudioExposure
   route.post(
@@ -21,9 +20,9 @@ export default (app: Router) => {
       body: Joi.object({
         userID: Joi.string().required(),
         startDate: Joi.date().required(),
-        duration: Joi.number(),
-        value: Joi.string(),
-        hkID: Joi.string(),
+        duration: Joi.number().required(),
+        value: Joi.string().required(),
+        hkID: Joi.string().required(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -66,27 +65,26 @@ export default (app: Router) => {
   );
 };
 
-// make get request to add headphoneAudioExposure
-route.get(
-  '/readHeadphoneAudioExposure',
+
+// make post request for adding many head phone audio models
+route.post(
+  '/addManyHeadphoneAudioExposure',
   celebrate({
-    body: Joi.object({
+    body: Joi.array().items({
       userID: Joi.string().required(),
       startDate: Joi.date().required(),
-      duration: Joi.number(),
-      value: Joi.string(),
-      hkID: Joi.string(),
+      duration: Joi.number().required(),
+      value: Joi.string().required(),
+      hkID: Joi.string().required(),
     }),
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
+    logger.debug('Calling addManyHeadphoneAudioExposure endpoint with body: %o', req.body);
     try {
-      const HeadphoneAudioExposureInstance = Container.get(HeadphoneAudioExposureService);
-      const { headphoneExposure } = await HeadphoneAudioExposureInstance.addHeadphoneAudioExposure(
-        req.body as IHeadphoneAudioExposureDTO,
-      );
-
-      return res.status(201).json({ headphoneExposure });
+      const HeadphoneAudioExposureServiceInstance = Container.get(HeadphoneAudioExposureService);
+      const { headphoneMany } = await HeadphoneAudioExposureServiceInstance.addManyHeadphoneAudioExposure(req.body);
+      return headphoneMany;
     } catch (e) {
       logger.error('🔥 error: %o', e);
       return next(e);
