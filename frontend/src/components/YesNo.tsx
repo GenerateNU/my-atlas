@@ -5,6 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Question from './Question';
 // The library used above is how we make our frontend responsive. Responsive means
 // being able to adapt our code to whatever screen size/format we like.
 
@@ -14,6 +15,8 @@ import {
 type YesNoProps = {
   yesFunction: any;
   noFunction: any;
+  question: string;
+  clicked : any;
 };
 
 const YesNo = (props: YesNoProps) => {
@@ -25,24 +28,25 @@ const YesNo = (props: YesNoProps) => {
     props.noFunction();
   }
 
+  console.log(props.clicked)
   return (
     <Center w="100%" paddingBottom={hp('1%')}>
       <Box w="90%" maxW="400">
         <VStack>
           <VStack mx="4" space="lg">
-            <Text style={styles.text} color={'navy'} fontSize={22} textAlign="left" paddingRight={20}>
-              Have you sought behavioral health or wellness care in the past?
-            </Text>
+            <Question question={props.question}></Question>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-              <Pressable style={styles.button} onPress={onPressYes}>
-                <Text style={styles.text} fontSize={16}>
+              <Pressable
+                style={props.clicked == true ? styles.buttonClicked : styles.button}
+                onPress={onPressYes}>
+                <Text style={props.clicked == true ? styles.textClicked : styles.text}>
                   {'Yes'}
                 </Text>
               </Pressable>
-              <Pressable style={styles.button} onPress={onPressNo}>
-                <Text style={styles.text} fontSize={16}>
-                  {'No'}
-                </Text>
+              <Pressable
+                style={props.clicked == false ? styles.buttonClicked : styles.button}
+                onPress={onPressNo}>
+                <Text style={props.clicked == false ? styles.textClicked : styles.text}>{'No'}</Text>
               </Pressable>
             </View>
           </VStack>
@@ -61,10 +65,25 @@ const styles = StyleSheet.create({
   },
   text: {
     fontStyle: 'normal',
-    fontWeight: "500",
+    fontWeight: '500',
     lineHeight: 23,
     letterSpacing: 0.6,
-    color: 'navy',
+    color: '#271E41',
+    fontSize: 20,
+  },
+  buttonClicked: {
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    backgroundColor: 'rgba(197, 84, 21, 1);',
+  },
+  textClicked: {
+    fontStyle: 'normal',
+    fontWeight: '500',
+    lineHeight: 23,
+    letterSpacing: 0.6,
+    color: 'white',
+    fontSize: 20,
   },
 });
 

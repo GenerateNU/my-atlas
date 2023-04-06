@@ -26,6 +26,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       dob: undefined,
       age: undefined,
     },
+    soughtCare: undefined,
+    spirituality: undefined
   });
   const signUpFlow = [
     {
@@ -162,6 +164,22 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
           },
         ],
         progress: 100,
+      },
+    },
+    {
+      page: 'Yes No Screen',
+      props: {
+        question: 'Have you sought behavioral health or wellness care in the past?',
+        progress: 100,
+        stateName: 'soughtCare'
+      },
+    },
+    {
+      page: 'Yes No Screen',
+      props: {
+        question: 'Do you consider yourself spiritual?',
+        progress: 100,
+        stateName: 'spirituality'
       },
     },
   ];
