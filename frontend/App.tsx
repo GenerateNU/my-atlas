@@ -9,7 +9,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/contexts/AuthContext';
 import Router from './src/navigation/Router';
 import ScreenWideButton from './src/components/question/ScreenWideButton';
-
+import * as Location from 'expo-location';
+import { IGPSInputDTO } from './src/interfaces/IGPS';
 /* Permission options */
 const permissions = {
   permissions: {
@@ -94,3 +95,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+const userID = 'test id';
+getCurrentLocation();
+
+async function getCurrentLocation() {
+  let { status } = await Location.requestForegroundPermissionsAsync();
+ if (status !== 'granted') {
+   console.log('Permission to access location was denied');
+   return;
+ }
+
+  const location = await Location.getCurrentPositionAsync({});
+  const converted = convertLocation(location);
+  console.log(converted)
+
+
+  
+}
+
+
+function convertLocation(location: Location.LocationObject): IGPSInputDTO{
+  const gpsDTO : IGPSInputDTO = {
+    userID: userID,
+    latitude: location.coords.latitude,
+    longitude:location.coords.longitude,
+    altitude: location.coords.altitude,
+    accuracy: location.coords.accuracy,
+    timestamp: new Date(location.timestamp)
+  }
+  return gpsDTO;
+}
+
+console.log("hello");
+
+
