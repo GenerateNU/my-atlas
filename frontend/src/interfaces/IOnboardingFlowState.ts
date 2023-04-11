@@ -1,5 +1,7 @@
 import { IUserInputDTO } from "./IUser";
 
 export interface IOnboardingFlowState {
-    user: IUserInputDTO
+    user: IUserInputDTO,
+    soughtCare: boolean,
+    spirituality: boolean
 }
