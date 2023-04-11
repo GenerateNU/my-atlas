@@ -73,6 +73,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
+        inputName: "Enter date",
         stateName: 'dob',
         progress: 57,
       },

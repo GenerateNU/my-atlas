@@ -2,6 +2,7 @@ import { SafeAreaView, Text } from 'react-native';
 import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
 import { useSignUp } from '../../contexts/SignUpContext';
+import DateSelector from '../../components/DatePicker';
 
 const SelectDateScreen = ({ route, navigation }) => {
   const { props } = route.params;
@@ -22,14 +23,15 @@ const SelectDateScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
-      <ProgressBar
+      <ProgressBar 
         progress={props.progress}
         hasSkip={true}
         hasProgress={true}
         backFunction={back}
         skipFunction={skip}></ProgressBar>
-      <Text>Select Date SCREEN</Text>
       <Question question={props.question}></Question>
+      <DateSelector inputName={props.inputName}></DateSelector>
+
     </SafeAreaView>
   );
 };
