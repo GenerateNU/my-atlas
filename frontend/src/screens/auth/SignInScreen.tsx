@@ -1,5 +1,7 @@
 import { ActivityIndicator, SafeAreaView, Text} from "react-native";
 import ProgressBar from "../../components/ProgressBar";
+import YesNo from "../../components/YesNo";
+
 
 const SignInScreen = () => {
     return (

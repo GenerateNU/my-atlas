@@ -26,7 +26,7 @@ const SelectOneScreen = ({ route, navigation }) => {
   const handlePress = () => {
     console.log('Button pressed!');
   };
-  console.log(props.sections);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
@@ -49,7 +49,7 @@ const SelectOneScreen = ({ route, navigation }) => {
                     other={selectOne.other}
                   />
                 ))}
-                
+
                 {/* <SelectOne
                 title="Gender Identity"
                 options={[

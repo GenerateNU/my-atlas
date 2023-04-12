@@ -30,7 +30,7 @@ const HomeScreen = () => {
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
-        
+
       )} */}
       <Question question={"Which best describes you?"}>
       </Question>

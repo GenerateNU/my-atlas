@@ -25,7 +25,7 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
       marginBottom={props.marginBottom ? hp(props.marginBottom) : hp('1%)')}
       placeholder={props.placeholderText}
       variant="outline"
-      mx={wp('2%')}
+      mx={wp('8%')}
       placeholderTextColor={'navy'}
       borderRadius="10px"
       borderColor={'lightOrange'}
