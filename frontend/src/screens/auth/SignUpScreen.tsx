@@ -53,13 +53,13 @@ const SignUpScreen = ({route, navigation}) => {
             name="email"
             onChangeText={handleChange}
             placeholderText="Email"
-            text={signUpState.user.email}
+            text={signUpState.email}
           />
           <ScreenWideInput
             name="password"
             onChangeText={handleChange}
             placeholderText="Password"
-            text={signUpState.user.password}
+            text={signUpState.password}
           />
         </Container>
       </SafeAreaView>

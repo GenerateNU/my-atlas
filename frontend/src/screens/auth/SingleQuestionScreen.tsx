@@ -31,10 +31,10 @@ const SingleQuestionScreen = ({ route, navigation }) => {
         skipFunction={skip}></ProgressBar>
       <Question question={props.question}>
         <ScreenWideInput
-          name="email"
+          name={props.stateName}
           onChangeText={handleChange}
           placeholderText={props.inputName}
-          text={signUpState.user.email}
+          text={signUpState[props.stateName]}
         />
       </Question>
     </SafeAreaView>
