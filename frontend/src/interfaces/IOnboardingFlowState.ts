@@ -1,5 +1,7 @@
 import { IUserInputDTO } from "./IUser";
+import { IOnboardingDTO } from "./IOnboardingDTO";
 
 export interface IOnboardingFlowState {
-    user: IUserInputDTO
+    user: IUserInputDTO,
+    onboarding: IOnboardingDTO
 }

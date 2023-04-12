@@ -26,6 +26,16 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       dob: undefined,
       age: undefined,
     },
+    onboarding: {
+      zipcode: undefined,
+      pronouns: undefined,
+      sexAssignedAtBirth: undefined,
+      gender: undefined,
+      sexualOrientation: undefined,
+      ethnicity: undefined,
+      religion: undefined,
+      mentalHealthCare: undefined
+    }
   });
   const signUpFlow = [
     {
