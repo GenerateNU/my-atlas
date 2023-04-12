@@ -1,7 +1,12 @@
-import { IUserInputDTO } from "./IUser";
+import { IUserInputDTO } from './IUser';
 
 export interface IOnboardingFlowState {
-    user: IUserInputDTO,
-    soughtCare: boolean,
-    spirituality: boolean
+  name: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  dob: string;
+  age: number;
+  soughtCare: boolean;
+  spirituality: boolean;
 }
