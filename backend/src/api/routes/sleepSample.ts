@@ -4,6 +4,7 @@ import { ISleepSampleDTO } from '../../interfaces/ISleepSample';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import SleepSampleService from '../../services/sleepSample';
+import middlewares from "@/api/middlewares";
 
 const route = Router();
 
@@ -13,6 +14,7 @@ export default (app: Router) => {
   // make post request to add sleepSample
   route.post(
     '/addSleepSample',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -38,6 +40,7 @@ export default (app: Router) => {
   // make post request for adding many sleep sample rate models
   route.post(
     '/addManySleepSample',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -63,6 +66,7 @@ export default (app: Router) => {
   // gets the sum of sleep samples with a given userid and sleep state
   route.get(
     '/getSumSleepSample/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -93,6 +97,7 @@ export default (app: Router) => {
   // deletes sleepSample given a userID and start date
   route.delete(
     '/deleteSleepSample/userID/:userID/startDdate/:date',
+    middlewares.isAuth, middlewares.authorizeUser,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
       //logger.debug('Calling deleteActivity endpoint');
@@ -114,6 +119,7 @@ export default (app: Router) => {
 // Returns an array of sleepSample, given userID, and start-end date
 route.get(
   '/getSleepSampleByDateRange/:id/',
+  middlewares.isAuth, middlewares.authorizeUser,
   celebrate({
     body: Joi.object({
       userID: Joi.string().required(),

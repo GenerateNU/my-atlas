@@ -3,6 +3,7 @@ import { Container } from 'typedi';
 import { IHeartRateSampleDTO } from '../../interfaces/IHeartRateSample';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
+import middlewares from "../middlewares";
 import HeartRateSampleService from '@/services/heartRateSample';
 import ActivityService from '@/services/activity';
 import EnvironmentalAudioExposureService from '@/services/environmentalAudioExposure';
@@ -15,6 +16,7 @@ export default (app: Router) => {
   // make post request to add heartRateSample
   route.post(
     '/addHeartRateSample',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -44,6 +46,7 @@ export default (app: Router) => {
   // make post request for adding many heart rate sample models
   route.post(
     '/addManyHeartRateSample',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -73,6 +76,7 @@ export default (app: Router) => {
   */
   route.get(
     '/getHeartRateSampleByDateRange/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -102,6 +106,7 @@ export default (app: Router) => {
   // returns an IHeartRateAverageSample with the average bpm
   route.get(
     '/getAverageHeartRateSample/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -128,7 +133,9 @@ export default (app: Router) => {
     },
   );
   // make get request to retrieve heart rate sample, given id
-  route.get('/getHeartRateAverage/id/:id/', async (req: Request, res: Response, next: NextFunction) => {
+  route.get('/getHeartRateAverage/id/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling getHeartRateSampleByID endpoint');
     try {
@@ -143,7 +150,9 @@ export default (app: Router) => {
   });
 
   // deletes heart rate sample given an id
-  route.delete('/deleteHeartRateSampleByID/id/:id', async (req: Request, res: Response, next: NextFunction) => {
+  route.delete('/deleteHeartRateSampleByID/id/:id',
+    middlewares.isAuth, middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling deleteHeartRateSampleByID endpoint');
     try {

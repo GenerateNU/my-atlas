@@ -4,8 +4,7 @@ import { IMindfulSessionDTO } from '@/interfaces/IMindfulSession';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import MindfulSessionService from '@/services/mindfulSession';
-import SleepSampleService from "@/services/sleepSample";
-
+import middlewares from '@/api/middlewares';
 const route = Router();
 export default (app: Router) => {
   app.use('/mindfulSession', route);
@@ -15,6 +14,8 @@ export default (app: Router) => {
   */
   route.post(
     '/addMindfulSession',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -41,6 +42,8 @@ export default (app: Router) => {
   // make post request for adding many resting mindful session models
   route.post(
     '/addManyMindfulSessoin',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -66,6 +69,8 @@ export default (app: Router) => {
    */
   route.get(
     '/getMindfulSessionByDateRange/:id/',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -94,6 +99,8 @@ export default (app: Router) => {
   // gets the sum of mindful session
   route.get(
     '/getMindfulSessionSum/:id/',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -122,16 +129,21 @@ export default (app: Router) => {
   /*
   Deletes a MindfulSession model by providing the userID
    */
-  route.delete('/deleteMindfulSession/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling deleteMindfulSession endpoint');
-    try {
-      const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
-      const { mindfulSession } = await MindfulSessionServiceInstance.deleteMindfulSessionByUserID(req.params.id);
-      return res.json({ mindfulSession }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
+  route.delete(
+    '/deleteMindfulSession/:id',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling deleteMindfulSession endpoint');
+      try {
+        const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
+        const { mindfulSession } = await MindfulSessionServiceInstance.deleteMindfulSessionByUserID(req.params.id);
+        return res.json({ mindfulSession }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
 };

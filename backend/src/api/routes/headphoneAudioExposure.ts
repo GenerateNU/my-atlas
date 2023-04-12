@@ -7,6 +7,7 @@ import { IHeadphoneAudioExposureDTO } from '@/interfaces/IHeadphoneAudioExposure
 import { start } from 'repl';
 import EnvironmentalAudioExposureService from "@/services/environmentalAudioExposure";
 import HeartRateSampleService from "@/services/heartRateSample";
+import middlewares from "@/api/middlewares";
 
 const route = Router();
 
@@ -16,6 +17,7 @@ export default (app: Router) => {
   // make post request to add headphoneAudioExposure
   route.post(
     '/addHeadphoneAudioExposure',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -44,6 +46,7 @@ export default (app: Router) => {
   // deletes headphoneAudioExposure given a userID and startDdate
   route.delete(
     '/deleteHeadphoneAudioExposure/userID/:userID/startDdate/:date',
+    middlewares.isAuth, middlewares.authorizeUser,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
       //logger.debug('Calling deleteActivity endpoint');
@@ -69,6 +72,7 @@ export default (app: Router) => {
 // make post request for adding many head phone audio models
 route.post(
   '/addManyHeadphoneAudioExposure',
+  middlewares.isAuth, middlewares.authorizeUser,
   celebrate({
     body: Joi.array().items({
       userID: Joi.string().required(),
@@ -92,9 +96,10 @@ route.post(
   },
 );
 
-// make get request to retrieve headphoneAudioExposure o
+// make get request to retrieve headphoneAudioExposure
 route.get(
   '/readHeadphoneAudioExposure/userID/:userID/startDate/:startDate/endDate/:endDate/',
+  middlewares.isAuth, middlewares.authorizeUser,
   async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.info('Calling readHeadphoneAudioExposure endpoint');
@@ -115,6 +120,7 @@ route.get(
 // gets average headphone audio expose over a date range
 route.get(
   '/getAverageHeadphoneAudioExposureByDateRange/:id/',
+  middlewares.isAuth, middlewares.authorizeUser,
   celebrate({
     body: Joi.object({
       userID: Joi.string().required(),

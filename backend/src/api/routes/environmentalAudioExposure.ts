@@ -4,8 +4,7 @@ import { IEnvironmentalAudioExposureDTO } from '@/interfaces/IEnvironmentalAudio
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import EnvironmentalAudioExposureService from '@/services/environmentalAudioExposure';
-import HeadphoneAudioExposureService from "@/services/headphoneAudioExposure";
-
+import middlewares from "../middlewares";
 const route = Router();
 export default (app: Router) => {
   app.use('/environmentalAudioExposure', route);
@@ -15,6 +14,7 @@ export default (app: Router) => {
   */
   route.post(
     '/addEnvironmentalAudioExposure',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -45,6 +45,7 @@ export default (app: Router) => {
    */
   route.get(
     '/getEnvironmentalAudioExposureByDateRange/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -75,6 +76,7 @@ export default (app: Router) => {
   // make post request for adding many environmental  audio models
   route.post(
     '/addManyEnvironmentalAudioExposure',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
@@ -101,6 +103,7 @@ export default (app: Router) => {
   // gets average environmental audio expose over a date range
   route.get(
     '/getAverageEnvironmentalAudioExposureByDateRange/:id/',
+    middlewares.isAuth, middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
@@ -140,7 +143,9 @@ export default (app: Router) => {
   /*
   Deletes a EnvironmentalAudioExposure model by providing the userID
    */
-  route.delete('/deleteEnvironmentalAudioExposure/:id', async (req: Request, res: Response, next: NextFunction) => {
+  route.delete('/deleteEnvironmentalAudioExposure/:id',
+    middlewares.isAuth, middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
     const logger: Logger = Container.get('logger');
     logger.debug('Calling deleteEnvironmentalAudioExposure endpoint');
     try {
