@@ -5,7 +5,7 @@ import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 type AuthContextData = {
   authData?: AuthData;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut(): void;
 };
 
@@ -54,7 +54,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const signIn = async () => {
+  const signIn = async (email:string, password:string) => {
     try {
       const _authData = await authService.signIn('email@ad.com', 'password');
       setAuthData(_authData);

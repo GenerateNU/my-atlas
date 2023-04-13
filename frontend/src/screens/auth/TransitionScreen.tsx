@@ -1,6 +1,7 @@
 import { SafeAreaView, Text } from 'react-native';
 import ProgressBar from '../../components/ProgressBar';
 import { useSignUp } from '../../contexts/SignUpContext';
+import HelloAgain from '../../components/HelloAgain';
 
 const TransitionScreen = ({route, navigation}) => {
   const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
