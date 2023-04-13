@@ -21,8 +21,13 @@ type DateSelector = {
 
 const DateSelector = (props: DateSelector) => {
   
-  const [date, setDate] = useState(new Date)
-  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false);
+  const now = new Date();
+  const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+  const text = isToday ? props.inputName : (date.getMonth() + 1).toString() + "/" + date.getDate().toString() +  "/" + date.getFullYear().toString();
+
+
   return (
     <>
   
@@ -30,8 +35,7 @@ const DateSelector = (props: DateSelector) => {
       name="email"
       onChangeText={() => {}}
       placeholderText={props.inputName}
-      text={(date.getMonth() + 1).toString() + "/" + date.getDate().toString() +  "/" + date.getFullYear().toString()}
-      editable={false}
+      text={text}
       onPressIn={() => setOpen(true)}
       ></ScreenWideInput>
       <DatePicker
@@ -40,6 +44,7 @@ const DateSelector = (props: DateSelector) => {
         date={date}
         mode="date"
         title={null}
+        maximumDate= {new Date(new Date().setFullYear(new Date().getFullYear() - 12))}
         onConfirm={(date) => {
           setOpen(false)
           setDate(date)
