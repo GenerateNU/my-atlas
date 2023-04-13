@@ -32,7 +32,7 @@ const User = new mongoose.Schema(
     },
 
     salt: String,
-
+    lastDateDataRetrieved: Date,
     role: {
       type: String,
       default: 'user',
