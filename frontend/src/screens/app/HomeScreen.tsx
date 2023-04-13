@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Question from '../../components/Question';
 import Big5Button from '../../components/Big5Button';
 import { useAuth } from '../../contexts/Auth';
+import Big5Form from '../../components/Big5Form';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -18,18 +19,14 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
-      <Big5Button
-        title="I am the life of the party"
-        options={[
-          { id: 1, text: 'Disagree' },
-          { id: 2, text: 'Slightly Disagree' },
-          { id: 3, text: 'Neutral' },
-          { id: 4, text: 'Slightly Agree' },
-          { id: 5, text: 'Agree' },
-        ]}
-        pressed={false}
+      {<Big5Form title="I am the life of the party" />}
+
+      {/* <Big5Button
+        number={1}
+        buttonText={'Disagree'}
+        pressed={true}
         onAnswerPress={handlePress}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
