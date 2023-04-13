@@ -1,19 +1,22 @@
 export interface IRestingHeartRate {
-    _id: String;
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
-  export interface IRestingHeartRateDTO {
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
+  _id: string;
+  userID: string;
+  startDate: Date;
+  duration: number;
+  bpm: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}
+
+export interface IRestingHeartRateAverage {
+  _id: string;
+  averageBPM: number;
+}
+export interface IRestingHeartRateDTO {
+  userID: string;
+  startDate: Date;
+  duration: number;
+  bpm: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}

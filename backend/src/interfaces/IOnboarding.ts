@@ -1,18 +1,21 @@
 export interface IOnboarding {
   _id: string;
   userID: string;
-  nickname?: string;
   city?: string;
   zipcode?: number;
   religion?: string;
   religionOther?: string;
   ethnicity?: string;
   sexualOrientation?: string;
+  sexAssignedAtBirth?: string;
+  mentalHealthCare?: string;
+  haveSoughtCare?: boolean;
   identifyYourself?: string;
   gender?: string;
   genderOther?: string;
   pronouns?: string;
   pronounsOther?: string;
+  spiritual?: boolean;
   concerns?: string[];
   goals?: string[];
   personalityTestScore?: number[];
@@ -20,18 +23,21 @@ export interface IOnboarding {
 
 export interface IOnboardingInputDTO {
   userID: string;
-  nickname?: string;
   city?: string;
   zipcode?: number;
   religion?: string;
   religionOther?: string;
   ethnicity?: string;
   sexualOrientation?: string;
+  sexAssignedAtBirth?: string;
+  mentalHealthCare?: string;
+  haveSoughtCare?: boolean;
   identifyYourself?: string;
   gender?: string;
   genderOther?: string;
   pronouns?: string;
   pronounsOther?: string;
+  spiritual?: boolean;
   concerns?: string[];
   goals?: string[];
   personalityTestScore?: number[];

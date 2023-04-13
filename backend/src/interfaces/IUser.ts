@@ -7,6 +7,7 @@ export interface IUser {
   age: number;
   password: string;
   salt: string;
+  lastDateDataRetrieved: Date;
 }
 
 export interface IUserInputDTO {
