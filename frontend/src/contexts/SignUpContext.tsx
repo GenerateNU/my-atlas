@@ -19,11 +19,16 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
     name: undefined,
-    email: undefined,
-    password: undefined,
     phoneNumber: undefined,
+    pronouns: undefined,
     dob: undefined,
-    age: undefined,
+    zipcode: undefined,
+    sexAssignedAtBirth: undefined,
+    genderIdentity: undefined,
+    sexualOrientation: undefined,
+    ethnicity: undefined,
+    religion: undefined,
+    mentalHealthStance: undefined,
     soughtCare: undefined,
     spirituality: undefined
   });
