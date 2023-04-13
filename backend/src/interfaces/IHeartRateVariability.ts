@@ -1,19 +1,21 @@
 export interface IHeartRateVariability {
-    _id: String;
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    variability: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
-  export interface IHeartRateVariabilityDTO {
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    variability: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
+  _id: string;
+  userID: string;
+  startDate: Date;
+  duration: number;
+  variability: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}
+export interface IHeartRateVariabilityAverage {
+  _id: string;
+  averageBPM: number;
+}
+export interface IHeartRateVariabilityDTO {
+  userID: string;
+  startDate: Date;
+  duration: number;
+  variability: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}

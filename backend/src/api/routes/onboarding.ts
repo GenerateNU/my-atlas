@@ -4,6 +4,7 @@ import { IOnboardingInputDTO } from '@/interfaces/IOnboarding';
 import { celebrate, Joi } from 'celebrate';
 import { Logger } from 'winston';
 import OnboardingService from '@/services/onboarding';
+import middlewares from '@/api/middlewares';
 
 const route = Router();
 export default (app: Router) => {
@@ -14,16 +15,21 @@ export default (app: Router) => {
   */
   route.post(
     '/addOnboarding',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
-        nickname: Joi.string(),
         city: Joi.string(),
         zipcode: Joi.string(),
         religion: Joi.string(),
         religionOther: Joi.string(),
         ethnicity: Joi.string(),
         sexualOrientation: Joi.string(),
+        sexAssignedAtBirth: Joi.string(),
+        mentalHealthCare: Joi.string(),
+        haveSoughtCare: Joi.string(),
+        spiritual: Joi.boolean(),
         identifyYourself: Joi.string(),
         gender: Joi.string(),
         genderOther: Joi.string(),
@@ -48,54 +54,111 @@ export default (app: Router) => {
     },
   );
 
-  /*
-  Returns an onboarding model by providing the userID
-   */
-  route.get('/getOnboarding/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling getOnboarding endpoint');
-    try {
-      const { id } = req.params;
-      const OnboardingServiceInstance = Container.get(OnboardingService);
-      const { onboarding } = await OnboardingServiceInstance.getOnboarding(id);
-      return res.json({ onboarding }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
-
-  /*
-  Deletes an onboarding model by providing the userID
-   */
-  route.delete('/deleteOnboarding/:id', async (req: Request, res: Response, next: NextFunction) => {
-    const logger: Logger = Container.get('logger');
-    logger.debug('Calling deleteOnboarding endpoint');
-    try {
-      const OnboardingServiceInstance = Container.get(OnboardingService);
-      const { onboarding } = await OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id);
-      return res.json({ onboarding }).status(200);
-    } catch (e) {
-      logger.error('🔥 error: %o', e);
-      return next(e);
-    }
-  });
-
-  /*
-  Updated an onboarding model by the given userID
-   */
-  route.patch(
-    '/updateOnboarding',
+  // post endpoint for adding multiple onboarding models
+  route.post(
+    '/addManyOnboarding',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
     celebrate({
-      body: Joi.object({
+      body: Joi.array().items({
         userID: Joi.string().required(),
-        nickname: Joi.string(),
         city: Joi.string(),
         zipcode: Joi.string(),
         religion: Joi.string(),
         religionOther: Joi.string(),
         ethnicity: Joi.string(),
         sexualOrientation: Joi.string(),
+        sexAssignedAtBirth: Joi.string(),
+        mentalHealthCare: Joi.string(),
+        haveSoughtCare: Joi.string(),
+        spiritual: Joi.boolean(),
+        identifyYourself: Joi.string(),
+        gender: Joi.string(),
+        genderOther: Joi.string(),
+        pronouns: Joi.string(),
+        pronounsOther: Joi.string(),
+        concerns: Joi.array(),
+        goals: Joi.array(),
+        personalityTestScore: Joi.array(),
+      }),
+    }),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling addManyOnboarding endpoint with body: %o', req.body);
+      try {
+        const OnboardingServiceInstance = Container.get(OnboardingService);
+        const { onboardingMany } = await OnboardingServiceInstance.addManyOnboarding(req.body);
+        return onboardingMany;
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  /*
+  Returns an onboarding model by providing the userID
+   */
+  route.get(
+    '/getOnboarding/:id',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getOnboarding endpoint');
+      try {
+        const { id } = req.params;
+        const OnboardingServiceInstance = Container.get(OnboardingService);
+        const { onboarding } = await OnboardingServiceInstance.getOnboarding(id);
+        return res.json({ onboarding }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  /*
+  Deletes an onboarding model by providing the userID
+   */
+  route.delete(
+    '/deleteOnboarding/:id',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling deleteOnboarding endpoint');
+      try {
+        const OnboardingServiceInstance = Container.get(OnboardingService);
+        const { onboarding } = await OnboardingServiceInstance.deleteOnboardingByUserID(req.params.id);
+        return res.json({ onboarding }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+
+  /*
+  Updated an onboarding model by the given userID
+   */
+  route.patch(
+    '/updateOnboarding',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
+    celebrate({
+      body: Joi.object({
+        userID: Joi.string().required(),
+        city: Joi.string(),
+        zipcode: Joi.string(),
+        religion: Joi.string(),
+        religionOther: Joi.string(),
+        ethnicity: Joi.string(),
+        sexualOrientation: Joi.string(),
+        sexAssignedAtBirth: Joi.string(),
+        mentalHealthCare: Joi.string(),
+        haveSoughtCare: Joi.string(),
+        spiritual: Joi.boolean(),
         identifyYourself: Joi.string(),
         gender: Joi.string(),
         genderOther: Joi.string(),

@@ -7,36 +7,23 @@ const Onboarding = new mongoose.Schema(
     userID: {
       type: String,
       required: true,
-      index: true
+      index: true,
     },
-    nickname: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    zipcode: {
-      type: Number,
-    },
-    religion: {
-      type: String,
-      enum: ['None', 'Protestant', 'Catholic', 'Jewish', 'Muslim', 'Buddhist', 'Hindu'],
-    },
+    city: String,
+    zipcode: Number,
+    religion: String,
     religionOther: String,
-    sexualOrientation: {
-      type: String,
-    },
+    sexualOrientation: String,
     identifyYourself: String,
-    gender: {
-      type: String,
-      enum: ['Male', 'Female', 'NonBinary'],
-    },
+    ethnicity: String,
+    gender: String,
     genderOther: String,
-    pronouns: {
-      type: String,
-      enum: ['He/Him', 'She/Her'],
-    },
+    pronouns: String,
     pronounsOther: String,
+    spiritual: Boolean,
+    sexAssignedAtBirth: String,
+    mentalHealthCare: String,
+    haveSoughtCare: String,
     concerns: {
       type: [String],
       default: undefined,
@@ -55,7 +42,7 @@ const Onboarding = new mongoose.Schema(
 );
 
 // Check that the array length is 5
-function arrayLength(val:Number[]) {
+function arrayLength(val: number[]) {
   return val.length == 5;
 }
 export default mongoose.model<IOnboarding & mongoose.Document>('Onboarding', Onboarding);

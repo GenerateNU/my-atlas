@@ -34,18 +34,20 @@ export default async ({ expressApp }) => {
     model: require('../models/activity').default,
   };
 
-  const environmentalAudioExposureSampleModel = {
-    name: 'environmentalAudioExposureSampleModel',
-    model: require('../models/environmentalAudioExposureSample').default,
+  const environmentalAudioExposureModel = {
+    name: 'environmentalAudioExposureModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/environmentalAudioExposure').default,
   };
   const mindfulSessionModel = {
     name: 'mindfulSessionModel',
     model: require('../models/mindfulSession').default,
   };
 
-  const headphoneAudioExposureSampleModel = {
-    name: 'headphoneAudioExposureSampleModel',
-    model: require('../models/headphoneAudioExposureSample').default,
+  const headphoneAudioExposureModel = {
+    name: 'headphoneAudioExposureModel',
+    // Notice the require syntax and the '.default'
+    model: require('../models/headphoneAudioExposure').default,
   };
 
   const sleepSampleModel = {
@@ -57,7 +59,7 @@ export default async ({ expressApp }) => {
     name: 'gpsModel',
     model: require('../models/gps').default,
   };
-  
+
   const heartRateSampleModel = {
     name: 'heartRateSampleModel',
     model: require('../models/heartRateSample').default,
@@ -81,9 +83,9 @@ export default async ({ expressApp }) => {
       onboardingModel,
       gpsModel,
       activityModel,
-      environmentalAudioExposureSampleModel,
+      environmentalAudioExposureModel,
       mindfulSessionModel,
-      headphoneAudioExposureSampleModel,
+      headphoneAudioExposureModel,
       sleepSampleModel,
       heartRateSampleModel,
       heartRateVariabilityModel,
