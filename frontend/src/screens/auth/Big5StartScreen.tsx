@@ -1,20 +1,20 @@
 import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native';
 import ProgressBar from '../../components/ProgressBar';
-import { useSignUp } from '../../contexts/SignUpContext';
 import Big5Start from '../../components/Big5Start';
+import { useBig5 } from '../../contexts/Big5Context';
 
 const Big5StartScreen = ({route, navigation}) => {
-    const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+    const { page, setPage, big5State, setBig5State, big5Flow, handleChange } = useBig5();
 
     const back = async () => {
-        const prevPage = signUpFlow[page - 1];
+        const prevPage = big5Flow[page - 1];
         setPage(page - 1);
         //navigation.navigate(prevPage.page, { props: prevPage.props });
         navigation.pop();
     };
 
     const skip = async () => {
-        const nextPage = signUpFlow[page + 1];
+        const nextPage = big5Flow[page + 1];
         setPage(page + 1);
         navigation.push(nextPage.page, { props: nextPage.props });
     };

@@ -1,19 +1,10 @@
-import React, { Fragment, ReactNode } from 'react';
-import { Box, Text, Center, Progress, VStack, View, Pressable, Heading } from 'native-base';
+import React from 'react';
+import { Text, Center, View, Pressable, Heading } from 'native-base';
 import {
-  Alert,
-  Button,
   GestureResponderEvent,
   StyleSheet,
-  TextStyle,
-  ViewStyle,
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import Question from './Question';
-import { color } from 'native-base/lib/typescript/theme/styled-system';
+
 
 type Big5StartProps = {
     startFunction: any;
