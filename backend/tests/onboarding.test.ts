@@ -25,7 +25,6 @@ describe('Add onboarding document to database', () => {
       userID: 'userTest',
       nickname: 'Timmy',
 
-
     };
     await onboardingServiceInstance.addOnboarding(onboardingExample);
     const onboardingDB = await onboardingServiceInstance.getOnboarding(onboardingExample.userID);

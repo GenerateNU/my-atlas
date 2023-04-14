@@ -29,8 +29,8 @@
   },
   "include": [
     "./src/**/*",
-    "./tests/*"
-  ],
+    "./tests/*", 
+    "tests/services/mindfulSession.test.ts"  ],
   "exclude": [
     "node_modules"
   ],

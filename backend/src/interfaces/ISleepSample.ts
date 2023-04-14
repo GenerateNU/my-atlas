@@ -1,14 +1,18 @@
 export interface ISleepSample {
-  _id: String;
-  userID: String;
+  _id: string;
+  userID: string;
   startDate: Date;
-  duration: Number;
-  sleepState: String;
+  duration: number;
+  sleepState: string;
 }
-
+export interface ISleepSampleSum {
+  _id: string;
+  sleepState: string;
+  sleepSum: number;
+}
 export interface ISleepSampleDTO {
-  userID: String;
+  userID: string;
   startDate: Date;
-  duration: Number;
-  sleepState: String;
+  duration: number;
+  sleepState: string;
 }

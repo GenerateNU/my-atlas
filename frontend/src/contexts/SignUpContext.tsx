@@ -18,14 +18,12 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
-    user: {
-      name: undefined,
-      email: undefined,
-      password: undefined,
-      phoneNumber: undefined,
-      dob: undefined,
-      age: undefined,
-    },
+    name: undefined,
+    email: undefined,
+    password: undefined,
+    phoneNumber: undefined,
+    dob: undefined,
+    age: undefined,
     soughtCare: undefined,
     spirituality: undefined
   });
@@ -185,8 +183,6 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   ];
 
   const handleChange = (name: string, value: any) => {
-    console.log(value);
-    console.log(signUpState);
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,
@@ -205,7 +201,7 @@ const useSignUp = (): SignUpContextData => {
   const context = useContext(SignUpContext);
 
   if (!context) {
-    throw new Error('useSignUp must be used within an AuthProvider');
+    throw new Error('useSignUp must be used within an SignUpProvider');
   }
 
   return context;

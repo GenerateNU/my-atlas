@@ -1,7 +1,8 @@
-import { IRestingHeartRate } from '@/interfaces/IRestingHeartRate';
+import { IHeadphoneAudioExposure } from '../interfaces/IHeadphoneAudioExposure';
 import mongoose from 'mongoose';
+//no error when line one is " '@/interfaces/IHeadPhoneExposure' " ... just changed file name
 
-const RestingHeartRate = new mongoose.Schema(
+const HeadphoneAudioExposure = new mongoose.Schema(
   {
     userID: {
       type: String,
@@ -10,23 +11,21 @@ const RestingHeartRate = new mongoose.Schema(
     },
     startDate: {
       type: Date,
-      required: true,
       index: true,
+      required: true,
     },
     duration: {
       type: Number,
+      index: true,
       required: true,
     },
-    bpm: {
+    value: {
       type: Number,
+      index: true,
       required: true,
     },
     hkID: {
       type: String,
-      required: true,
-    },
-    hkWasUserEntered: {
-      type: Boolean,
       required: true,
     },
   },
@@ -38,4 +37,7 @@ const RestingHeartRate = new mongoose.Schema(
   },
 );
 
-export default mongoose.model<IRestingHeartRate & mongoose.Document>('RestingHeartRate', RestingHeartRate);
+export default mongoose.model<IHeadphoneAudioExposure & mongoose.Document>(
+  'HeadphoneAudioExposure',
+  HeadphoneAudioExposure,
+);

@@ -8,7 +8,6 @@ const User = new mongoose.Schema(
       required: [true, 'Please enter a full name'],
       index: true,
     },
-
     email: {
       type: String,
       lowercase: true,
@@ -33,7 +32,7 @@ const User = new mongoose.Schema(
     },
 
     salt: String,
-
+    lastDateDataRetrieved: Date,
     role: {
       type: String,
       default: 'user',

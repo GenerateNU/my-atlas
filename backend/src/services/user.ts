@@ -15,7 +15,7 @@ export default class UserService {
   public async getUser(id: string): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findById(id);
-      const user : IUser = userRecord.toObject();
+      const user: IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user };
@@ -24,11 +24,24 @@ export default class UserService {
       throw e;
     }
   }
+  public async updateUserDate(id: string) {
+    const userRecord = await this.userModel.findOneAndUpdate(
+      { id: id },
+      { lastDateDataRetrieved: new Date()},
+      { runValiators: true, new: true },
+    );
+    const user: IUser = userRecord.toObject();
+    return { user };
+  }
+  catch(e) {
+    this.logger.error(e);
+    throw e;
+  }
 
   public async getUserFromEmail(email: string): Promise<{ user: IUser }> {
     try {
       const userRecord = await this.userModel.findOne({ email: email });
-      const user : IUser = userRecord.toObject();
+      const user: IUser = userRecord.toObject();
       Reflect.deleteProperty(user, 'password');
       Reflect.deleteProperty(user, 'salt');
       return { user };

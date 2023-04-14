@@ -1,19 +1,22 @@
 export interface IHeartRateSample {
-    _id: String;
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
-  export interface IHeartRateSampleDTO {
-    userID: String;
-    startDate: Date;
-    duration: Number;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
-  }
-  
+  _id: string;
+  userID: string;
+  startDate: Date;
+  duration: number;
+  bpm: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}
+
+export interface IHeartRateSampleAverage {
+  _id: string;
+  averageBPM: number;
+}
+export interface IHeartRateSampleDTO {
+  userID: string;
+  startDate: Date;
+  duration: number;
+  bpm: number;
+  hkID: string;
+  hkWasUserEntered: boolean;
+}
