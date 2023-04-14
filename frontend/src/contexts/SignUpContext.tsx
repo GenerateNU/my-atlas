@@ -18,14 +18,15 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
-    name: undefined,
-    email: undefined,
-    password: undefined,
-    phoneNumber: undefined,
+    user: {
+      name: undefined,
+      email: undefined,
+      password: undefined,
+      phoneNumber: undefined,
+      dob: undefined,
+      age: undefined,
+    },
     dob: undefined,
-    age: undefined,
-    soughtCare: undefined,
-    spirituality: undefined
   });
   const signUpFlow = [
     {
@@ -73,6 +74,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
+        inputName: "Enter date",
         stateName: 'dob',
         progress: 57,
       },
@@ -164,25 +166,11 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         progress: 100,
       },
     },
-    {
-      page: 'Yes No Screen',
-      props: {
-        question: 'Have you sought behavioral health or wellness care in the past?',
-        progress: 100,
-        stateName: 'soughtCare'
-      },
-    },
-    {
-      page: 'Yes No Screen',
-      props: {
-        question: 'Do you consider yourself spiritual?',
-        progress: 100,
-        stateName: 'spirituality'
-      },
-    },
   ];
 
   const handleChange = (name: string, value: any) => {
+    console.log(value);
+    console.log(signUpState);
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,
@@ -201,7 +189,7 @@ const useSignUp = (): SignUpContextData => {
   const context = useContext(SignUpContext);
 
   if (!context) {
-    throw new Error('useSignUp must be used within an SignUpProvider');
+    throw new Error('useSignUp must be used within an AuthProvider');
   }
 
   return context;
