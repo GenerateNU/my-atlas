@@ -169,7 +169,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: 'Have you sought behavioral health or wellness care in the past?',
         progress: 100,
-        stateName: 'soughtCare'
+        stateName: 'soughtCare',
       },
     },
     {
@@ -177,7 +177,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: 'Do you consider yourself spiritual?',
         progress: 100,
-        stateName: 'spirituality'
+        stateName: 'spirituality',
       },
     },
   ];
