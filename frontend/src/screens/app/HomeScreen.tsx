@@ -17,7 +17,7 @@ const HomeScreen = () => {
   const handlePress = () => {
     console.log('Button pressed!');
   };
-
+  
   const alert = () => {
     Alert.alert('You tapped a button!');
   }
