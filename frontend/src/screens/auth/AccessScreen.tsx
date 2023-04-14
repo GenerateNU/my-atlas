@@ -1,20 +1,28 @@
-import { Container } from 'native-base';
+import { Container, Heading } from 'native-base';
 import { background } from 'native-base/lib/typescript/theme/styled-system';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View, Image, _Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from '../../contexts/Auth';
+import { useAuth } from '../../contexts/AuthContext';
+import { Button, Progress } from 'native-base';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import { AtlasLogo } from '../../img';
+import { useSignUp } from '../../contexts/SignUpContext';
 
-const AccessScreen = () => {
+const AccessScreen = ({route, navigation }) => {
   const [loading, isLoading] = useState(false);
-  const auth = useAuth();
+
+  const signUp = async () => {
+    isLoading(true);
+    navigation.push('Sign Up Stack', { screen: 'Sign Up Screen' });
+  };
+
   const signIn = async () => {
     isLoading(true);
-    try {
-      await auth.signIn();
-    } catch (error) {
-      isLoading(false);
-    }
+    navigation.navigate('Sign In Screen');
   };
 
   useEffect(() => {
@@ -22,14 +30,41 @@ const AccessScreen = () => {
   }, [loading]);
 
   return (
-    <SafeAreaView style={{ flex:1, backgroundColor: '#F1C3A9' }}>
-      <Container bgColor={'lighterPurple'} h={"full"} w={"full"} maxWidth="100%" maxHeight="100%">
-        <Text>ACCESS SCREEN</Text>
-        {loading ? (
-          <ActivityIndicator color={'#000'} animating={true} size="small" />
-        ) : (
-          <Button title="Sign In" onPress={signIn} />
-        )}
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
+        <Heading size="3xl" marginTop={hp('12%')} marginBottom={hp('7%')}>
+          My Atlas
+        </Heading>
+        <Image source={AtlasLogo} />
+        <Button
+          _text={{
+            fontSize: 'xl',
+            color: 'navy',
+            fontWeight: 'semibold',
+            letterSpacing: 'lg',
+          }}
+          _pressed={{
+            backgroundColor: 'darkOrange',
+            _text: { color: 'white' },
+          }}
+          onPress={signUp}
+          w={wp('75%')}
+          bg={'lightOrange'}
+          borderRadius="md"
+          marginTop={hp('18%')}>
+          Create Account
+        </Button>
+        <Button
+          _text={{
+            fontSize: 'xl',
+            color: 'navy',
+            fontWeight: 'semibold',
+            letterSpacing: 'lg',
+          }}
+          onPress={signIn}
+          variant={'unstyled'}>
+          Sign in
+        </Button>
       </Container>
     </SafeAreaView>
   );

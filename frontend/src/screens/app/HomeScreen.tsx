@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../contexts/AuthContext';
+import ScreenWideButton from '../../components/question/ScreenWideButton';
+import SelectOne from '../../components/question/SelectOne';
+import OtherScreenWideButton from '../../components/question/OtherScreenWideButton';
 import Question from '../../components/Question';
-import Big5Button from '../../components/Big5Button';
-import { useAuth } from '../../contexts/Auth';
-import Big5Form from '../../components/Big5Form';
 
 const HomeScreen = () => {
   const [loading, isLoading] = useState(false);
@@ -16,19 +17,23 @@ const HomeScreen = () => {
   const handlePress = () => {
     console.log('Button pressed!');
   };
-
-  const formData = [
-    { title: 'I am the life of the party' },
-    { title: 'I am very good at identifying the emotions I am feeling' },
-    { title: 'I am very good at reading body language.' },
-    { title: 'There are many things that I do not like about myself.' },
-  ];
+  
+  const alert = () => {
+    Alert.alert('You tapped a button!');
+  }
 
   return (
     <SafeAreaView>
-      {formData.map((formData, key) => (
-        <Big5Form title={formData.title} />
-      ))}
+      <Text>HOME SCREEN</Text>
+      <Button title="Sign Out" onPress={signOut} />
+      {auth.authData ? (
+        <Text>{auth.authData.user.name}</Text>
+      ) : (
+        <Text>Not loaded</Text>
+
+      )}
+      <Question question={"Which best describes you?"}>
+      </Question>
     </SafeAreaView>
   );
 };

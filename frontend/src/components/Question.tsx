@@ -22,9 +22,10 @@ const Question = (props: QuestionProps) => {
     <Fragment>
       <Text
         fontSize={hp('3%')}
-        ml={wp('10%')}
+        ml={wp('8%')}
         mr={wp('20%')}
-        mt={hp('3%')}
+        mt={hp('5%')}
+        mb={hp('3%')}
         color={'navy'}
         fontWeight="semibold"
         lineHeight={hp('3.2%')}

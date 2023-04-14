@@ -1,7 +1,8 @@
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '../../src/decorators/eventDispatcher';
-import { IHeartRateSample, IHeartRateSampleDTO } from '@/interfaces/IHeartRateSample';
+import { IHeartRateSample, IHeartRateSampleAverage, IHeartRateSampleDTO } from '@/interfaces/IHeartRateSample';
 import { IGPS, IGPSInputDTO } from '@/interfaces/IGPS';
+import { IEnvironmentalAudioExposure } from '@/interfaces/IEnvironmentalAudioExposure';
 
 @Service()
 export default class HeartRateSampleService {
@@ -57,6 +58,63 @@ export default class HeartRateSampleService {
     }
   }
 
+  // Gets the heartRateSample information associated with the given userID (not the
+  // objectID) with a specified range.
+  public async getHeartRateSampleByDateRange(
+    userID: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IHeartRateSample[]> {
+    try {
+      const HeartRateSampleRecords: IHeartRateSample[] = await this.heartRateSampleModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+      ]);
+      return HeartRateSampleRecords;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
+  // Gets the average heartRateSample information associated with the given userID between two dates
+
+  public async getAverageHeartRateSampleByDateRange(
+    userID: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<IHeartRateSampleAverage> {
+    try {
+      const iHeartRateAverage: IHeartRateSampleAverage[] = await this.heartRateSampleModel.aggregate([
+        {
+          $match: {
+            userID: userID,
+            startDate: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$userID',
+            averageBPM: { $avg: '$bpm' },
+          },
+        },
+      ]);
+      return iHeartRateAverage[0];
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
   // Deletes the heartRateSample associated with the given ID
   public async deleteHeartRateSampleByID(id: string): Promise<{ heartRateSample: IHeartRateSample }> {
     try {

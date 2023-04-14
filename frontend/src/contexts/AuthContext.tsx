@@ -5,11 +5,11 @@ import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 type AuthContextData = {
   authData?: AuthData;
   loading: boolean;
-  signIn(): Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut(): void;
 };
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children?: React.ReactNode;
 }
 
@@ -54,9 +54,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const signIn = async () => {
+  const signIn = async (email:string, password:string) => {
     try {
-      const _authData = await authService.signIn('ss3s', 'sss');
+      const _authData = await authService.signIn(email, password);
       setAuthData(_authData);
       setItemAsync('AuthData', JSON.stringify(_authData));
     } catch (error) {
