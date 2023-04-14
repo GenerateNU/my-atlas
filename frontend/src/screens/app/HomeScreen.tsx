@@ -17,16 +17,18 @@ const HomeScreen = () => {
     console.log('Button pressed!');
   };
 
+  const formData = [
+    { title: 'I am the life of the party' },
+    { title: 'I am very good at identifying the emotions I am feeling' },
+    { title: 'I am very good at reading body language.' },
+    { title: 'There are many things that I do not like about myself.' },
+  ];
+
   return (
     <SafeAreaView>
-      {<Big5Form title="I am the life of the party" />}
-
-      {/* <Big5Button
-        number={1}
-        buttonText={'Disagree'}
-        pressed={true}
-        onAnswerPress={handlePress}
-      /> */}
+      {formData.map((formData, key) => (
+        <Big5Form title={formData.title} />
+      ))}
     </SafeAreaView>
   );
 };
