@@ -36,8 +36,8 @@ const SelectOneScreen = ({ route, navigation }) => {
           hasProgress={true}
           backFunction={back}
           skipFunction={skip}></ProgressBar>
-        <KeyboardAvoidingView behavior="height">
-          <ScrollView keyboardShouldPersistTaps="never">
+        <KeyboardAvoidingView behavior="height" height={'100%'}>
+          <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{flexGrow: 1}}>
             <View onStartShouldSetResponder={() => true}>
               <Question question={'Which best describes you?'}>
                 {props.sections.map((selectOne, key) => (
