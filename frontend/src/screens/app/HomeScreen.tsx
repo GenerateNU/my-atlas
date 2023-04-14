@@ -24,14 +24,14 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
-      {/* /** <Text>HOME SCREEN</Text>
+      <Text>HOME SCREEN</Text>
       <Button title="Sign Out" onPress={signOut} />
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
 
-      )} */}
+      )}
       <Question question={"Which best describes you?"}>
       </Question>
     </SafeAreaView>
