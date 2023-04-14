@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, SafeAreaView, Text} from "react-native";
+import { ActivityIndicator, Alert, Pressable, SafeAreaView, Text} from "react-native";
 import ProgressBar from "../../components/ProgressBar";
 import YesNo from "../../components/YesNo";
 import HelloAgain from "../../components/HelloAgain";
@@ -8,9 +8,9 @@ import { useState } from "react";
 
 
 const SignInScreen = ({route, navigation}) => {
-  // const { props } = route.params;
   const { authData, loading, signIn, signOut } = useAuth();
   const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+  const [error, setError] = useState('');
 
 
   const back = async () => {
@@ -19,18 +19,20 @@ const SignInScreen = ({route, navigation}) => {
 
 
   const signInFunction = async (email, password) => {
-    console.log(email, password)
-    // signIn(email, password);
+    console.log(email, password);
+    signIn(email, password)
+      .catch(error => {
+        console.log(error);
+        setError("Invalid email and password");
+      });
   };
 
   const googleFunction = async () => {
-    // handleChange(props.stateName, true);
-    // Alert.alert('no function');
+    Alert.alert('no function');
   };
 
   const appleFunction = async () => {
-    // handleChange(props.stateName, true);
-    // Alert.alert('no function');
+    Alert.alert('no function');
   };
 
     return (
@@ -42,10 +44,10 @@ const SignInScreen = ({route, navigation}) => {
           backFunction={back}></ProgressBar>
         <HelloAgain
           signInFunction={signInFunction}
-          googleFunction={undefined}
-          appleFunction={undefined}
-          clicked={undefined}
-          handleChange={handleChange}></HelloAgain>
+          googleFunction={googleFunction}
+          appleFunction={appleFunction}
+          errorMsg = {error}
+          ></HelloAgain>
       </SafeAreaView>
     );
 }

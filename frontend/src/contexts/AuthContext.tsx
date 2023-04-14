@@ -56,7 +56,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signIn = async (email:string, password:string) => {
     try {
-      const _authData = await authService.signIn('email@ad.com', 'password');
+      const _authData = await authService.signIn(email, password);
       setAuthData(_authData);
       setItemAsync('AuthData', JSON.stringify(_authData));
     } catch (error) {
