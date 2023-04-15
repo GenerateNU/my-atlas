@@ -39,7 +39,7 @@ const Big5Start = (props: Big5StartProps) => {
 const styles = StyleSheet.create({
   square: {
     width: 340,
-    height: 350,
+    height: 313,
     backgroundColor: '#D5D8FC',
     borderRadius: 10,
   },
