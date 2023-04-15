@@ -16,7 +16,9 @@ import ScreenWideInput from './ScreenWideInput';
 // (Notice the question mark). As well as a string for the question itself.
 type DateSelector = {
   children?: ReactNode;
+  text: string;
   inputName: string;
+  onChangeText: (name, value) => void;
 };
 
 const DateSelector = (props: DateSelector) => {
@@ -32,8 +34,8 @@ const DateSelector = (props: DateSelector) => {
     <>
   
       <ScreenWideInput 
-      name="email"
-      onChangeText={() => {}}
+      name="dob"
+      onChangeText={props.onChangeText}
       placeholderText={props.inputName}
       text={text}
       onPressIn={() => setOpen(true)}

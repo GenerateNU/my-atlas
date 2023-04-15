@@ -26,6 +26,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       dob: undefined,
       age: undefined,
     },
+    dob: undefined,
   });
   const signUpFlow = [
     {
