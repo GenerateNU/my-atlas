@@ -25,9 +25,11 @@ type HelloAgainProps = {
 const HelloAgain = (props: HelloAgainProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [signIn, setSignIn] = useState(false);
 
   function onPressSignIn(event: GestureResponderEvent): void {
     props.signInFunction(email, password);
+    setSignIn(true);
   }
 
   function onPressGoogle(event: GestureResponderEvent): void {
@@ -74,7 +76,9 @@ const HelloAgain = (props: HelloAgainProps) => {
         Forgot password?
       </Text>
       <Center>
-        <Pressable style={styles.button} onPress={onPressSignIn}>
+        <Pressable
+          onPress={onPressSignIn}
+          style={signIn == true && props.errorMsg == "" ? styles.buttonClicked : styles.button}>
           <Text style={styles.text}>{'Sign in'}</Text>
         </Pressable>
         <Text style={{ fontSize: 17 }} marginTop={hp('5%')} marginBottom={hp('5%')}>

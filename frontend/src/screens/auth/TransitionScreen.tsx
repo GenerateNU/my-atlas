@@ -6,6 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import NextButton from '../../components/NextButton';
 
 const TransitionScreen = ({ route, navigation }) => {
   const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
@@ -27,10 +28,10 @@ const TransitionScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
-        <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" >
+        <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%">
           <ProgressBar
             progress={20}
-            hasSkip={true}
+            hasSkip={false}
             hasProgress={true}
             backFunction={back}
             skipFunction={skip}></ProgressBar>
@@ -39,8 +40,7 @@ const TransitionScreen = ({ route, navigation }) => {
             marginTop={hp('5%')}
             marginBottom={hp('3%')}
             ml={wp('10%')}
-            marginX={wp('10%')}
-            >
+            marginX={wp('10%')}>
             Hi {signUpState.name}!
           </Heading>
           <Heading
@@ -48,11 +48,17 @@ const TransitionScreen = ({ route, navigation }) => {
             marginTop={hp('5%')}
             marginBottom={hp('3%')}
             ml={wp('10%')}
-            marginX={wp('10%')}
-            >
+            marginX={wp('10%')}>
             Nice to meet you.
-          </Heading >
+          </Heading>
         </Container>
+        <NextButton
+          iconColor="#C55415"
+          bgColor="#F1C3A9"
+          pressedBgColor="#C55415"
+          pressedIconColor="#FFFFFF"
+          onPress={skip}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

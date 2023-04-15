@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 10,
     backgroundColor: 'rgba(241, 195, 169, 1)',
-    margin: 13
+    marginHorizontal: 15,
   },
   text: {
     fontStyle: 'normal',
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 10,
     backgroundColor: 'rgba(197, 84, 21, 1);',
+    marginHorizontal: 15,
   },
   textClicked: {
     fontStyle: 'normal',
