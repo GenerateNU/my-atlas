@@ -21,10 +21,12 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [big5State, setBig5State] = useState(Array.apply(null, Array(50)).map(function () {}));
   const big5Flow = [
     {
-        page: 'Big 5 Intro Screen',
-        props:{
-
-        }
+      page: 'Big 5 Intro Screen',
+      props: {},
+    },
+    {
+      page: 'Big 5 Start Screen',
+      props: {},
     },
     {
       page: 'Big 5 Selection Screen',
