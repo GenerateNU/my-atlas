@@ -38,7 +38,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
-        progress: 14,
+        progress: 11,
       },
     },
     {
@@ -51,7 +51,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your phone number",
         inputName: '',
         stateName: 'phoneNumber',
-        progress: 28,
+        progress: 22,
       },
     },
     {
@@ -66,7 +66,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'pronouns',
           },
         ],
-        progress: 43,
+        progress: 33,
+        isLong: false,
       },
     },
     {
@@ -74,7 +75,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: "What's your date of birth?",
         stateName: 'dob',
-        progress: 57,
+        progress: 44,
       },
     },
     {
@@ -83,7 +84,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
-        progress: 71,
+        progress: 55,
       },
     },
     {
@@ -149,7 +150,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
-        progress: 86,
+        progress: 66,
+        isLong: true,
       },
     },
     {
@@ -161,14 +163,14 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             answers: ['Informed', 'Curious', 'Skeptical'],
           },
         ],
-        progress: 100,
+        progress: 77,
       },
     },
     {
       page: 'Yes No Screen',
       props: {
         question: 'Have you sought behavioral health or wellness care in the past?',
-        progress: 100,
+        progress: 88,
         stateName: 'soughtCare',
       },
     },

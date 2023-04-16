@@ -3,6 +3,8 @@ import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
 import ScreenWideInput from '../../components/ScreenWideInput';
 import { useSignUp } from '../../contexts/SignUpContext';
+import NextButton from '../../components/NextButton';
+import { Container } from 'native-base';
 
 const SingleQuestionScreen = ({ route, navigation }) => {
   const { props } = route.params;
@@ -23,20 +25,29 @@ const SingleQuestionScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
-      <ProgressBar
-        progress={props.progress}
-        hasSkip={true}
-        hasProgress={true}
-        backFunction={back}
-        skipFunction={skip}></ProgressBar>
-      <Question question={props.question}>
-        <ScreenWideInput
-          name={props.stateName}
-          onChangeText={handleChange}
-          placeholderText={props.inputName}
-          text={signUpState[props.stateName]}
-        />
-      </Question>
+      <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
+        <ProgressBar
+          progress={props.progress}
+          hasSkip={false}
+          hasProgress={true}
+          backFunction={back}
+          skipFunction={skip}></ProgressBar>
+        <Question question={props.question}>
+          <ScreenWideInput
+            name={props.stateName}
+            onChangeText={handleChange}
+            placeholderText={props.inputName}
+            text={signUpState[props.stateName]}
+          />
+        </Question>
+      </Container>
+      <NextButton
+        iconColor="#C55415"
+        bgColor="#F1C3A9"
+        pressedBgColor="#C55415"
+        pressedIconColor="#FFFFFF"
+        onPress={skip}
+      />
     </SafeAreaView>
   );
 };
