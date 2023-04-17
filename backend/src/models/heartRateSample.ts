@@ -13,10 +13,6 @@ const HeartRateSample = new mongoose.Schema(
       required: true,
       index: true,
     },
-    duration: {
-      type: Number,
-      required: true,
-    },
     bpm: {
       type: Number,
       required: true,
