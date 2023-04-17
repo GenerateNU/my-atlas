@@ -13,6 +13,7 @@ type SelectOneProps = {
   other: boolean;
   onAnswerPress: (name: string, value: any) => void;
   stateName: string,
+  state: any
 };
 
 const SelectOne = (props: SelectOneProps) => {
@@ -33,7 +34,7 @@ const SelectOne = (props: SelectOneProps) => {
       )}
 
       {props.options.map((option, key) => (
-        <ScreenWideButton key={key} text={option} onPress={() => props.onAnswerPress(props.stateName, option)} />
+        <ScreenWideButton key={key} text={option} state={props.state} onPress={() => props.onAnswerPress(props.stateName, option)} />
       ))}
       {props.other ? (
         <ScreenWideInput

@@ -48,6 +48,7 @@ const SelectOneScreen = ({ route, navigation }) => {
                     options={selectOne.answers}
                     other={selectOne.other}
                     stateName={selectOne.stateName}
+                    state={signUpState[selectOne.stateName]}
                   />
                 ))}
 

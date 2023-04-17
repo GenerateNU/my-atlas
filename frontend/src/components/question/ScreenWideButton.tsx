@@ -7,6 +7,7 @@ import {
 
 type ScreenWideButtonProps = {
     text: string,
+    state: string,
     onPress: () => void
 }
 
@@ -14,24 +15,26 @@ const ScreenWideButton = (props : ScreenWideButtonProps) => {
 
     return (
         <Button 
-            onPress={props.onPress}
+            onPress={() => props.onPress()}
             justifyContent= "flex-start"
             borderRadius="10px"
             mx={wp("8%")}
             my={hp("1%")}
             paddingLeft={wp('5%')}
+            bg={'lightOrange'}
             _text={{
                 fontSize: 'xl',
                 fontWeight: 'semibold',
-                color: "navy",
                 letterSpacing: 'lg',
-                textAlign: "left"
+                textAlign: "left",
+                color: "navy"
             }}
             _pressed={{
                 backgroundColor:'darkOrange',
                 _text: { color: 'white' }
             }}
-            bg={'lightOrange'}>
+            isPressed={props.state == props.text}
+            >
             {props.text}
         </Button>
     );
