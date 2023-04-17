@@ -1,6 +1,7 @@
 import { Button, Container, KeyboardAvoidingView, ScrollView } from 'native-base';
 import { Keyboard, SafeAreaView, TouchableWithoutFeedback, View } from 'react-native';
 import Big5Form from '../../components/Big5Form';
+import NextButton from '../../components/NextButton';
 import ProgressBar from '../../components/ProgressBar';
 import { useBig5 } from '../../contexts/Big5Context';
 
@@ -23,27 +24,40 @@ const Big5SelectionScreen = ({ route, navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F6FF' }}>
-        <ProgressBar
-          progress={props.progress}
-          hasSkip={true}
-          hasProgress={true}
-          backFunction={back}
-          skipFunction={skip}></ProgressBar>
-        <KeyboardAvoidingView behavior="height" height={'100%'}>
-          <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
-            <View style={{ flex: 1, justifyContent: 'flex-start' }} onStartShouldSetResponder={() => true}>
-            {props.questions.map((selectOne, key) => (
-                  <Big5Form
-                    key={key}
-                    title={selectOne.question}
-                  />
+        <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
+          <ProgressBar
+            progress={props.progress}
+            hasSkip={true}
+            hasProgress={true}
+            backFunction={back}
+            skipFunction={skip}></ProgressBar>
+          <KeyboardAvoidingView behavior="height" height={'100%'}>
+            <ScrollView
+              keyboardShouldPersistTaps="never"
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}>
+              <View
+                style={{ flex: 1, justifyContent: 'flex-start' }}
+                onStartShouldSetResponder={() => true}>
+                {props.questions.map((selectOne, key) => (
+                  <Big5Form key={key} title={selectOne.question} formNumber={selectOne.stateName} state={big5State[selectOne.stateName]} handleChange={handleChange}/>
                 ))}
-            </View>
-            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-              <Button>Text</Button>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
+                <>
+                  <Container margin={50}></Container>
+                  <NextButton
+                    iconColor="#D5D8FC"
+                    bgColor="#271E41"
+                    pressedBgColor="#D5D8FC"
+                    pressedIconColor="#271E41"
+                    onPress={skip}
+                  />
+                  <Container margin={5}></Container>
+                </>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </Container>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

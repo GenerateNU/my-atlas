@@ -7,10 +7,11 @@ import {
 import { Center, Square, Circle } from 'native-base';
 
 type big5ButtonProps = {
+  formNumber: number;
   number: number;
   buttonText: string;
   pressed: boolean;
-  onAnswerPress: (answerId: number) => void;
+  onAnswerPress: (name: number, value: any) => void;
 };
 
 const Big5Button = (props: big5ButtonProps) => {
@@ -21,17 +22,18 @@ const Big5Button = (props: big5ButtonProps) => {
           width={wp('12%')}
           height={wp('12%')}
           borderRadius={wp('10%')}
-          _text={{ color: 'navy', fontSize: 'xl', fontWeight: '700'}}
-          mb={hp("0.5%")}
+          _text={{ color: 'midnight', fontSize: 'xl', fontWeight: '700' }}
+          mb={hp('0.5%')}
           background={'lavender'}
           _pressed={{
-            backgroundColor:'navy',
-            _text: { color: 'lilac' }
-        }}
-          >
-            {props.number}
+            backgroundColor: 'midnight',
+            _text: { color: 'lilac' },
+          }}
+          isPressed={props.pressed}
+          onPress={() => props.onAnswerPress(props.formNumber, props.number)}>
+          {props.number}
         </Button>
-        <Text fontSize="sm" color={'navy'} justifyContent='center'>
+        <Text fontSize="sm" color={'midnight'} justifyContent="center">
           {props.buttonText}
         </Text>
       </Center>

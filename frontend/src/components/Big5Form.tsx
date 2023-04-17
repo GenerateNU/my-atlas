@@ -10,7 +10,9 @@ import { HStack } from 'native-base';
 
 type big5FormProps = {
   title: string;
-  // onAnswerPress: (answerId: number) => void;
+  formNumber: number;
+  state: any;
+  handleChange: (name: number, value: any) => void;
 };
 
 const handlePress = () => {
@@ -33,21 +35,22 @@ const Big5Form = (props: big5FormProps) => {
         fontStyle="normal"
         fontWeight="600"
         fontSize="2xl"
-        mx={wp('5%')}
+        mx={wp('8%')}
         py="5"
         color="#271E41">
         {props.title}
       </Text>
 
-      <View>
-        <HStack style={{ justifyContent: 'space-evenly' }}>
+      <View mx={wp('4%')}>
+        <HStack style={{ justifyContent: 'space-evenly', marginHorizontal: wp('4%')}}>
           {buttonData.map((buttonData, key) => (
             <Big5Button
               key={key}
+              formNumber={props.formNumber}
               number={buttonData.number}
               buttonText={buttonData.buttonText}
-              pressed={false}
-              onAnswerPress={handlePress}
+              pressed={props.state === buttonData.number}
+              onAnswerPress={props.handleChange}
             />
           ))}
         </HStack>

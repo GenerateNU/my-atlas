@@ -7,10 +7,7 @@ const Big5StartScreen = ({route, navigation}) => {
     const { page, setPage, big5State, setBig5State, big5Flow, handleChange } = useBig5();
 
     const back = async () => {
-        const prevPage = big5Flow[page - 1];
-        setPage(page - 1);
-        //navigation.navigate(prevPage.page, { props: prevPage.props });
-        navigation.pop();
+        navigation.navigate("Home Screen");
     };
 
     const skip = async () => {

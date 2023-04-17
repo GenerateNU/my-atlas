@@ -1,13 +1,13 @@
 import React from 'react';
 import { Text, Center, View, Pressable, Heading } from 'native-base';
+import { GestureResponderEvent, StyleSheet } from 'react-native';
 import {
-  GestureResponderEvent,
-  StyleSheet,
-} from 'react-native';
-
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 type Big5StartProps = {
-    startFunction: any;
+  startFunction: any;
 };
 
 const Big5Start = (props: Big5StartProps) => {
@@ -18,20 +18,22 @@ const Big5Start = (props: Big5StartProps) => {
   return (
     <Center>
       <View style={styles.square}>
-        <Heading size="xl" letterSpacing={1} marginX={5} marginTop={5} color={'navy'}>
-          Big 5 {'\n'}Personality Test
+        <Heading size="xl" letterSpacing={1} marginX={wp('1.5%')} marginTop={hp('2%')} color={'midnight'}>
+          The Big 5 {'\n'}Personality Test
         </Heading>
-        <Text color={'navy'} margin={5} lineHeight={23}>
+        <Text color={'midnight'} margin={5} lineHeight={23}>
           The Big 5 Personality Test is the most scientifically validated and reliable psychological
           model to measure personality. This self-report test measures the big five personality
           traits using the IPIP Big-Five Factor Markers.
         </Text>
-        <Text marginX={5} fontWeight={'300'}>Estimated time: 15 minutes</Text>
+        <Text marginX={5} fontWeight={'300'}>
+          Estimated time: 15 minutes
+        </Text>
       </View>
       <Pressable style={styles.button} onPress={onPressStart} marginTop={10} marginBottom={3}>
         <Text style={styles.text}>{'Start'}</Text>
       </Pressable>
-      <Text color={'navy'}>Complete later</Text>
+      <Text color={'midnight'}>Complete later</Text>
     </Center>
   );
 };

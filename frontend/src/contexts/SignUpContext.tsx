@@ -57,7 +57,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Select One Screen',
       props: {
-        question: 'What are your pronouns',
+        question: 'What are your pronouns?',
         stateName: 'pronouns',
         sections: [
           {
@@ -158,9 +158,10 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Select One Screen',
       props: {
+        question: 'When it comes to self-care and wellness, you are…',
         sections: [
           {
-            question: 'When it comes to taking care of your mental health, you are...',
+            question: '',
             answers: ['Informed', 'Curious', 'Skeptical'],
           },
         ],
@@ -186,6 +187,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   ];
 
   const handleChange = (name: string, value: any) => {
+    console.log("got here")
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,

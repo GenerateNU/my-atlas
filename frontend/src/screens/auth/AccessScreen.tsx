@@ -12,7 +12,7 @@ import {
 import { AtlasLogo } from '../../img';
 import { useSignUp } from '../../contexts/SignUpContext';
 
-const AccessScreen = ({route, navigation }) => {
+const AccessScreen = ({ route, navigation }) => {
   const [loading, isLoading] = useState(false);
 
   const signUp = async () => {
@@ -30,7 +30,7 @@ const AccessScreen = ({route, navigation }) => {
   }, [loading]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
       <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
         <Heading size="3xl" marginTop={hp('12%')} marginBottom={hp('7%')}>
           My Atlas
@@ -39,7 +39,7 @@ const AccessScreen = ({route, navigation }) => {
         <Button
           _text={{
             fontSize: 'xl',
-            color: 'navy',
+            color: 'midnight',
             fontWeight: 'semibold',
             letterSpacing: 'lg',
           }}
@@ -49,7 +49,7 @@ const AccessScreen = ({route, navigation }) => {
           }}
           onPress={signUp}
           w={wp('75%')}
-          bg={'lightOrange'}
+          bg={'nectarine'}
           borderRadius="md"
           marginTop={hp('18%')}>
           Create Account
@@ -57,7 +57,7 @@ const AccessScreen = ({route, navigation }) => {
         <Button
           _text={{
             fontSize: 'xl',
-            color: 'navy',
+            color: 'midnight',
             fontWeight: 'semibold',
             letterSpacing: 'lg',
           }}

@@ -19,6 +19,7 @@ const SelectOneScreen = ({ route, navigation }) => {
 
   const skip = async () => {
     const nextPage = signUpFlow[page + 1];
+    console.log(nextPage)
     setPage(page + 1);
     navigation.push(nextPage.page, { props: nextPage.props });
   };
@@ -29,7 +30,7 @@ const SelectOneScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
           <ProgressBar
             progress={props.progress}
@@ -37,10 +38,10 @@ const SelectOneScreen = ({ route, navigation }) => {
             hasProgress={true}
             backFunction={back}
             skipFunction={skip}></ProgressBar>
-          <KeyboardAvoidingView behavior="height" height={'100%'}>
-            <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{ flexGrow: 1 }}>
+          <KeyboardAvoidingView behavior="height" height={'100%'} w={'full'} maxWidth="100%">
+            <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{ flexGrow: 1 }} width={'100%'}>
               <View onStartShouldSetResponder={() => true}>
-                <Question question={'Which best describes you?'}>
+                <Question question={props.question}>
                   {props.sections.map((selectOne, key) => (
                     <SelectOne
                       key={key}

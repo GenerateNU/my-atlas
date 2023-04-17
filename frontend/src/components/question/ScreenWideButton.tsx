@@ -1,40 +1,39 @@
 import React from 'react';
 import { Button } from 'native-base';
 import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-  } from 'react-native-responsive-screen';
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 type ScreenWideButtonProps = {
-    text: string,
-    onPress: () => void
-}
+  text: string;
+  onPress: () => void;
+};
 
-const ScreenWideButton = (props : ScreenWideButtonProps) => {
-
-    return (
-        <Button 
-            onPress={props.onPress}
-            justifyContent= "flex-start"
-            borderRadius="10px"
-            mx={wp("8%")}
-            my={hp("1%")}
-            paddingLeft={wp('5%')}
-            _text={{
-                fontSize: 'xl',
-                fontWeight: 'semibold',
-                color: "navy",
-                letterSpacing: 'lg',
-                textAlign: "left"
-            }}
-            _pressed={{
-                backgroundColor:'darkOrange',
-                _text: { color: 'white' }
-            }}
-            bg={'lightOrange'}>
-            {props.text}
-        </Button>
-    );
-}
+const ScreenWideButton = (props: ScreenWideButtonProps) => {
+  return (
+    <Button
+      onPress={props.onPress}
+      justifyContent="flex-start"
+      borderRadius="10px"
+      mx={wp('8%')}
+      my={hp('1%')}
+      paddingLeft={wp('5%')}
+      _text={{
+        fontSize: 'xl',
+        fontWeight: 'semibold',
+        color: 'midnight',
+        letterSpacing: 'lg',
+        textAlign: 'left',
+      }}
+      _pressed={{
+        backgroundColor: 'darkOrange',
+        _text: { color: 'white' },
+      }}
+      bg={'nectarine'}>
+      {props.text}
+    </Button>
+  );
+};
 
 export default ScreenWideButton;
