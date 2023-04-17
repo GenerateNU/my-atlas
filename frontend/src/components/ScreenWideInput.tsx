@@ -11,6 +11,8 @@ type ScreenWideInputProps = {
   onChangeText: (name, value) => void;
   placeholderText: string;
   marginBottom?: string;
+  editable? : boolean;
+  onPressIn? : () => void;
 };
 
 const ScreenWideInput = (props: ScreenWideInputProps) => {
@@ -30,7 +32,9 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
       borderRadius="10px"
       borderColor={'lightOrange'}
       value={props.text}
+      editable = {props.editable}
       onChangeText={value => props.onChangeText(props.name, value)}
+      onPressIn={props.onPressIn}
     />
   );
 };

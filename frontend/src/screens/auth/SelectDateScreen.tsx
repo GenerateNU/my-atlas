@@ -2,6 +2,7 @@ import { SafeAreaView, Text } from 'react-native';
 import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
 import { useSignUp } from '../../contexts/SignUpContext';
+import DateSelector from '../../components/DateSelector';
 import { Container } from 'native-base';
 import NextButton from '../../components/NextButton';
 
@@ -31,8 +32,8 @@ const SelectDateScreen = ({ route, navigation }) => {
           hasProgress={true}
           backFunction={back}
           skipFunction={skip}></ProgressBar>
-        <Text>Select Date SCREEN</Text>
         <Question question={props.question}></Question>
+        <DateSelector inputName={props.stateName} text={signUpState.user.dob} onChangeText={handleChange}></DateSelector>
       </Container>
       <NextButton
         iconColor="#C55415"
