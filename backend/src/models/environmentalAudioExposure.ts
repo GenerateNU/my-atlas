@@ -1,7 +1,7 @@
-import { IEnvironmentalAudioExposureSample } from '../interfaces/IEnvironmentalAudioExposureSample';
+import { IEnvironmentalAudioExposure } from '../interfaces/IEnvironmentalAudioExposure';
 import mongoose from 'mongoose';
 
-const EnvironmentalAudioExposureSample = new mongoose.Schema(
+const EnvironmentalAudioExposure = new mongoose.Schema(
   {
     userID: {
       type: String,
@@ -29,11 +29,12 @@ const EnvironmentalAudioExposureSample = new mongoose.Schema(
   {
     timeseries: {
       timeField: 'startDate',
+      metaField: "userID"
     },
   }
 );
 
-export default mongoose.model<IEnvironmentalAudioExposureSample & mongoose.Document>(
-  'EnvironmentalAudioExposureSample',
-  EnvironmentalAudioExposureSample,
+export default mongoose.model<IEnvironmentalAudioExposure & mongoose.Document>(
+  'EnvironmentalAudioExposure',
+  EnvironmentalAudioExposure,
 );

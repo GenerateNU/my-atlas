@@ -6,7 +6,7 @@ const RestingHeartRate = new mongoose.Schema(
     userID: {
       type: String,
       index: true,
-      required: true
+      required: true,
     },
     startDate: {
       type: Date,
@@ -23,22 +23,19 @@ const RestingHeartRate = new mongoose.Schema(
     },
     hkID: {
       type: String,
-      required: true
+      required: true,
     },
     hkWasUserEntered: {
-        type: Boolean,
-        required: true
-    }
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timeseries: {
       timeField: 'startDate',
-      metaField: 'userID'
+      metaField: 'userID',
     },
-  }
+  },
 );
 
-export default mongoose.model<IRestingHeartRate & mongoose.Document>(
-  'RestingHeartRate',
-  RestingHeartRate,
-);
+export default mongoose.model<IRestingHeartRate & mongoose.Document>('RestingHeartRate', RestingHeartRate);

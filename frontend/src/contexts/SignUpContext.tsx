@@ -43,7 +43,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
-        progress: 14,
+        progress: 11,
       },
     },
     {
@@ -56,13 +56,13 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your phone number",
         inputName: '',
         stateName: 'phoneNumber',
-        progress: 28,
+        progress: 22,
       },
     },
     {
       page: 'Select One Screen',
       props: {
-        question: 'What are your pronouns',
+        question: 'What are your pronouns?',
         stateName: 'pronouns',
         sections: [
           {
@@ -71,15 +71,17 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'pronouns',
           },
         ],
-        progress: 43,
+        progress: 33,
+        isLong: false,
       },
     },
     {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
+        inputName: "Enter date",
         stateName: 'dob',
-        progress: 57,
+        progress: 44,
       },
     },
     {
@@ -88,7 +90,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
-        progress: 71,
+        progress: 55,
       },
     },
     {
@@ -154,27 +156,29 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
-        progress: 86,
+        progress: 66,
+        isLong: true,
       },
     },
     {
       page: 'Select One Screen',
       props: {
+        question: 'When it comes to self-care and wellness, you are…',
         sections: [
           {
-            question: 'When it comes to taking care of your mental health, you are...',
+            question: '',
             answers: ['Informed', 'Curious', 'Skeptical'],
           },
         ],
-        progress: 100,
+        progress: 77,
       },
     },
     {
       page: 'Yes No Screen',
       props: {
         question: 'Have you sought behavioral health or wellness care in the past?',
-        progress: 100,
-        stateName: 'soughtCare'
+        progress: 88,
+        stateName: 'soughtCare',
       },
     },
     {
@@ -182,12 +186,13 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       props: {
         question: 'Do you consider yourself spiritual?',
         progress: 100,
-        stateName: 'spirituality'
+        stateName: 'spirituality',
       },
     },
   ];
 
   const handleChange = (name: string, value: any) => {
+    console.log("got here")
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,

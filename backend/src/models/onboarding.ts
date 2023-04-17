@@ -1,43 +1,30 @@
 import mongoose from 'mongoose';
 import { IOnboarding } from '@/interfaces/IOnboarding';
 import e from 'express';
+import { IPersonalityScore } from '@/interfaces/IPersonalityScore';
 
 const Onboarding = new mongoose.Schema(
   {
     userID: {
       type: String,
       required: true,
-      index: true
+      index: true,
     },
-    nickname: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    zipcode: {
-      type: Number,
-    },
-    religion: {
-      type: String,
-      enum: ['None', 'Protestant', 'Catholic', 'Jewish', 'Muslim', 'Buddhist', 'Hindu'],
-    },
+    city: String,
+    zipcode: Number,
+    religion: String,
     religionOther: String,
-    sexualOrientation: {
-      type: String,
-    },
+    sexualOrientation: String,
     identifyYourself: String,
     ethnicity: String,
-    gender: {
-      type: String,
-      enum: ['Male', 'Female', 'NonBinary'],
-    },
+    gender: String,
     genderOther: String,
-    pronouns: {
-      type: String,
-      enum: ['He/Him', 'She/Her'],
-    },
+    pronouns: String,
     pronounsOther: String,
+    spiritual: Boolean,
+    sexAssignedAtBirth: String,
+    mentalHealthCare: String,
+    haveSoughtCare: String,
     concerns: {
       type: [String],
       default: undefined,
@@ -47,16 +34,21 @@ const Onboarding = new mongoose.Schema(
       default: undefined,
     },
     personalityTestScore: {
-      type: [Number],
+      type: Object,
       default: undefined,
-      validate: [arrayLength, 'Five Numbers are required'],
+      validate: [CheckFive, 'Five Numbers are required'],
     },
   },
   { timestamps: true },
 );
 
-// Check that the array length is 5
-function arrayLength(val:Number[]) {
-  return val.length == 5;
+// Check that the object has 5 numbers
+function CheckFive(val: IPersonalityScore) {
+  return !(
+    val.Agreeableness == undefined ||
+    val.Conscientiousness == undefined ||
+    val.Extraversion == undefined ||
+    val.Neuroticism == undefined ||
+    val.Openness == undefined);
 }
 export default mongoose.model<IOnboarding & mongoose.Document>('Onboarding', Onboarding);

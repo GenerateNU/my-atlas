@@ -30,28 +30,19 @@ const YesNo = (props: YesNoProps) => {
 
   console.log(props.clicked)
   return (
-    <Center w="100%" paddingBottom={hp('1%')}>
-      <Box w="90%" maxW="400">
-        <VStack>
-          <VStack mx="4" space="lg">
-            <Question question={props.question}></Question>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-              <Pressable
-                style={props.clicked == true ? styles.buttonClicked : styles.button}
-                onPress={onPressYes}>
-                <Text style={props.clicked == true ? styles.textClicked : styles.text}>
-                  {'Yes'}
-                </Text>
-              </Pressable>
-              <Pressable
-                style={props.clicked == false ? styles.buttonClicked : styles.button}
-                onPress={onPressNo}>
-                <Text style={props.clicked == false ? styles.textClicked : styles.text}>{'No'}</Text>
-              </Pressable>
-            </View>
-          </VStack>
-        </VStack>
-      </Box>
+    <Center>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+        <Pressable
+          style={props.clicked == true ? styles.buttonClicked : styles.button}
+          onPress={onPressYes}>
+          <Text style={props.clicked == true ? styles.textClicked : styles.text}>{'Yes'}</Text>
+        </Pressable>
+        <Pressable
+          style={props.clicked == false ? styles.buttonClicked : styles.button}
+          onPress={onPressNo}>
+          <Text style={props.clicked == false ? styles.textClicked : styles.text}>{'No'}</Text>
+        </Pressable>
+      </View>
     </Center>
   );
 };
@@ -62,6 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 10,
     backgroundColor: 'rgba(241, 195, 169, 1)',
+    marginHorizontal: 15,
   },
   text: {
     fontStyle: 'normal',
@@ -76,6 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 10,
     backgroundColor: 'rgba(197, 84, 21, 1);',
+    marginHorizontal: 15,
   },
   textClicked: {
     fontStyle: 'normal',

@@ -8,8 +8,8 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      {/* {authData ? <AppStack /> : <AuthStack />} */}
-      <AuthStack></AuthStack>
+      {authData ? <AppStack /> : <AuthStack />}
+      {/* <AuthStack></AuthStack> */}
     </NavigationContainer>
   );
 };

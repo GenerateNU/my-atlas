@@ -21,14 +21,17 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [big5State, setBig5State] = useState(Array.apply(null, Array(50)).map(function () {}));
   const big5Flow = [
     {
-        page: 'Big 5 Intro Screen',
-        props:{
-
-        }
+      page: 'Big 5 Intro Screen',
+      props: {},
+    },
+    {
+      page: 'Big 5 Start Screen',
+      props: {},
     },
     {
       page: 'Big 5 Selection Screen',
       props: {
+        progress: 20,
         questions: [
           {
             question: 'I am the life of the party',
@@ -74,8 +77,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 40,
         questions: [
           {
             question: 'I feel comfortable around people',
@@ -121,8 +125,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 60,
         questions: [
           {
             question: 'I start conversations',
@@ -168,8 +173,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 80,
         questions: [
           {
             question: 'I talk to a lot of different people at parties',
@@ -215,8 +221,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 100,
         questions: [
           {
             question: "I don't mind being the center of attention",

@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { Button, Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
-import ScreenWideButton from '../../components/question/ScreenWideButton';
-import SelectOne from '../../components/question/SelectOne';
-import OtherScreenWideButton from '../../components/question/OtherScreenWideButton';
 import Question from '../../components/Question';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation, route}) => {
   const [loading, isLoading] = useState(false);
   const auth = useAuth();
   const signOut = async () => {
@@ -18,20 +15,25 @@ const HomeScreen = () => {
     console.log('Button pressed!');
   };
 
+  const redirect = () => {
+    navigation.push('Big 5 Stack', { screen: 'Big 5 Intro Screen' });
+  }
+  
   const alert = () => {
     Alert.alert('You tapped a button!');
   }
 
   return (
     <SafeAreaView>
-      {/* /** <Text>HOME SCREEN</Text>
+      <Text>HOME SCREEN</Text>
       <Button title="Sign Out" onPress={signOut} />
+      <Button title="Click Me" onPress={redirect}/>
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (
         <Text>Not loaded</Text>
 
-      )} */}
+      )}
       <Question question={"Which best describes you?"}>
       </Question>
     </SafeAreaView>
