@@ -20,7 +20,7 @@ const Big5StartScreen = ({route, navigation}) => {
     };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#E5E5E5' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F6FF' }}>
       <ProgressBar
         progress={20}
         hasSkip={false}

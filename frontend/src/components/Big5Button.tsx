@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text, View } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { Center, Square, Circle } from 'native-base';
-import { background } from 'native-base/lib/typescript/theme/styled-system';
 
 type big5ButtonProps = {
   number: number;
@@ -20,18 +18,20 @@ const Big5Button = (props: big5ButtonProps) => {
     <View>
       <Center>
         <Button
-          width={wp('10%')}
-          height={wp('10%')}
+          width={wp('12%')}
+          height={wp('12%')}
           borderRadius={wp('10%')}
-          _text={{ color: 'navy', fontSize: 'xl' }}
-          mb="2"
-          background={'gainsboro'}
+          _text={{ color: 'navy', fontSize: 'xl', fontWeight: '700'}}
+          mb={hp("0.5%")}
+          background={'lavender'}
           _pressed={{
-            backgroundColor: 'navy',
-          }}>
-          {props.number}
+            backgroundColor:'navy',
+            _text: { color: 'lilac' }
+        }}
+          >
+            {props.number}
         </Button>
-        <Text fontSize="sm" color={'navy'}>
+        <Text fontSize="sm" color={'navy'} justifyContent='center'>
           {props.buttonText}
         </Text>
       </Center>

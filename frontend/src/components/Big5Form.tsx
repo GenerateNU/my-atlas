@@ -20,9 +20,9 @@ const handlePress = () => {
 const Big5Form = (props: big5FormProps) => {
   const buttonData = [
     { number: 1, buttonText: 'Disagree' },
-    { number: 2, buttonText: ' Slightly\nDisagree' },
+    { number: 2, buttonText: '' },
     { number: 3, buttonText: 'Neutral ' },
-    { number: 4, buttonText: ' Slightly\n Agree' },
+    { number: 4, buttonText: '' },
     { number: 5, buttonText: 'Agree ' },
   ];
 
@@ -43,6 +43,7 @@ const Big5Form = (props: big5FormProps) => {
         <HStack style={{ justifyContent: 'space-evenly' }}>
           {buttonData.map((buttonData, key) => (
             <Big5Button
+              key={key}
               number={buttonData.number}
               buttonText={buttonData.buttonText}
               pressed={false}

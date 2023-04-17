@@ -16,7 +16,7 @@ const HomeScreen = ({navigation, route}) => {
   };
 
   const redirect = () => {
-    navigation.push('Big5Stack', { screen: 'Big 5 Selection Screen' });
+    navigation.push('Big 5 Stack', { screen: 'Big 5 Start Screen' });
   }
   
   const alert = () => {

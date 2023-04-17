@@ -76,7 +76,7 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
         questions: [
           {
@@ -123,7 +123,7 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
         questions: [
           {
@@ -170,7 +170,7 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
         questions: [
           {
@@ -217,7 +217,7 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
         questions: [
           {
