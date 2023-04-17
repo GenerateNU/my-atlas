@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode, useEffect } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -24,25 +24,20 @@ const DateSelector = (props: DateSelector) => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const now = new Date();
+
   const isToday =
     date.getDate() === now.getDate() &&
     date.getMonth() === now.getMonth() &&
     date.getFullYear() === now.getFullYear();
-  const text = isToday
-    ? props.inputName
-    : (date.getMonth() + 1).toString() +
-      '/' +
-      date.getDate().toString() +
-      '/' +
-      date.getFullYear().toString();
+
 
   return (
     <>
       <ScreenWideInput
         name="dob"
-        onChangeText={props.onChangeText}
+        onChangeText={(name, value) => void(0)}
         placeholderText={props.inputName}
-        text={text}
+        text={props.text}
         onPressIn={() => setOpen(true)}></ScreenWideInput>
       <DatePicker
         modal
@@ -50,10 +45,11 @@ const DateSelector = (props: DateSelector) => {
         date={date}
         mode="date"
         title={null}
-        maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 12))}
+        maximumDate={new Date()}
         onConfirm={date => {
           setOpen(false);
           setDate(date);
+          props.onChangeText('dob', date.toLocaleDateString())
         }}
         onCancel={() => {
           setOpen(false);

@@ -1,6 +1,8 @@
 import { IUserInputDTO } from './IUser';
 
 export interface IOnboardingFlowState {
+  email: string;
+  password: string
   name: string;
   phoneNumber: string;
   pronouns: string;

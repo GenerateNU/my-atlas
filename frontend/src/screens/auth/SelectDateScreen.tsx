@@ -33,7 +33,7 @@ const SelectDateScreen = ({ route, navigation }) => {
           backFunction={back}
           skipFunction={skip}></ProgressBar>
         <Question question={props.question}></Question>
-        <DateSelector inputName={props.stateName} text={signUpState.dob} onChangeText={handleChange}></DateSelector>
+        <DateSelector inputName={props.stateName} text={signUpState[props.stateName]} onChangeText={handleChange}></DateSelector>
       </Container>
       <NextButton
         iconColor="#C55415"

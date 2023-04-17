@@ -18,6 +18,8 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
+    email: undefined,
+    password: undefined,
     name: undefined,
     phoneNumber: undefined,
     pronouns: undefined,
@@ -54,7 +56,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Single Question Screen',
       props: {
         question: "What's your phone number",
-        inputName: '',
+        inputName: '+1',
         stateName: 'phoneNumber',
         progress: 22,
       },
@@ -192,7 +194,6 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   ];
 
   const handleChange = (name: string, value: any) => {
-    console.log("got here")
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,
