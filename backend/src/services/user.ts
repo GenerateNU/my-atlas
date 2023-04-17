@@ -24,10 +24,10 @@ export default class UserService {
       throw e;
     }
   }
-  public async updateUserDate(id: string) {
+  public async updateUserDate(id: string, date: Date) {
     const userRecord = await this.userModel.findOneAndUpdate(
       { id: id },
-      { lastDateDataRetrieved: new Date()},
+      { lastDateDataRetrieved: date },
       { runValiators: true, new: true },
     );
     const user: IUser = userRecord.toObject();
