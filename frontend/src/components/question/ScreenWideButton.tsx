@@ -6,9 +6,10 @@ import {
 } from 'react-native-responsive-screen';
 
 type ScreenWideButtonProps = {
-  text: string;
-  onPress: () => void;
-};
+    text: string,
+    state: string,
+    onPress: () => void
+}
 
 const ScreenWideButton = (props: ScreenWideButtonProps) => {
   return (
@@ -30,7 +31,8 @@ const ScreenWideButton = (props: ScreenWideButtonProps) => {
         backgroundColor: 'darkOrange',
         _text: { color: 'white' },
       }}
-      bg={'nectarine'}>
+      bg={'nectarine'}
+      isPressed={props.state == props.text}>
       {props.text}
     </Button>
   );

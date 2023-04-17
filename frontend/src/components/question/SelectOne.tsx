@@ -7,16 +7,13 @@ import {
 } from 'react-native-responsive-screen';
 import ScreenWideInput from '../ScreenWideInput';
 
-type Option = {
-  id: number;
-  text: string;
-};
-
 type SelectOneProps = {
   title?: string;
   options: string[];
   other: boolean;
-  onAnswerPress: (answerId: number) => void;
+  onAnswerPress: (name: string, value: any) => void;
+  stateName: string,
+  state: any
 };
 
 const SelectOne = (props: SelectOneProps) => {
@@ -37,14 +34,14 @@ const SelectOne = (props: SelectOneProps) => {
       )}
 
       {props.options.map((option, key) => (
-        <ScreenWideButton key={key} text={option} onPress={() => props.onAnswerPress(key)} />
+        <ScreenWideButton key={key} text={option} state={props.state} onPress={() => props.onAnswerPress(props.stateName, option)} />
       ))}
       {props.other ? (
         <ScreenWideInput
           name="title"
           text=""
           placeholderText="Other"
-          onChangeText={(name, value) => props.onAnswerPress(props.options.length + 1)}
+          onChangeText={(name, value) => console.log()}
         />
       ) : null}
     </View>

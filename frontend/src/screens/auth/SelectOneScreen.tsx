@@ -46,9 +46,11 @@ const SelectOneScreen = ({ route, navigation }) => {
                     <SelectOne
                       key={key}
                       title={selectOne.title}
-                      onAnswerPress={handlePress}
+                      onAnswerPress={handleChange}
                       options={selectOne.answers}
                       other={selectOne.other}
+                      stateName={selectOne.stateName}
+                      state={signUpState[selectOne.stateName]}
                     />
                   ))}
                 </Question>
