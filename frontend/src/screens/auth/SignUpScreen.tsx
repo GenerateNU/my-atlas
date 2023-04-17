@@ -33,7 +33,7 @@ const SignUpScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
           <ProgressBar backFunction={back} hasProgress={false} hasSkip={false} />
           <Heading

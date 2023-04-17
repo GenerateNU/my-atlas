@@ -1,18 +1,17 @@
 import React, { Fragment } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text, View } from 'native-base';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { Center, Square, Circle } from 'native-base';
-import { background } from 'native-base/lib/typescript/theme/styled-system';
 
 type big5ButtonProps = {
+  formNumber: number;
   number: number;
   buttonText: string;
   pressed: boolean;
-  onAnswerPress: (answerId: number) => void;
+  onAnswerPress: (name: number, value: any) => void;
 };
 
 const Big5Button = (props: big5ButtonProps) => {
@@ -20,18 +19,21 @@ const Big5Button = (props: big5ButtonProps) => {
     <View>
       <Center>
         <Button
-          width={wp('10%')}
-          height={wp('10%')}
+          width={wp('12%')}
+          height={wp('12%')}
           borderRadius={wp('10%')}
-          _text={{ color: 'navy', fontSize: 'xl' }}
-          mb="2"
-          background={'gainsboro'}
+          _text={{ color: 'midnight', fontSize: 'xl', fontWeight: '700' }}
+          mb={hp('0.5%')}
+          background={'lavender'}
           _pressed={{
-            backgroundColor: 'navy',
-          }}>
+            backgroundColor: 'midnight',
+            _text: { color: 'lilac' },
+          }}
+          isPressed={props.pressed}
+          onPress={() => props.onAnswerPress(props.formNumber, props.number)}>
           {props.number}
         </Button>
-        <Text fontSize="sm" color={'navy'}>
+        <Text fontSize="sm" color={'midnight'} justifyContent="center">
           {props.buttonText}
         </Text>
       </Center>

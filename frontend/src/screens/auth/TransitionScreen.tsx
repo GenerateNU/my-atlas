@@ -23,11 +23,10 @@ const TransitionScreen = ({ route, navigation }) => {
     setPage(page + 1);
     navigation.push(nextPage.page, { props: nextPage.props });
   };
-  console.log(signUpState)
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%">
           <ProgressBar
             progress={20}

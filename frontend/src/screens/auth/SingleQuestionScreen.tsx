@@ -24,7 +24,7 @@ const SingleQuestionScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
       <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
         <ProgressBar
           progress={props.progress}

@@ -6,7 +6,7 @@ import SignUpScreen from '../screens/auth/SignUpScreen';
 import SingleQuestionScreen from '../screens/auth/SingleQuestionScreen';
 import TransitionScreen from '../screens/auth/TransitionScreen';
 import YesNoScreen from '../screens/auth/YesNoScreen';
-import Big5StartScreen from '../screens/auth/Big5StartScreen';
+import Big5StartScreen from '../screens/app/Big5StartScreen';
 
 const Stack = createNativeStackNavigator();
 
