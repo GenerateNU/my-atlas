@@ -3,6 +3,8 @@ import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
 import { useSignUp } from '../../contexts/SignUpContext';
 import DateSelector from '../../components/DateSelector';
+import { Container } from 'native-base';
+import NextButton from '../../components/NextButton';
 
 const SelectDateScreen = ({ route, navigation }) => {
   const { props } = route.params;
@@ -23,15 +25,23 @@ const SelectDateScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
-      <ProgressBar 
-        progress={props.progress}
-        hasSkip={true}
-        hasProgress={true}
-        backFunction={back}
-        skipFunction={skip}></ProgressBar>
-      <Question question={props.question}></Question>
-      <DateSelector inputName={props.stateName} text={signUpState.user.dob} onChangeText={handleChange}></DateSelector>
-
+      <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
+        <ProgressBar
+          progress={props.progress}
+          hasSkip={false}
+          hasProgress={true}
+          backFunction={back}
+          skipFunction={skip}></ProgressBar>
+        <Question question={props.question}></Question>
+        <DateSelector inputName={props.stateName} text={signUpState.user.dob} onChangeText={handleChange}></DateSelector>
+      </Container>
+      <NextButton
+        iconColor="#C55415"
+        bgColor="#F1C3A9"
+        pressedBgColor="#C55415"
+        pressedIconColor="#FFFFFF"
+        onPress={skip}
+      />
     </SafeAreaView>
   );
 };

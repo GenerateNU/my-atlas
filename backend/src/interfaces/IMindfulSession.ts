@@ -1,12 +1,17 @@
 export interface IMindfulSession {
-  _id: String;
-  userID: String;
+  _id: string;
+  userID: string;
   startDate: Date;
-  duration: Number;
+  duration: number;
+}
+
+export interface IMindfulSessionSum {
+  _id: string;
+  mindfulSessionSum: number;
 }
 
 export interface IMindfulSessionDTO {
-  userID: String;
+  userID: string;
   startDate: Date;
-  duration: Number;
+  duration: number;
 }
