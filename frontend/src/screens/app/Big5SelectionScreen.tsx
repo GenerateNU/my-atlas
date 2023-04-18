@@ -7,7 +7,7 @@ import { useBig5 } from '../../contexts/Big5Context';
 
 const Big5SelectionScreen = ({ route, navigation }) => {
   const { props } = route.params;
-  const { page, setPage, big5State, setBig5State, big5Flow, handleChange } = useBig5();
+  const { page, setPage, big5State, setBig5State, big5Flow, handleChange, calculateScore } = useBig5();
 
   const back = async () => {
     const prevPage = big5Flow[page - 1];
@@ -16,9 +16,14 @@ const Big5SelectionScreen = ({ route, navigation }) => {
   };
 
   const skip = async () => {
-    const nextPage = big5Flow[page + 1];
-    setPage(page + 1);
-    navigation.push(nextPage.page, { props: nextPage.props });
+    if (page == 6) {
+      console.log(calculateScore())
+      navigation.navigate("Home Screen");
+    } else {
+      const nextPage = big5Flow[page + 1];
+      setPage(page + 1);
+      navigation.push(nextPage.page, { props: nextPage.props });
+    }
   };
 
   return (
