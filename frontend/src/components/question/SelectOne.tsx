@@ -12,8 +12,10 @@ type SelectOneProps = {
   options: string[];
   other: boolean;
   onAnswerPress: (name: string, value: any) => void;
+  onAnswerPressOther?: (name: string, value: any, other: boolean) => void
   stateName: string,
   state: any
+  otherState: any
 };
 
 const SelectOne = (props: SelectOneProps) => {
@@ -38,10 +40,11 @@ const SelectOne = (props: SelectOneProps) => {
       ))}
       {props.other ? (
         <ScreenWideInput
-          name="title"
-          text=""
+          name={props.stateName}
+          text={props.otherState}
           placeholderText="Other"
-          onChangeText={(name, value) => console.log()}
+          onChangeText={props.onAnswerPressOther}
+          isOther
         />
       ) : null}
     </View>

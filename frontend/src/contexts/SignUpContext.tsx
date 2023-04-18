@@ -8,6 +8,7 @@ type SignUpContextData = {
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
   signUpFlow: Object;
   handleChange: (name: string, value: any) => void;
+  handleOtherChange: (name: string, value: any, other: boolean) => void;
 };
 
 type SignUpProviderProps = {
@@ -23,16 +24,19 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     name: undefined,
     phoneNumber: undefined,
     pronouns: undefined,
+    pronounsOther: undefined,
     dob: undefined,
     zipcode: undefined,
     sexAssignedAtBirth: undefined,
-    genderIdentity: undefined,
+    gender: undefined,
+    genderOther: undefined,
     sexualOrientation: undefined,
     ethnicity: undefined,
     religion: undefined,
+    religionOther: undefined,
     mentalHealthStance: undefined,
     soughtCare: undefined,
-    spirituality: undefined
+    spirituality: undefined,
   });
   const signUpFlow = [
     {
@@ -81,7 +85,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
-        inputName: "Enter date",
+        inputName: 'Enter date',
         stateName: 'dob',
         progress: 44,
       },
@@ -118,7 +122,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
               'Prefer not to say',
             ],
             other: false,
-            stateName: 'genderIdentity',
+            stateName: 'gender',
           },
           {
             title: 'Sexual Orientation',
@@ -200,9 +204,30 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     }));
   };
 
+  const handleOtherChange = (name: string, value: any, other: boolean) => {
+    if (other) {
+      setSignUpState(prevData => ({
+        ...prevData,
+        [name]: 'Other',
+        [name + 'Other']: value,
+      }));
+    } else {
+      handleChange(name, value);
+    }
+    console.log(signUpState);
+  };
+
   return (
     <SignUpContext.Provider
-      value={{ page, setPage, signUpState, setSignUpState, signUpFlow, handleChange }}>
+      value={{
+        page,
+        setPage,
+        signUpState,
+        setSignUpState,
+        signUpFlow,
+        handleChange,
+        handleOtherChange,
+      }}>
       {children}
     </SignUpContext.Provider>
   );
