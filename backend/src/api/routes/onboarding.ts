@@ -37,7 +37,7 @@ export default (app: Router) => {
         pronounsOther: Joi.string(),
         concerns: Joi.array(),
         goals: Joi.array(),
-        personalityTestScore: Joi.object(),      }),
+        personalityTestScore: Joi.object(),}),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
