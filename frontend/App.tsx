@@ -9,35 +9,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/contexts/AuthContext';
 import Router from './src/navigation/Router';
 import ScreenWideButton from './src/components/question/ScreenWideButton';
+import { setupPermissions } from './src/services/healthServices/healthService';
 
-/* Permission options */
-const permissions = {
-  permissions: {
-    read: [AppleHealthKit.Constants.Permissions.HeartRate],
-    write: [AppleHealthKit.Constants.Permissions.Steps],
-  },
-} as HealthKitPermissions;
-
-AppleHealthKit.initHealthKit(permissions, (error: string) => {
-  /* Called after we receive a response from the system */
-
-  if (error) {
-    console.log('[ERROR] Cannot grant permissions!');
-  }
-
-  /* Can now read or write to HealthKit */
-
-  const options = {
-    startDate: new Date(2020, 1, 1).toISOString(),
-  };
-
-  AppleHealthKit.getHeartRateSamples(
-    options,
-    (callbackError: string, results: HealthValue[]) => {
-      /* Samples are now collected from HealthKit */
-    },
-  );
-});
+setupPermissions();
 
 let options = {
   date: new Date().toISOString(), // optional; default now
