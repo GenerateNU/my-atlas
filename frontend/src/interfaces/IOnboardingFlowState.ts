@@ -6,13 +6,16 @@ export interface IOnboardingFlowState {
   name: string;
   phoneNumber: string;
   pronouns: string;
+  pronounsOther: string;
   dob: string;
   zipcode: string;
   sexAssignedAtBirth: string;
-  genderIdentity: string;
+  gender: string;
+  genderOther: string;
   sexualOrientation: string;
   ethnicity: string;
   religion: string;
+  religionOther: string;
   mentalHealthStance: string;
   soughtCare: boolean;
   spirituality: boolean;
