@@ -58,6 +58,18 @@ export default class OnboardingService {
       throw e;
     }
   }
+  // Gets a boolean if the user has completed the personaity test
+  public async getPersonalityTestCompleted(userID: string): Promise<{ personalityTestCompleted: boolean }> {
+    try {
+      const onboardingRecord = await this.onboardingModel.findOne({ userID: userID });
+      const onboarding: IOnboarding = onboardingRecord.toObject();
+      const personalityTestCompleted = onboarding.personalityTestCompleted;
+      return { personalityTestCompleted };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
 
   // Deletes the onboarding information associated with the given userID (not the
   // objectID). Returns the deleted onbaording data. Otherwise returns an error

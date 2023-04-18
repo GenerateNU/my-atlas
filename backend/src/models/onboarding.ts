@@ -38,6 +38,10 @@ const Onboarding = new mongoose.Schema(
       default: undefined,
       validate: [CheckFive, 'Five Numbers are required'],
     },
+    personalityTestCompleted: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true },
 );
