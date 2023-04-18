@@ -10,10 +10,9 @@ import { IActivityDTO } from "../../interfaces/IActivity";
 import { IHeartRateSampleDTO } from "../../interfaces/IHeartRateSample";
 import { IHeartRateVariabilityDTO } from "../../interfaces/IHeartRateVariability";
 import { IRestingHeartRateDTO } from '../../interfaces/IRestingHeartRate';
-import { IHeadphoneExposureSampleDTO } from "../../interfaces/IHeadphoneExposureSample";
 import moment, { duration } from "moment";
-import { IMindfulSessionDTO } from '../..//interfaces/IMindfulSession';
-import { ISleepSampleDTO } from "../..//interfaces/ISleepSample";
+import { IMindfulSessionDTO } from '../../interfaces/IMindfulSession';
+import { ISleepSampleDTO } from "../../interfaces/ISleepSample";
 import { timeStamp } from 'console';
 
 
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
  * @param options Healthkit options including data and acending 
  * @returns 
  */
-async function retrieveHealthKitData(method: string, startDate: Date): Promise<HealthValue[]> {
+export async function retrieveHealthKitData(method: string, startDate: Date): Promise<HealthValue[]> {
   const options = {
     startDate: startDate.toISOString(),
     ascending: true,
@@ -252,29 +251,6 @@ function convertRestingHeartRate(restingHeartRate: Array<HealthValue>): Array<IR
   return restingHeartRateDTOs;
 }
 
-/**
- * Converts array of HealthValues to array of IHeadphoneExposureSampleDTO.
- * @param headphoneExposureSamples 
- * @returns Array<IHeadphoneExposureSampleDTO>
- */
-function convertHeadphoneExposureSamples(headphoneExposureSamples: Array<HealthValue>): Array<IHeadphoneExposureSampleDTO> {
-  var headphoneExposureSampleDTOs: Array<IHeadphoneExposureSampleDTO> = [];
-  headphoneExposureSamples.forEach(sample => {
-    let startDate = new Date(sample.startDate);
-    let duration = dateDifferenceInMilliSeconds(startDate, new Date(sample.endDate));
-    const headphoneExposureSampleDTO: IHeadphoneExposureSampleDTO = {
-      userID: userId,
-      startDate: startDate,
-      duration: duration,
-      value: sample.value,
-      hkID: sample.id,
-      //hkWasUserEntered: Boolean(sample.metadata.HKWasUserEntered)
-    }
-    // Add each sample
-    headphoneExposureSampleDTOs.push(headphoneExposureSampleDTO)
-  });
-  return headphoneExposureSampleDTOs;
-}
 
 /**
  * Converts array of HealthValues to array of IMindfulSessionDTO.
@@ -326,7 +302,7 @@ function convertSleepSamples(sleepSamples: Array<HealthValue>): Array<ISleepSamp
  * @param date2 
  * @returns 
  */
-function dateDifferenceInMilliSeconds(date1: Date, date2: Date): number {
+export function dateDifferenceInMilliSeconds(date1: Date, date2: Date): number {
   var date1Time: number = date1.getTime();
   var date2Time: number = date2.getTime();
   return Math.abs(date1Time - date2Time);

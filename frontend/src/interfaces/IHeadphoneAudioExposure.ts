@@ -1,4 +1,4 @@
-export interface IHeadphoneExposureSample {
+export interface IHeadphoneAudioExposure {
   _id: String;
   userID: String;
   startDate: Date;
@@ -7,7 +7,7 @@ export interface IHeadphoneExposureSample {
   hkID: String;
 }
 
-export interface IHeadphoneExposureSampleDTO {
+export interface IHeadphoneAudioExposureDTO {
   userID: String;
   startDate: Date;
   duration: Number;
