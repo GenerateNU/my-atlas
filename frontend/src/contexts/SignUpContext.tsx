@@ -8,6 +8,7 @@ type SignUpContextData = {
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
   signUpFlow: Object;
   handleChange: (name: string, value: any) => void;
+  handleChangeArray: (name: string, value: any) => void;
   handleOtherChange: (name: string, value: any, other: boolean) => void;
 };
 
@@ -36,6 +37,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     religionOther: undefined,
     mentalHealthStance: undefined,
     soughtCare: undefined,
+    concerns: [],
+    goals: [],
     spirituality: undefined,
   });
   const signUpFlow = [
@@ -188,6 +191,21 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
+      page: 'Wellness Goals Screen',
+      props: {
+        progress: 88,
+        stateName: 'goals'
+        // question: 'Choose your behavioral health and wellness goals',
+      },
+    },
+    {
+      page: 'Experience Screen',
+      props: {
+        progress: 88,
+        stateName: 'concerns'
+      },
+    },
+    {
       page: 'Yes No Screen',
       props: {
         question: 'Do you consider yourself spiritual?',
@@ -202,6 +220,20 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleChangeArray = (name: string, value: any) => {
+    const arr: string[] = signUpState[name];
+    if (arr.includes(value)) {
+      arr.splice(arr.indexOf(value));
+    } else {
+      arr.push(value);
+    }
+    setSignUpState(prevData => ({
+      ...prevData,
+      [name]: arr,
+    }));
+    console.log(arr);
   };
 
   const handleOtherChange = (name: string, value: any, other: boolean) => {
@@ -227,6 +259,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         signUpFlow,
         handleChange,
         handleOtherChange,
+        handleChangeArray,
       }}>
       {children}
     </SignUpContext.Provider>

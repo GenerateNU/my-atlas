@@ -18,5 +18,7 @@ export interface IOnboardingFlowState {
   religionOther: string;
   mentalHealthStance: string;
   soughtCare: boolean;
+  concerns: string[];
+  goals: string[];
   spirituality: boolean;
 }

@@ -10,6 +10,7 @@
     "react-devtools": "react-devtools"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^7.0.1",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@types/react": "~18.0.24",
