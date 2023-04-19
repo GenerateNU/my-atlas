@@ -1,20 +1,25 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IEnvironmentalAudioExposureSample, IEnvironmentalAudioExposureSampleDTO } from '../../interfaces/IEnvironmentalAudioExposureSample';
 
 /**
  * 
  * @returns 
  */
-export const addManyEnvironmentalAudioExposure = async (userId : string , startDate: Date, endDate: Date) : Promise<IEnvironmentalAudioExposureSample[]> => {
-    const environmentAudios : Array<HealthValue> = await retrieveHealthKitData("getMindfulSession", startDate, endDate);
-    const environmentAudioDTOS : Array<IEnvironmentalAudioExposureSampleDTO>= convertEnvironmentAudioSamples(userId, environmentAudios);
+export const addManyEnvironmentalAudioExposure = async (userId : string, authToken:string, startDate: Date, endDate: Date) : Promise<IEnvironmentalAudioExposureSample[]> => {
+    try{
+      const headers = {
+        'Authorization': 'Bearer ' + authToken,
+      };
+  const environmentAudios : Array<HealthValue> = await retrieveHealthKitData("getEnvironmentalAudioExposure", startDate, endDate);
+  const environmentAudioDTOS : Array<IEnvironmentalAudioExposureSampleDTO>= convertEnvironmentAudioSamples(userId, environmentAudios);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/environmentalAudioExposure/addManyEnvironmentalAudioExposure', 
-            environmentAudioDTOS)
+            environmentAudioDTOS,
+            {headers})
             .then(
               response => {
                 console.log(response.data);
@@ -27,6 +32,10 @@ export const addManyEnvironmentalAudioExposure = async (userId : string , startD
             );
         });
       });
+    }
+    catch(error){
+      console.log(error);
+    }
 };
 
 

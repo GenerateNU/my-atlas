@@ -18,7 +18,7 @@ export default (app: Router) => {
     celebrate({
       body: Joi.object({
         userID: Joi.string().required(),
-        date: Joi.date().required(),
+        startDate: Joi.date().required(),
         duration: Joi.number().required(),
         sleepState: Joi.string().required(),
       }),
@@ -29,7 +29,7 @@ export default (app: Router) => {
       try {
         const SleepSampleInstance = Container.get(SleepSampleService);
         const { sleepSample } = await SleepSampleInstance.addSleepSample(req.body as ISleepSampleDTO);
-        return res.status(201).json({ sleepSample });
+        return res.status(201).json({sleepSample});
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
@@ -44,7 +44,7 @@ export default (app: Router) => {
     celebrate({
       body: Joi.array().items({
         userID: Joi.string().required(),
-        date: Joi.date().required(),
+        startDate: Joi.date().required(),
         duration: Joi.number().required(),
         sleepState: Joi.string().required(),
       }),
@@ -55,7 +55,7 @@ export default (app: Router) => {
       try {
         const sleepSampleServiceInstance = Container.get(SleepSampleService);
         const { sleepSampleMany } = await sleepSampleServiceInstance.addManySleepSample(req.body);
-        return sleepSampleMany;
+        return res.status(201).json(sleepSampleMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

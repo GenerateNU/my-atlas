@@ -18,15 +18,21 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
-    user: {
-      name: undefined,
-      email: undefined,
-      password: undefined,
-      phoneNumber: undefined,
-      dob: undefined,
-      age: undefined,
-    },
     dob: undefined,
+    email: undefined,
+    password: undefined,
+    name: undefined,
+    phoneNumber: undefined,
+    pronouns: undefined,
+    zipcode: undefined,
+    sexAssignedAtBirth: undefined,
+    genderIdentity: undefined,
+    sexualOrientation: undefined,
+    ethnicity: undefined,
+    religion: undefined,
+    mentalHealthStance: undefined,
+    soughtCare: undefined,
+    spirituality: undefined
   });
   const signUpFlow = [
     {
@@ -39,7 +45,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your name",
         inputName: 'Name',
         stateName: 'name',
-        progress: 14,
+        progress: 11,
       },
     },
     {
@@ -50,15 +56,15 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Single Question Screen',
       props: {
         question: "What's your phone number",
-        inputName: '',
+        inputName: '+1',
         stateName: 'phoneNumber',
-        progress: 28,
+        progress: 22,
       },
     },
     {
       page: 'Select One Screen',
       props: {
-        question: 'What are your pronouns',
+        question: 'What are your pronouns?',
         stateName: 'pronouns',
         sections: [
           {
@@ -67,7 +73,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'pronouns',
           },
         ],
-        progress: 43,
+        progress: 33,
+        isLong: false,
       },
     },
     {
@@ -76,7 +83,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: "What's your date of birth?",
         inputName: "Enter date",
         stateName: 'dob',
-        progress: 57,
+        progress: 44,
       },
     },
     {
@@ -85,7 +92,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Where do you live?',
         inputName: 'Zip Code',
         stateName: 'zipcode',
-        progress: 71,
+        progress: 55,
       },
     },
     {
@@ -151,19 +158,37 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
             stateName: 'religion',
           },
         ],
-        progress: 86,
+        progress: 66,
+        isLong: true,
       },
     },
     {
       page: 'Select One Screen',
       props: {
+        question: 'When it comes to self-care and wellness, you are…',
         sections: [
           {
-            question: 'When it comes to taking care of your mental health, you are...',
+            question: '',
             answers: ['Informed', 'Curious', 'Skeptical'],
           },
         ],
+        progress: 77,
+      },
+    },
+    {
+      page: 'Yes No Screen',
+      props: {
+        question: 'Have you sought behavioral health or wellness care in the past?',
+        progress: 88,
+        stateName: 'soughtCare',
+      },
+    },
+    {
+      page: 'Yes No Screen',
+      props: {
+        question: 'Do you consider yourself spiritual?',
         progress: 100,
+        stateName: 'spirituality',
       },
     },
   ];

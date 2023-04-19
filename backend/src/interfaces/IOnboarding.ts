@@ -1,3 +1,5 @@
+import { IPersonalityScore } from '@/interfaces/IPersonalityScore';
+
 export interface IOnboarding {
   _id: string;
   userID: string;
@@ -18,8 +20,10 @@ export interface IOnboarding {
   spiritual?: boolean;
   concerns?: string[];
   goals?: string[];
-  personalityTestScore?: number[];
+  personalityTestScore?: IPersonalityScore;
+  personalityTestCompleted?: boolean;
 }
+
 
 export interface IOnboardingInputDTO {
   userID: string;
@@ -40,5 +44,6 @@ export interface IOnboardingInputDTO {
   spiritual?: boolean;
   concerns?: string[];
   goals?: string[];
-  personalityTestScore?: number[];
+  personalityTestScore?: IPersonalityScore;
+  personalityTestCompleted?: boolean;
 }

@@ -13,10 +13,6 @@ const HeartRateVariability = new mongoose.Schema(
       required: true,
       index: true,
     },
-    duration: {
-      type: Number,
-      required: true,
-    },
     variability: {
       type: Number,
       required: true,

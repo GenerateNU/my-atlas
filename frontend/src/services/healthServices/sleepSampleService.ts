@@ -1,20 +1,25 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { ISleepSample, ISleepSampleDTO } from '../../interfaces/ISleepSample';
 
 /**
  * 
  * @returns 
  */
-export const addManySleepSample = async (userId : string , startDate: Date, endDate: Date) : Promise<ISleepSample[]> => {
-    const sleepSamples : Array<HealthValue> = await retrieveHealthKitData("getMindfulSession", startDate, endDate);
-    const sleepSampleDTOS : Array<ISleepSampleDTO>= convertSleepSamples(userId, sleepSamples);
+export const addManySleepSample = async (userId : string, authToken: string,  startDate: Date, endDate: Date) => {
+  try{
+      const headers = {
+    'Authorization': 'Bearer ' + authToken,
+  };
+  const sleepSamples : Array<HealthValue> = await retrieveHealthKitData("getSleepSamples", startDate, endDate);
+  const sleepSampleDTOS : Array<ISleepSampleDTO>= convertSleepSamples(userId, sleepSamples);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/sleepSample/addManySleepSample', 
-            sleepSampleDTOS)
+            sleepSampleDTOS, 
+            {headers})
             .then(
               response => {
                 console.log(response.data);
@@ -25,8 +30,11 @@ export const addManySleepSample = async (userId : string , startDate: Date, endD
                 reject(error.response.data.errors.message);
               },
             );
-        });
+    });
       });
+    } catch(error){
+      console.log(error);
+    }
 };
 
 

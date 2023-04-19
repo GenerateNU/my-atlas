@@ -11,6 +11,8 @@ type ScreenWideInputProps = {
   onChangeText: (name, value) => void;
   placeholderText: string;
   marginBottom?: string;
+  editable?: boolean;
+  onPressIn?: () => void;
 };
 
 const ScreenWideInput = (props: ScreenWideInputProps) => {
@@ -26,11 +28,13 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
       placeholder={props.placeholderText}
       variant="outline"
       mx={wp('8%')}
-      placeholderTextColor={'navy'}
+      placeholderTextColor={'midnight'}
       borderRadius="10px"
-      borderColor={'lightOrange'}
+      borderColor={'nectarine'}
       value={props.text}
+      editable={props.editable}
       onChangeText={value => props.onChangeText(props.name, value)}
+      onPressIn={props.onPressIn}
     />
   );
 };

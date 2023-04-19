@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IMindfulSession, IMindfulSessionDTO } from '../../interfaces/IMindfulSession';
 
@@ -8,14 +8,19 @@ import { IMindfulSession, IMindfulSessionDTO } from '../../interfaces/IMindfulSe
  * 
  * @returns 
  */
-export const addManyHeartRateSample = async (userId : string , startDate: Date, endDate: Date) : Promise<IMindfulSession[]> => {
+export const addManyMindfulSession = async (userId : string, authToken: string,  startDate: Date, endDate: Date) : Promise<IMindfulSession[]> => {
+  try{  
+    const headers = {
+      'Authorization': 'Bearer ' + authToken,
+    };
     const mindfulSessions : Array<HealthValue> = await retrieveHealthKitData("getMindfulSession", startDate, endDate);
     const mindfulSessionDTOS : Array<IMindfulSessionDTO>= convertMindfulSessions(userId, mindfulSessions);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
-            .post('http://localhost:3000/api/mindfulSession/addManyMindfulSessoin', 
-            mindfulSessionDTOS)
+            .post('http://localhost:3000/api/mindfulSession/addManyMindfulSession', 
+            mindfulSessionDTOS,
+            {headers})
             .then(
               response => {
                 console.log(response.data);
@@ -28,6 +33,10 @@ export const addManyHeartRateSample = async (userId : string , startDate: Date, 
             );
         });
       });
+    }
+    catch (error){
+      console.log(error);
+    }
 };
 
 /**

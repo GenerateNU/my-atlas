@@ -3,6 +3,7 @@ import cors from 'cors';
 import { OpticMiddleware } from '@useoptic/express-middleware';
 import routes from '@/api';
 import config from '@/config';
+import { errors } from 'celebrate';
 export default ({ app }: { app: express.Application }) => {
   /**
    * Health Check endpoints
@@ -14,6 +15,7 @@ export default ({ app }: { app: express.Application }) => {
   app.head('/status', (req, res) => {
     res.status(200).end();
   });
+  
 
   // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs
@@ -45,7 +47,8 @@ export default ({ app }: { app: express.Application }) => {
     err['status'] = 404;
     next(err);
   });
-
+  app.use(errors());
+  
   /// error handlers
   app.use((err, req, res, next) => {
     /**
@@ -68,3 +71,4 @@ export default ({ app }: { app: express.Application }) => {
     });
   });
 };
+

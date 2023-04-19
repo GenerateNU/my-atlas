@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IHeartRateVariability, IHeartRateVariabilityDTO } from '../../interfaces/IHeartRateVariability';
 
@@ -8,14 +8,19 @@ import { IHeartRateVariability, IHeartRateVariabilityDTO } from '../../interface
  * 
  * @returns 
  */
-export const addManyHeartRateSample = async (userId : string , startDate: Date, endDate: Date) : Promise<IHeartRateVariability[]> => {
-    const heartRateVariabilities : Array<HealthValue> = await retrieveHealthKitData("getHeartRateVariabilitySamples", startDate, endDate);
+export const addManyHeartRateVariabilities = async (userId : string , authToken:string ,startDate: Date, endDate: Date) : Promise<IHeartRateVariability[]> => {
+  try{
+  const headers = {
+    'Authorization': 'Bearer ' + authToken,
+  };
+  const heartRateVariabilities : Array<HealthValue> = await retrieveHealthKitData("getHeartRateVariabilitySamples", startDate, endDate);
     const heartRateVariabilitiesDTOs : Array<IHeartRateVariabilityDTO>= convertHeartRateVariabilities(userId,heartRateVariabilities);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/heartRateVariability/addManyHeartRateVariability', 
-            heartRateVariabilitiesDTOs)
+            heartRateVariabilitiesDTOs,
+            {headers})
             .then(
               response => {
                 console.log(response.data);
@@ -28,6 +33,10 @@ export const addManyHeartRateSample = async (userId : string , startDate: Date, 
             );
         });
       });
+    }
+    catch (error){
+      console.log(error)
+    }
 };
 
 /**

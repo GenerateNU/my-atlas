@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IHeadphoneAudioExposureDTO, IHeadphoneAudioExposure } from '../../interfaces/IHeadphoneAudioExposure';
 
@@ -8,14 +8,19 @@ import { IHeadphoneAudioExposureDTO, IHeadphoneAudioExposure } from '../../inter
  * 
  * @returns 
  */
-export const addManyHeadphoneAudioExposure = async (userId:string, startDate:Date, endDate:Date) : Promise<IHeadphoneAudioExposure[]> => {
-    const headphoneExposureSamples : Array<HealthValue> = await retrieveHealthKitData("getHeadphoneAudioExposure", startDate, endDate);
+export const addManyHeadphoneAudioExposure = async (userId:string, authToken:string, startDate:Date, endDate:Date) : Promise<IHeadphoneAudioExposure[]> => {
+  try{
+  const headers = {
+    'Authorization': 'Bearer ' + authToken,
+  };
+  const headphoneExposureSamples : Array<HealthValue> = await retrieveHealthKitData("getHeadphoneAudioExposure", startDate, endDate);
     const headphoneExposureSampleDTOs : Array<IHeadphoneAudioExposureDTO>= convertHeadphoneExposureSamples(userId, headphoneExposureSamples);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/headphoneAudioExposure/addManyHeadphoneAudioExposure', 
-            headphoneExposureSampleDTOs)
+            headphoneExposureSampleDTOs,
+            {headers})
             .then(
               response => {
                 console.log(response.data);
@@ -28,6 +33,10 @@ export const addManyHeadphoneAudioExposure = async (userId:string, startDate:Dat
             );
         });
       });
+    }
+    catch(error){
+      console.log(error);
+    }
 };
 
 /**

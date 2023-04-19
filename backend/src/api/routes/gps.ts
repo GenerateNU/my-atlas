@@ -63,7 +63,7 @@ export default (app: Router) => {
       try {
         const GPSServiceInstance = Container.get(GPSService);
         const { gpsMany } = await GPSServiceInstance.addManyGPS(req.body);
-        return gpsMany;
+        return res.status(201).json(gpsMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

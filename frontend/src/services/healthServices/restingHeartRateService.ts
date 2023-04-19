@@ -1,22 +1,29 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthService';
+import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IRestingHeartRate, IRestingHeartRateDTO } from '../../interfaces/IRestingHeartRate';
 
 /**
  * 
  * @returns 
  */
-export const addManyHeartRateSample = async (userId : string , startDate: Date, endDate: Date) : Promise<IRestingHeartRate[]> => {
-    const restHeartRates : Array<HealthValue> = await retrieveHealthKitData("getMindfulSession", startDate, endDate);
+export const addManyRestingHeartRate = async (userId : string , authToken:string, startDate: Date, endDate: Date) : Promise<IRestingHeartRate[]> => {
+  try{
+  const headers = {
+    'Authorization': 'Bearer ' + authToken,
+  };
+  const restHeartRates : Array<HealthValue> = await retrieveHealthKitData("getRestingHeartRateSamples", startDate, endDate);
     const restHeartRateDTOs : Array<IRestingHeartRateDTO>= convertRestingHeartRate(userId, restHeartRates);
+    console.log(restHeartRateDTOs);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/restingHeartRate/addManyRestingHeartRate', 
-            restHeartRateDTOs)
+            restHeartRateDTOs, 
+            {headers})
             .then(
               response => {
+                console.log("DAVE")
                 console.log(response.data);
                 resolve(response.data);
               },
@@ -27,6 +34,10 @@ export const addManyHeartRateSample = async (userId : string , startDate: Date, 
             );
         });
       });
+     } 
+    catch (error){
+      console.log(error);
+    }
 };
 
 

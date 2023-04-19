@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { IOnboarding } from '@/interfaces/IOnboarding';
 import e from 'express';
+import { IPersonalityScore } from '@/interfaces/IPersonalityScore';
 
 const Onboarding = new mongoose.Schema(
   {
@@ -33,16 +34,25 @@ const Onboarding = new mongoose.Schema(
       default: undefined,
     },
     personalityTestScore: {
-      type: [Number],
+      type: Object,
       default: undefined,
-      validate: [arrayLength, 'Five Numbers are required'],
+      validate: [CheckFive, 'Five Numbers are required'],
     },
+    personalityTestCompleted: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true },
 );
 
-// Check that the array length is 5
-function arrayLength(val: number[]) {
-  return val.length == 5;
+// Check that the object has 5 numbers
+function CheckFive(val: IPersonalityScore) {
+  return !(
+    val.Agreeableness == undefined ||
+    val.Conscientiousness == undefined ||
+    val.Extraversion == undefined ||
+    val.Neuroticism == undefined ||
+    val.Openness == undefined);
 }
 export default mongoose.model<IOnboarding & mongoose.Document>('Onboarding', Onboarding);

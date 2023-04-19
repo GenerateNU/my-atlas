@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { retrieveHealthKitData } from './healthService';
+import { retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 const userId = "hi";
 
@@ -8,8 +8,9 @@ const userId = "hi";
  * Can get the activities, but needs to be wrapped in a promise. I would use this to send healthvalues 
  * @param startDate 
  */
-async function getActivities(startDate: Date, endDate: Date) {
+export async function addManyActivities(userId:string, authToken:string, startDate: Date, endDate: Date) {
     try {
+      
       const steps : HealthValue[] = await retrieveHealthKitData("getDailyStepCountSamples", startDate, endDate)
       const walkingRunning : HealthValue[] = await retrieveHealthKitData("getDailyDistanceWalkingRunningSamples", startDate, endDate)
       const swimming : HealthValue[] = await  retrieveHealthKitData("getDailyDistanceSwimmingSamples", startDate, endDate)
@@ -24,8 +25,29 @@ async function getActivities(startDate: Date, endDate: Date) {
         activeEnergy, basalEnergy, standTime
       }
       // Convert the Activities to IActivityDTO[]
-      const activityDTOS : IActivityDTO[] = convertActivity(startDate, activitySamples);
-      console.log(activityDTOS);   
+      const activityDTOS : IActivityDTO[] = convertActivity(startDate, endDate, activitySamples);
+   
+      const headers = {
+        'Authorization': 'Bearer ' + authToken,
+      };
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          axios
+            .post('http://localhost:3000/api/activity/addManyActivity', 
+            activityDTOS,
+            {headers})
+            .then(
+              response => {
+                console.log(response.data);
+                resolve(response.data);
+              },
+              error => {
+                console.log(error.response.data.errors.message);
+                reject(error.response.data.errors.message);
+              },
+            );
+        });
+      });
     } catch (err) {
       console.log(err);
     }
@@ -49,14 +71,9 @@ async function getActivities(startDate: Date, endDate: Date) {
    * @param activityHealthValues 
    * @returns IActivityDTO[]
    */
-  function convertActivity(startDate: Date, activityHealthValues: ActivityHealthValues) : IActivityDTO[]{
-    //let activtyDTOFields = ['steps', 'walkingRunning', 'swimming', 'cycling', 'flights', 'activeEnergy', 'basalEnergy', '']
+  function convertActivity(startDate: Date, endDate:Date, activityHealthValues: ActivityHealthValues) : IActivityDTO[]{
     var activityDTOs : IActivityDTO[] = [];
-    //console.log(startDate)
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    var daysBetween = 0;
-    for (var d = startDate; d < today; d.setDate(d.getDate() + 1)) {
+    for (var d = startDate; d < endDate; d.setDate(d.getDate() + 1)) {
       let activityDTO: IActivityDTO = {
         userID: userId,
         date: new Date(d)
