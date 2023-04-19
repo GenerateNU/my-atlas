@@ -26,7 +26,6 @@ const AccessScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log(loading);
   }, [loading]);
 
   return (
@@ -44,7 +43,7 @@ const AccessScreen = ({ route, navigation }) => {
             letterSpacing: 'lg',
           }}
           _pressed={{
-            backgroundColor: 'darkOrange',
+            backgroundColor: 'terra',
             _text: { color: 'white' },
           }}
           onPress={signUp}
