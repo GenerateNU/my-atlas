@@ -4,12 +4,10 @@ import AppleHealthKit, {
 } from "react-native-health";
 
 
+/*
+ link to HealthKit library https://github.com/agencyenterprise/react-native-health/blob/master/docs/permissions.md
+*/
 
-
-const userId: string = "Test User"; // User Id (Using Test Id for now)
-const lastRetrievalDate = new Date(2023, 2, 16); // Last retrival date of the user
-             // Other Permissions
-                                  
 /**
  * Set up permissions for retrieving data from healthkit, and possibly gps in the future
  */
