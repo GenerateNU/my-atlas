@@ -1,15 +1,21 @@
 import axios from 'axios';
 import { IOnboarding, IOnboardingDTO } from '../interfaces/IOnboardingDTO';
 
-const addOnboarding = (onboarding : IOnboardingDTO, authToken : string): Promise<IOnboarding> => {
+const addOnboarding = (onboarding : IOnboardingDTO, userID : string, authToken : string): Promise<IOnboarding> => {
     const headers = {
-        'Authorization': 'Bearer' + authToken
+        'Authorization': 'Bearer ' + authToken
     }
+    const onboardingDTO = {
+        ...onboarding,
+        userID : userID
+    }
+    console.log(userID)
+    console.log(authToken)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios
         .post('http://localhost:3000/api/onboarding/addOnboarding',
-          onboarding,
+          onboardingDTO,
           {headers})
         .then(
           response => {
@@ -19,8 +25,23 @@ const addOnboarding = (onboarding : IOnboardingDTO, authToken : string): Promise
             );
           },
           error => {
-            console.log(error.response.data.errors.message);
-            reject(error.response.data.errors.message);
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            reject(error);
           },
         );
     });
@@ -31,14 +52,10 @@ const updateOnboardingByUserID = (onboarding : IOnboardingDTO, userID : string, 
     const headers = {
         'Authorization': 'Bearer ' + authToken
     }
-    console.log(authToken)
-    console.log(userID)
     const onboardingDTO = {
         ...onboarding,
-        userID : userID,
-        personalityTestCompleted : true
+        userID : userID
     }
-    console.log(onboardingDTO)
     return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios

@@ -26,12 +26,11 @@ const Big5SelectionScreen = ({ route, navigation }) => {
   const skip = async () => {
     if (page == 6) {
       const score : IPersonalityScore = calculateScore();
-      console.log(score)
       const onboardingLoad : IOnboardingDTO = {
-        personalityTestScore: score
+        personalityTestScore: score,
+        personalityTestCompleted : true
       }
       await onboardingService.updateOnboardingByUserID(onboardingLoad, userId, token)
-      console.log("Updated Onboarding.")
       navigation.navigate("Home Screen");
       
     } else {

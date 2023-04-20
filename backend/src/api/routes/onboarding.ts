@@ -28,7 +28,7 @@ export default (app: Router) => {
         sexualOrientation: Joi.string(),
         sexAssignedAtBirth: Joi.string(),
         mentalHealthCare: Joi.string(),
-        haveSoughtCare: Joi.string(),
+        haveSoughtCare: Joi.boolean(),
         spiritual: Joi.boolean(),
         identifyYourself: Joi.string(),
         gender: Joi.string(),
