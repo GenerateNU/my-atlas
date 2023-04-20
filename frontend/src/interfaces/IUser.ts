@@ -5,7 +5,6 @@ export interface IUser {
   phoneNumber: string;
   dob: string;
   lastDateDataRetrieved: Date;
-
 }
 
 export interface IUserInputDTO {
@@ -14,5 +13,4 @@ export interface IUserInputDTO {
   password: string;
   phoneNumber: string;
   dob: string;
-  age: number;
 }

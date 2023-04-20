@@ -7,20 +7,33 @@ import { addMany } from '../../services/healthServices/healthServices';
 import { getUser } from '../../services/userService';
 import { addHealthLocally } from '../../services/healthServices/healthServices';
 import { getLocalData } from '../../services/healthServices/healthServices';
+import ProfileHeader from '../../components/home/ProfileHeader';
+import Big5Redirect from '../../components/home/Big5Redirect';
+import useAxios from 'axios-hooks';
+
 
 const HomeScreen = ({navigation, route}) => {
   const [loading, isLoading] = useState(false);
   const auth = useAuth();
   const userID  = auth.authData.user._id;
   const token = auth.authData.token;
-
   const signOut = async () => {
-    isLoading(true);
     await auth.signOut();
   };
 
+  const [{ data, loading, error }, refetch] = useAxios({
+    url: 'http://localhost:3000/api/onboarding/getPersonalityTestCompleted/' + userId,
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  const redirect = () => {
+  const big5Redirect = () => {
+    navigation.push('Big 5 Results Screen');
+  };
+
+  const big5TestRedirect = () => {
     navigation.push('Big 5 Stack', { screen: 'Big 5 Intro Screen' });
   }
   
@@ -52,22 +65,29 @@ const HomeScreen = ({navigation, route}) => {
     getLocalData();
   }
 
+  const pressableRetrieval = () => {
+    return data ? (
+      <Big5Redirect
+        onPress={big5Redirect}
+        titleText={'See Big 5 Personality Test Results'}
+        subtitleText={'Quiz to measure 5 Personality Traits'}
+      />
+    ) : (
+      <Big5Redirect
+        onPress={big5TestRedirect}
+        titleText={'Complete Big 5 Personality Test'}
+        subtitleText={'Quiz to measure 5 Personality Traits'}
+      />
+    );
+  };
+
   return (
-    <SafeAreaView>
-      <Text>HOME SCREEN</Text>
-      <Button title="Sign Out" onPress={signOut} />
-      <Button title="Click Me" onPress={redirect}/>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFCFA' }}>
+      <ProfileHeader userName={auth.authData.user.name} onPress={signOut} />
+      {loading ? <></> : error ? <Text>Failed to get Onboarding Info</Text> : pressableRetrieval()}
       <Button title="Stuff" onPress={doStuff}/>
       <Button title="Add Local" onPress={addDataLocally}/>
       <Button title="Get Local" onPress={getUserStuff}/>
-      {auth.authData ? (
-        <Text>{auth.authData.user.name}</Text>
-      ) : (
-        <Text>Not loaded</Text>
-
-      )}
-      <Question question={"Which best describes you?"}>
-      </Question>
     </SafeAreaView>
   );
 };

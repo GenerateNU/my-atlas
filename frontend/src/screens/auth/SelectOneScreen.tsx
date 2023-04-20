@@ -8,7 +8,7 @@ import NextButton from '../../components/NextButton';
 
 const SelectOneScreen = ({ route, navigation }) => {
   const { props } = route.params;
-  const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+  const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange, handleOtherChange } = useSignUp();
 
   const back = async () => {
     const prevPage = signUpFlow[page - 1];
@@ -45,10 +45,12 @@ const SelectOneScreen = ({ route, navigation }) => {
                       key={key}
                       title={selectOne.title}
                       onAnswerPress={handleChange}
+                      onAnswerPressOther={handleOtherChange}
                       options={selectOne.answers}
                       other={selectOne.other}
                       stateName={selectOne.stateName}
                       state={signUpState[selectOne.stateName]}
+                      otherState= {selectOne.other ? signUpState[selectOne.stateName + 'Other'] : undefined}
                     />
                   ))}
                 </Question>

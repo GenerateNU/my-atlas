@@ -28,7 +28,7 @@ export default (app: Router) => {
         sexualOrientation: Joi.string(),
         sexAssignedAtBirth: Joi.string(),
         mentalHealthCare: Joi.string(),
-        haveSoughtCare: Joi.string(),
+        haveSoughtCare: Joi.boolean(),
         spiritual: Joi.boolean(),
         identifyYourself: Joi.string(),
         gender: Joi.string(),
@@ -122,17 +122,17 @@ export default (app: Router) => {
  Returns the boolean personalityTestCompleted
   */
   route.get(
-    '/getOnboarding/:id',
+    '/getPersonalityTestCompleted/:id',
     middlewares.isAuth,
     middlewares.authorizeUser,
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling getOnboarding endpoint');
+      logger.debug('Calling getPersonalityTestCompleted endpoint');
       try {
         const { id } = req.params;
         const OnboardingServiceInstance = Container.get(OnboardingService);
         const { personalityTestCompleted } = await OnboardingServiceInstance.getPersonalityTestCompleted(id);
-        return res.json({ personalityTestCompleted }).status(200);
+        return res.json(personalityTestCompleted).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

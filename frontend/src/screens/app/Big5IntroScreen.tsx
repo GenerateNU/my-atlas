@@ -29,7 +29,10 @@ const Big5IntroScreen = ({ route, navigation }) => {
             marginTop={hp('5%')}
             marginBottom={hp('3%')}
             ml={wp('10%')}
-            marginX={wp('10%')}>
+            marginX={wp('10%')} fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             Just one more thing and we're done...
           </Heading>
         </Container>

@@ -49,8 +49,8 @@ const signUp = (userInput: IUserInputDTO): Promise<AuthData> => {
                 });
               },
               error => {
-                console.log(error.response.data.errors.message);
-                reject(error.response.data.errors.message);
+                console.log(error.message);
+                reject(error);
               },
             );
         });

@@ -4,10 +4,18 @@ import Big5Form from '../../components/Big5Form';
 import NextButton from '../../components/NextButton';
 import ProgressBar from '../../components/ProgressBar';
 import { useBig5 } from '../../contexts/Big5Context';
+import { IPersonalityScore } from '../../interfaces/IPersonalityScore';
+import { onboardingService } from '../../services/onboardingService';
+import { useAuth } from '../../contexts/AuthContext';
+import { IOnboardingDTO } from '../../interfaces/IOnboardingDTO'
 
 const Big5SelectionScreen = ({ route, navigation }) => {
   const { props } = route.params;
-  const { page, setPage, big5State, setBig5State, big5Flow, handleChange } = useBig5();
+  const { page, setPage, big5State, setBig5State, big5Flow, handleChange, calculateScore } = useBig5();
+
+  const auth = useAuth();
+  const userId = auth.authData.user._id;
+  const token = auth.authData.token;
 
   const back = async () => {
     const prevPage = big5Flow[page - 1];
@@ -16,9 +24,20 @@ const Big5SelectionScreen = ({ route, navigation }) => {
   };
 
   const skip = async () => {
-    const nextPage = big5Flow[page + 1];
-    setPage(page + 1);
-    navigation.push(nextPage.page, { props: nextPage.props });
+    if (page == 6) {
+      const score : IPersonalityScore = calculateScore();
+      const onboardingLoad : IOnboardingDTO = {
+        personalityTestScore: score,
+        personalityTestCompleted : true
+      }
+      await onboardingService.updateOnboardingByUserID(onboardingLoad, userId, token)
+      navigation.navigate("Home Screen");
+      
+    } else {
+      const nextPage = big5Flow[page + 1];
+      setPage(page + 1);
+      navigation.push(nextPage.page, { props: nextPage.props });
+    }
   };
 
   return (
