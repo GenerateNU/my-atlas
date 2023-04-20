@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import ProfileHeader from '../../components/home/ProfileHeader';
 import Big5Redirect from '../../components/home/Big5Redirect';
 import useAxios from 'axios-hooks';
+import ActivityStats from '../../components/home/ActivityStats';
 
 const HomeScreen = ({ navigation, route }) => {
   const signOut = async () => {
@@ -50,6 +51,7 @@ const HomeScreen = ({ navigation, route }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFCFA' }}>
       <ProfileHeader userName={auth.authData.user.name} onPress={signOut} />
       {loading ? <></> : error ? <Text>Failed to get Onboarding Info</Text> : pressableRetrieval()}
+      <ActivityStats userID={userId} token={token} />
     </SafeAreaView>
   );
 };
