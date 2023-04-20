@@ -2,13 +2,13 @@ export interface ISleepSample {
   _id: String;
   userID: String;
   startDate: Date;
-  duration: Number;
+  duration: number;
   sleepState: String;
 }
 
 export interface ISleepSampleDTO {
   userID: String;
   startDate: Date;
-  duration: Number;
+  duration: number;
   sleepState: String;
 }

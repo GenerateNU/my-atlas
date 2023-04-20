@@ -1,17 +1,17 @@
 export interface IHeartRateSample {
-    _id: String;
-    userID: String;
+    _id: string;
+    userID: string;
     startDate: Date;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
+    bpm: number;
+    hkID: string;
+    hkWasUserEntered: boolean;
   }
   
   export interface IHeartRateSampleDTO {
     userID: String;
     startDate: Date;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
+    bpm: number;
+    hkID: string;
+    hkWasUserEntered: boolean;
   }
   

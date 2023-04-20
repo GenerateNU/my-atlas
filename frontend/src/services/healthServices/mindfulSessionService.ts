@@ -14,7 +14,14 @@ export const addMindfulSessionLocal = async (userId: string) => {
     const mindfulSessionDTOS : Array<IMindfulSessionDTO>= convertMindfulSessions(userId, mindfulSessions);
     console.log(mindfulSessionDTOS);
     if (mindfulSessionDTOS.length > 0){
-      const mindfulSession = mindfulSessionDTOS[0];
+      let mindfulSession: IMindfulSessionDTO = {
+        userID: userId,
+        startDate: today,
+        duration: 0,
+      }
+      for (let i = 0; i < mindfulSessionDTOS.length; i++) {
+        mindfulSession.duration += mindfulSessionDTOS[i].duration;
+      }
       
       setItemAsync("MindfulSession", JSON.stringify(mindfulSession));
     }

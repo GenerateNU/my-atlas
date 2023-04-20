@@ -1,17 +1,17 @@
 export interface IRestingHeartRate {
-    _id: String;
-    userID: String;
+    _id: string;
+    userID: string;
     startDate: Date;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
+    bpm: number;
+    hkID: string;
+    hkWasUserEntered: boolean;
   }
   
   export interface IRestingHeartRateDTO {
-    userID: String;
+    userID: string;
     startDate: Date;
-    bpm: Number;
-    hkID: String;
-    hkWasUserEntered: Boolean;
+    bpm: number;
+    hkID: string;
+    hkWasUserEntered: boolean;
   }
   

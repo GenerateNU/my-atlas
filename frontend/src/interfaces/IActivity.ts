@@ -1,26 +1,26 @@
 export interface IActivity {
-    _id: String
+    _id: string
     date: Date; // date when user opened app
-    userID: String;
-    dailyStepCountSamples?: Number;
-    dailyDistanceWalkingRunningSamples?: Number;
-    dailyDistanceSwimmingSamples?: Number;
-    dailyDistanceCyclingSamples?: Number;
-    dailyFlightsClimbedSamples?: Number;
-    activeEnergyBurned?: Number;
-    basalEnergyBurned?: Number;
-    appleStandTime?: Number;
+    userID: string;
+    dailyStepCountSamples?: number;
+    dailyDistanceWalkingRunningSamples?: number;
+    dailyDistanceSwimmingSamples?: number;
+    dailyDistanceCyclingSamples?: number;
+    dailyFlightsClimbedSamples?: number;
+    activeEnergyBurned?: number;
+    basalEnergyBurned?: number;
+    appleStandTime?: number;
 }
 
 export interface IActivityDTO {
     date: Date; // date when user opened app
-    userID: String;
-    dailyStepCountSamples?: Number;
-    dailyDistanceWalkingRunningSamples?: Number;
-    dailyDistanceSwimmingSamples?: Number;
-    dailyDistanceCyclingSamples?: Number;
-    dailyFlightsClimbedSamples?: Number;
-    activeEnergyBurned?: Number;
-    basalEnergyBurned?: Number;
-    appleStandTime?: Number;
+    userID: string;
+    dailyStepCountSamples?: number;
+    dailyDistanceWalkingRunningSamples?: number;
+    dailyDistanceSwimmingSamples?: number;
+    dailyDistanceCyclingSamples?: number;
+    dailyFlightsClimbedSamples?: number;
+    activeEnergyBurned?: number;
+    basalEnergyBurned?: number;
+    appleStandTime?: number;
  }

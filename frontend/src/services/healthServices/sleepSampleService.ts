@@ -12,9 +12,67 @@ export const addSleepSampleLocal = async (userId: string) => {
     today.setHours(0,0,0,0)
     const sleepSamples : Array<HealthValue> = await retrieveHealthKitData("getSleepSamples", today, new Date());
     const sleepSampleDTOS : Array<ISleepSampleDTO>= convertSleepSamples(userId, sleepSamples);
+    console.log(sleepSampleDTOS)
     if (sleepSampleDTOS.length > 0){
-      const sleepSample = sleepSampleDTOS[0];
-      setItemAsync("SleepSamples", JSON.stringify(sleepSample));
+     
+      let inBedSleepSampleDTO: ISleepSampleDTO = {
+        userID: userId,
+        startDate: today,
+      duration: 0,
+        sleepState: "INBED"
+      }
+      let asleepSleepSampleDTO: ISleepSampleDTO = {
+        userID: userId,
+        startDate: today,
+        duration: 0,
+        sleepState: "ASLEEP"
+      }
+      let deepSleepSampleDTO: ISleepSampleDTO = {
+        userID: userId,
+        startDate: today,
+        duration: 0,
+        sleepState: "DEEP"
+      }
+      let coreSleepSampleDTO: ISleepSampleDTO = {
+        userID: userId,
+        startDate: today,
+        duration: 0,
+        sleepState: "CORE"
+      }
+      let remSleepSampleDTO: ISleepSampleDTO = {
+        userID: userId,
+        startDate: today,
+        duration: 0,
+        sleepState: "REM"
+      }
+      for (let i = 0; i < sleepSampleDTOS.length; i++) {
+        switch(sleepSampleDTOS[i].sleepState) {
+          case "INBED":
+            inBedSleepSampleDTO.duration += sleepSampleDTOS[i].duration;
+            break;
+          case 'ASLEEP':
+            asleepSleepSampleDTO.duration += sleepSampleDTOS[i].duration;
+            break;
+          case 'DEEP':
+            deepSleepSampleDTO.duration += sleepSampleDTOS[i].duration;
+            break;
+          case 'CORE':
+            coreSleepSampleDTO.duration += sleepSampleDTOS[i].duration;
+              break;
+          case 'REM':
+            remSleepSampleDTO.duration += sleepSampleDTOS[i].duration;
+                break;
+          default:
+            console.log('Unknown Sleep State.');
+            break;
+        }
+      }
+      setItemAsync("InBedSleepSamples", JSON.stringify(inBedSleepSampleDTO));
+      setItemAsync("AsleepSleepSamples", JSON.stringify(asleepSleepSampleDTO));
+      setItemAsync("DeepSleepSamples", JSON.stringify(deepSleepSampleDTO));
+      setItemAsync("CoreSleepSamples", JSON.stringify(coreSleepSampleDTO));
+      setItemAsync("RemSleepSamples", JSON.stringify(remSleepSampleDTO));
+  
     }
   }
   catch (error){

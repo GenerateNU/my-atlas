@@ -1,16 +1,16 @@
 export interface IEnvironmentalAudioExposureSample {
-  _id: String;
-  userID: String;
+  _id: string;
+  userID: string;
   startDate: Date;
-  duration: Number;
-  value: Number;
-  hkID: String;
+  duration: number;
+  value: number;
+  hkID: string;
 }
 
 export interface IEnvironmentalAudioExposureSampleDTO {
-  userID: String;
+  userID: string;
   startDate: Date;
-  duration: Number;
-  value: Number;
-  hkID: String;
+  duration: number;
+  value: number;
+  hkID: string;
 }

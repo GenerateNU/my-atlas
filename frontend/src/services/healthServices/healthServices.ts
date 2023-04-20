@@ -65,7 +65,11 @@ export async function addMany(userId: string, token: string){
          console.log(await getItemAsync("MindfulSession"));
         console.log(await getItemAsync("Activity"));
          console.log(await getItemAsync("RestingHeartRate"));
-         console.log(await getItemAsync("SleepSamples"));
+         console.log(await getItemAsync("InBedSleepSamples"));
+         console.log(await getItemAsync("AsleepSleepSamples"));
+         console.log(await getItemAsync("DeepSleepSamples"));
+         console.log(await getItemAsync("CoreSleepSamples"));
+         console.log(await getItemAsync("RemSleepSamples"));
         
         }
         catch (error){

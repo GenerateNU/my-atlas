@@ -2,7 +2,7 @@ export interface IHeartRateVariability {
     _id: String;
     userID: String;
     startDate: Date;
-    variability: Number; // Seconds?
+    variability: number; // Seconds?
     hkID: String;
     hkWasUserEntered: Boolean;
   }
@@ -10,7 +10,7 @@ export interface IHeartRateVariability {
   export interface IHeartRateVariabilityDTO {
     userID: String;
     startDate: Date;
-    variability: Number; // Seconds?
+    variability: number; // Seconds?
     hkID: String;
     hkWasUserEntered: Boolean;
   }
