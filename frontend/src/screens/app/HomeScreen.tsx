@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, View, Alert } from 'react-native';
+import { Button, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import Question from '../../components/Question';
@@ -10,12 +10,26 @@ import { getLocalData } from '../../services/healthServices/healthServices';
 import ProfileHeader from '../../components/home/ProfileHeader';
 import Big5Redirect from '../../components/home/Big5Redirect';
 import useAxios from 'axios-hooks';
+import ActivityStats from '../../components/home/ActivityStats';
+import { getItemAsync } from 'expo-secure-store';
+import HomeScreenButton from '../../components/home/HomeScreenButton';
+import { View } from 'native-base';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-
-const HomeScreen = ({navigation, route}) => {
+const HomeScreen = ({ navigation, route }) => {
   const auth = useAuth();
-  const userID  = auth.authData.user._id;
+  const userID = auth.authData.user._id;
   const token = auth.authData.token;
+  const [callCount, setCallCount] = useState(0);
+  const [steps, setSteps] = useState(0);
+  const [distance, setDistance] = useState(0);
+  const [energy, setEnergy] = useState(0);
+  const [heartRate, setHeartRate] = useState(0);
+  const [restingHeartRate, setRestingHeartRate] = useState(0);
+  const [sleep, setSleep] = useState(0);
   const signOut = async () => {
     await auth.signOut();
   };
@@ -34,33 +48,51 @@ const HomeScreen = ({navigation, route}) => {
 
   const big5TestRedirect = () => {
     navigation.push('Big 5 Stack', { screen: 'Big 5 Intro Screen' });
-  }
-  
-  const alert = () => {
-    Alert.alert('You tapped a button!');
-  }
-  // useEffect(()=>{
-    
-  // }, [])
+  };
+
+  const updateFields = async () => {
+    const activity: any = JSON.parse(await getItemAsync('Activity'));
+    const heartRate: any = JSON.parse(await getItemAsync('HeartRateSample'));
+    const restingHeartRate: any = JSON.parse(await getItemAsync('RestingHeartRate'));
+    const deepSleep: any = JSON.parse(await getItemAsync('DeepSleepSamples'));
+    const coreSleep: any = JSON.parse(await getItemAsync('CoreSleepSamples'));
+    const remSleep: any = JSON.parse(await getItemAsync('RemSleepSamples'));
+    const deepSleepValue = deepSleep.duration == null ? deepSleep.duration / 3600000 : 0;
+    const coreSleepValue = coreSleep.duration ? coreSleep.duration / 3600000 : 0;
+    const remSleepValue = remSleep.duration ? remSleep.duration / 3600000 : 0;
+    // console.log(deepSleepValue);
+    // console.log(coreSleepValue);
+    // console.log(remSleepValue);
+    if (activity.dailyStepCountSamples) setSteps(activity.dailyStepCountSamples);
+    if (activity.dailyDistanceWalkingRunningSamples)
+      setDistance(activity.dailyDistanceWalkingRunningSamples / 1609.344);
+    if (activity.activeEnergyBurned) setEnergy(activity.activeEnergyBurned);
+    if (heartRate.bpm) setHeartRate(heartRate.bpm);
+    if (restingHeartRate.bpm) setRestingHeartRate(restingHeartRate.bpm);
+    setSleep(deepSleepValue + coreSleepValue + remSleepValue);
+  };
+
+  useEffect(() => {
+    setTimeout(updateFields, 250);
+  }, [callCount]);
 
   function doStuff() {
-   addMany(userID, token);
+    addMany(userID, token);
   }
 
-  function getUserStuff(){
-    try{
+  function getUserStuff() {
+    try {
       getUser(token);
-    }
-    catch (error){
+    } catch (error) {
       console.log(error);
     }
-   
   }
 
-  function addDataLocally(){
+  function addDataLocally() {
     addHealthLocally(userID);
+    setCallCount(prevCount => (prevCount += 1));
   }
-  function getLocallyData(){
+  function getLocallyData() {
     getLocalData();
   }
 
@@ -84,9 +116,20 @@ const HomeScreen = ({navigation, route}) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFCFA' }}>
       <ProfileHeader userName={auth.authData.user.name} onPress={signOut} />
       {loading ? <></> : error ? <Text>Failed to get Onboarding Info</Text> : pressableRetrieval()}
-      <Button title="Stuff" onPress={doStuff}/>
-      <Button title="Add Local" onPress={addDataLocally}/>
-      <Button title="Get Local" onPress={getUserStuff}/>
+      <View flexDirection={'row'} maxWidth={'100%'} justifyContent="space-between" marginX={wp('7%')}>
+        <HomeScreenButton titleText="Add To Backend" onPress={doStuff} />
+        <HomeScreenButton titleText="Add To Local" onPress={addDataLocally} />
+      </View>
+      <ActivityStats
+        userID={userID}
+        token={token}
+        daySteps={steps}
+        dayDistance={distance}
+        dayEnergy={energy}
+        dayHeartRate={heartRate}
+        dayRestingHeartRate={restingHeartRate}
+        daySleepTime={sleep}
+      />
     </SafeAreaView>
   );
 };

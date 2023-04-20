@@ -27,7 +27,6 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     phoneNumber: undefined,
     pronouns: undefined,
     pronounsOther: undefined,
-    dob: undefined,
     zipcode: undefined,
     sexAssignedAtBirth: undefined,
     gender: undefined,
