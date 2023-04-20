@@ -20,8 +20,10 @@ export interface IOnboarding {
   spiritual?: boolean;
   concerns?: string[];
   goals?: string[];
-  personalityTestScore?: number[];
+  personalityTestScore?: IPersonalityScore;
+  personalityTestCompleted?: boolean;
 }
+
 
 export interface IOnboardingInputDTO {
   userID: string;
@@ -43,4 +45,5 @@ export interface IOnboardingInputDTO {
   concerns?: string[];
   goals?: string[];
   personalityTestScore?: IPersonalityScore;
+  personalityTestCompleted?: boolean;
 }

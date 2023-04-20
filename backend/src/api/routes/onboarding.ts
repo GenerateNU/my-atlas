@@ -37,7 +37,9 @@ export default (app: Router) => {
         pronounsOther: Joi.string(),
         concerns: Joi.array(),
         goals: Joi.array(),
-        personalityTestScore: Joi.object(),      }),
+        personalityTestScore: Joi.object(),
+        personalityTestCompleted: Joi.boolean(),
+      }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
@@ -78,7 +80,8 @@ export default (app: Router) => {
         pronounsOther: Joi.string(),
         concerns: Joi.array(),
         goals: Joi.array(),
-        personalityTestScore: Joi.object(),      }),
+        personalityTestScore: Joi.object(),
+        personalityTestCompleted: Joi.boolean(),}),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
@@ -109,6 +112,27 @@ export default (app: Router) => {
         const OnboardingServiceInstance = Container.get(OnboardingService);
         const { onboarding } = await OnboardingServiceInstance.getOnboarding(id);
         return res.json({ onboarding }).status(200);
+      } catch (e) {
+        logger.error('🔥 error: %o', e);
+        return next(e);
+      }
+    },
+  );
+  /*
+ Returns the boolean personalityTestCompleted
+  */
+  route.get(
+    '/getPersonalityTestCompleted/:id',
+    middlewares.isAuth,
+    middlewares.authorizeUser,
+    async (req: Request, res: Response, next: NextFunction) => {
+      const logger: Logger = Container.get('logger');
+      logger.debug('Calling getPersonalityTestCompleted endpoint');
+      try {
+        const { id } = req.params;
+        const OnboardingServiceInstance = Container.get(OnboardingService);
+        const { personalityTestCompleted } = await OnboardingServiceInstance.getPersonalityTestCompleted(id);
+        return res.json(personalityTestCompleted).status(200);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
@@ -163,7 +187,9 @@ export default (app: Router) => {
         pronouns: Joi.string(),
         pronounsOther: Joi.string(),
         concerns: Joi.array(),
-        goals: Joi.array()
+        goals: Joi.array(),
+        personalityTestScore: Joi.object(),
+        personalityTestCompleted: Joi.boolean(),
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {

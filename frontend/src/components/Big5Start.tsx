@@ -18,7 +18,15 @@ const Big5Start = (props: Big5StartProps) => {
   return (
     <Center>
       <View style={styles.square}>
-        <Heading size="xl" letterSpacing={1} marginX={wp('1.5%')} marginTop={hp('2%')} color={'midnight'}>
+        <Heading
+          size="xl"
+          marginX={wp('1.5%')}
+          marginTop={hp('2%')}
+          color={'midnight'}
+          fontFamily="heading"
+          fontWeight={'700'}
+          fontStyle={'normal'}
+          letterSpacing={wp('0.1%')}>
           The Big 5 {'\n'}Personality Test
         </Heading>
         <Text color={'midnight'} margin={5} lineHeight={23}>

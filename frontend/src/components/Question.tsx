@@ -27,9 +27,11 @@ const Question = (props: QuestionProps) => {
         mt={hp('5%')}
         mb={hp('3%')}
         color={'midnight'}
-        fontWeight="semibold"
         lineHeight={hp('3.2%')}
-        letterSpacing={wp('0.23%')}>
+        fontFamily="heading"
+        fontWeight={'700'}
+        fontStyle={'normal'}
+        letterSpacing={wp('0.1%')}>
         {props.question}
       </Text>
       {props.children}

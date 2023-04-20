@@ -8,16 +8,16 @@ import {
 type ScreenWideInputProps = {
   text: string;
   name: string;
-  onChangeText: (name, value) => void;
+  onChangeText: (name, value, other?) => void;
   placeholderText: string;
   marginBottom?: string;
   editable?: boolean;
   onPressIn?: () => void;
+  isOther?: boolean;
+  pw?: true;
 };
 
 const ScreenWideInput = (props: ScreenWideInputProps) => {
-  const [text, setText] = useState('');
-
   return (
     <Input
       size="xl"
@@ -33,8 +33,13 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
       borderColor={'nectarine'}
       value={props.text}
       editable={props.editable}
-      onChangeText={value => props.onChangeText(props.name, value)}
+      onChangeText={value =>
+        props.isOther
+          ? props.onChangeText(props.name, value, true)
+          : props.onChangeText(props.name, value)
+      }
       onPressIn={props.onPressIn}
+      secureTextEntry={props.pw}
     />
   );
 };
