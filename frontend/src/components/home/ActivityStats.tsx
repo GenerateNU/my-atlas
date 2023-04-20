@@ -20,16 +20,21 @@ const ActivityStats = (props: ActivityStatsProps) => {
         fontWeight={'700'}
         fontStyle={'normal'}
         letterSpacing={wp('0.1%')}>
-        {' '}
         Activity
       </Text>
-      <VStack>
+      <VStack space={hp('3%')}>
         <HStack justifyContent="space-between">
-          <ActivityCard title={'Steps'} currentDayValue={20} />
-          <ActivityCard title={'Steps'} currentDayValue={20} />
+          <ActivityCard title={'Steps'} currentDayValue={20} metric={'steps'}/>
+          <ActivityCard title={'Distance'} currentDayValue={20} metric={'mi'}/>
         </HStack>
-        <HStack justifyContent="space-between"></HStack>
-        <HStack justifyContent="space-between"></HStack>
+        <HStack justifyContent="space-between">
+          <ActivityCard title={'Active Energy Burned'} currentDayValue={20} metric={'cal'}/>
+          <ActivityCard title={'Heart Rate Average'} currentDayValue={20} metric={'bpm'}/>
+        </HStack>
+        <HStack justifyContent="space-between">
+          <ActivityCard title={'Resting Heart Rate Average'} currentDayValue={20} metric={'bpm'}/>
+          <ActivityCard title={'Sleep Time'} currentDayValue={20} metric={'hours'}/>
+        </HStack>
       </VStack>
     </ScrollView>
   );
