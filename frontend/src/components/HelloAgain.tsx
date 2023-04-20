@@ -60,6 +60,7 @@ const HelloAgain = (props: HelloAgainProps) => {
           onChangeText={(name, value) => setPassword(value)}
           placeholderText="Password"
           text={password}
+          pw={true}
         />
         {props.errorMsg ? (
           <Text color={'red.500'} fontWeight="semibold">

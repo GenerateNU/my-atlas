@@ -55,12 +55,16 @@ export default function App() {
       midnight: '#271E41',
       miniPeach: '#FAF4F0',
       cream: '#E5E5E5',
+      coal: "#8F8F8F",
       nectarine: '#F1C3A9',
-      darkOrange: '#C55415',
+      nectarineDark: '#ED9E72',
+      terra: '#C55415',
       gray: '#666666',
       lilac: '#F5F6FF',
       lightPurple: '#E8EAF6',
+      lightGray: '#808080',
       lavender: '#D5D8FC',
+      stone: '#FFFCFA'
     },
   });
 

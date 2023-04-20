@@ -28,7 +28,7 @@ const ScreenWideButton = (props: ScreenWideButtonProps) => {
         textAlign: 'left',
       }}
       _pressed={{
-        backgroundColor: 'darkOrange',
+        backgroundColor: 'terra',
         _text: { color: 'white' },
       }}
       bg={'nectarine'}

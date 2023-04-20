@@ -14,10 +14,10 @@ type ScreenWideInputProps = {
   editable?: boolean;
   onPressIn?: () => void;
   isOther?: boolean;
+  pw?: true;
 };
 
 const ScreenWideInput = (props: ScreenWideInputProps) => {
-
   return (
     <Input
       size="xl"
@@ -33,8 +33,13 @@ const ScreenWideInput = (props: ScreenWideInputProps) => {
       borderColor={'nectarine'}
       value={props.text}
       editable={props.editable}
-      onChangeText={value => props.isOther ? props.onChangeText(props.name, value, true) : props.onChangeText(props.name, value)}
+      onChangeText={value =>
+        props.isOther
+          ? props.onChangeText(props.name, value, true)
+          : props.onChangeText(props.name, value)
+      }
       onPressIn={props.onPressIn}
+      secureTextEntry={props.pw}
     />
   );
 };
