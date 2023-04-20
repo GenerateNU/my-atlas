@@ -16,10 +16,10 @@ const ActivityCard = (props: ActivityCardProps) => {
       width={wp('41%')}
       shadow="2"
       borderRadius={10}
-      height={hp('25%')}>
-      <View height={hp('7%')} paddingTop={hp('0.5%')}>
+      height={hp('15%')}>
+      <View height={hp('7%')} paddingTop={hp('1%')}>
         <Text
-          fontSize={hp('2.5%')}
+          fontSize={hp('2.25%')}
           color={'midnight'}
           fontWeight="medium"
           letterSpacing={wp('0.1%')}

@@ -9,8 +9,6 @@ const addOnboarding = (onboarding : IOnboardingDTO, userID : string, authToken :
         ...onboarding,
         userID : userID
     }
-    console.log(userID)
-    console.log(authToken)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       axios

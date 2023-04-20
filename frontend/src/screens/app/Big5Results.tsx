@@ -60,7 +60,7 @@ const Big5Results = ({ route, navigation }) => {
             My Personality Type
           </Text>
           <Text fontSize={'md'} fontWeight="medium" color={'coal'} marginTop={hp('0.5%')}>
-            Tap on each section to learn more about your personality type
+            Tap on each section to learn more about your personality type. Final scores are between 0 and 40.
           </Text>
         </View>
         {loading ? (

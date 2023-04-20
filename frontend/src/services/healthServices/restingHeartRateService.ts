@@ -22,6 +22,7 @@ export const addRestingHeartRateLocal = async (userId: string) => {
         startDate: new Date(),
         bpm: sum / count
       }
+      console.log(restingHeartRateLocal)
       setItemAsync("RestingHeartRate", JSON.stringify(restingHeartRateLocal));
     }
     

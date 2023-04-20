@@ -16,13 +16,13 @@ type Big5CardProps = {
 
 const Big5Card = (props: Big5CardProps) => {
   const convertScore = score => {
-    if (score <= 18) {
+    if (score <= 8) {
       return 'Low';
-    } else if (score <= 26) {
+    } else if (score <= 16) {
       return 'Below Average';
-    } else if (score <= 34) {
+    } else if (score <= 24) {
       return 'Average';
-    } else if (score <= 42) {
+    } else if (score <= 34) {
       return 'Above Average';
     } else {
       return 'High';
