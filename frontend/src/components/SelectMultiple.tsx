@@ -48,7 +48,7 @@ const SingleButton = (props: SingleButtonProps) => {
     },
     buttonText: {
       fontSize: 18,
-      fontWeight: 'bold',
+      fontWeight: '600',
       letterSpacing: 0.5,
     },
   });
