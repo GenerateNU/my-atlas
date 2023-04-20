@@ -15,3 +15,10 @@ export interface IRestingHeartRate {
     hkWasUserEntered: boolean;
   }
   
+   
+  export interface IRestingHeartRateLocal {
+    userID: string;
+    startDate: Date;
+    bpm: number;
+  }
+  

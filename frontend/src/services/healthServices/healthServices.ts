@@ -39,13 +39,14 @@ export async function addMany(userId: string, token: string){
         
         console.log("****************************************************")
          await addEnvironmentAudioExposureLocal(userId);
-        await addHeadphoneAudioExposureLocal(userId);
-        await addSleepSampleLocal(userId);
-         await addHeartRateSampleLocal(userId);
+            await addHeadphoneAudioExposureLocal(userId);
+         await addSleepSampleLocal(userId);
+          await addHeartRateSampleLocal(userId);
         await addHeartRateVariabilityLocal(userId);
         await addRestingHeartRateLocal(userId);
-        await addMindfulSessionLocal(userId);
-        await addActivityLocal(userId);
+  
+         await addMindfulSessionLocal(userId);
+         await addActivityLocal(userId);
     }
     }
     catch (error){

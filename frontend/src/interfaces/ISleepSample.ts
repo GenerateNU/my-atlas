@@ -12,3 +12,11 @@ export interface ISleepSampleDTO {
   duration: number;
   sleepState: String;
 }
+
+export interface ISleepSampleLocal {
+  userID: String;
+  startDate: Date;
+  duration: number;
+  sleepState: String;
+}
+

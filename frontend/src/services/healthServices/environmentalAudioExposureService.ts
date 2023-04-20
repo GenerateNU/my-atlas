@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
-import { IEnvironmentalAudioExposureSample, IEnvironmentalAudioExposureSampleDTO } from '../../interfaces/IEnvironmentalAudioExposureSample';
+import { IEnvironmentalAudioExposureSample, IEnvironmentalAudioExposureSampleDTO, IEnvironmentalAudioExposureLocal } from '../../interfaces/IEnvironmentalAudioExposureSample';
 
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
@@ -13,9 +13,23 @@ export const addEnvironmentAudioExposureLocal = async (userId: string) => {
     const environmentAudioDTOS : Array<IEnvironmentalAudioExposureSampleDTO>= convertEnvironmentAudioSamples(userId, environmentAudios);
 
     if (environmentAudioDTOS.length > 0){
-      const environmentAudio = environmentAudioDTOS[0];
-      setItemAsync("EnvironmentAudio", JSON.stringify(environmentAudio));
+      let value = 0;
+      let duration = 0;
+     
+      for (let i = 0; i < environmentAudioDTOS.length; i++){
+        value += environmentAudioDTOS[i].value * environmentAudioDTOS[i].duration;
+        duration += environmentAudioDTOS[i].duration;
+
+      }
+      const environmentalAudioExposureLocal: IEnvironmentalAudioExposureLocal = {
+        userID: userId,
+        startDate: new Date(),
+        value: value / duration
+      }
+      setItemAsync("EnvironmentAudio", JSON.stringify(environmentalAudioExposureLocal));
+    
     }
+    
   }
   catch (error){
     console.log(error)

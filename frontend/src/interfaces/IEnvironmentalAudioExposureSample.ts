@@ -14,3 +14,9 @@ export interface IEnvironmentalAudioExposureSampleDTO {
   value: number;
   hkID: string;
 }
+
+export interface IEnvironmentalAudioExposureLocal {
+  userID: string;
+  startDate: Date;
+  value: number;
+}

@@ -10,3 +10,10 @@ export interface IMindfulSessionDTO {
   startDate: Date;
   duration: number;
 }
+
+export interface IMindfulSessionLocal {
+  userID: String;
+  startDate: Date;
+  duration: number;
+}
+

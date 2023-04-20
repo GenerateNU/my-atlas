@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
-import { retrieveHealthKitData } from './healthKitService';
+import { retrieveHealthKitData, sameDate } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
@@ -31,6 +31,7 @@ export const addActivityLocal = async (userId: string) => {
       console.log(activity);
       setItemAsync("Activity", JSON.stringify(activity));
     }
+
   }
   catch (error){
     console.log(error)
@@ -129,15 +130,7 @@ export async function addManyActivities(userId:string, authToken:string, startDa
   }
 
   
-/**
- * Are these two dates the same?
- * @param date1
- * @param date2 
- * @returns boolean
- */
-function sameDate(date1: Date, date2: Date): boolean {
-    return date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth() && date1.getDate() == date2.getDate();
-  }
+
   
 
 /**

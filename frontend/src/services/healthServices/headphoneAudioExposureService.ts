@@ -2,7 +2,7 @@ import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
-import { IHeadphoneAudioExposureDTO, IHeadphoneAudioExposure } from '../../interfaces/IHeadphoneAudioExposure';
+import { IHeadphoneAudioExposureDTO, IHeadphoneAudioExposure, IHeadphoneAudioExposureLocal } from '../../interfaces/IHeadphoneAudioExposure';
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
 export const addHeadphoneAudioExposureLocal = async (userId: string) => {
@@ -13,9 +13,23 @@ export const addHeadphoneAudioExposureLocal = async (userId: string) => {
     const headphoneExposureSampleDTOs : Array<IHeadphoneAudioExposureDTO>= convertHeadphoneExposureSamples(userId, headphoneExposureSamples);
 
     if (headphoneExposureSampleDTOs.length > 0){
-      const headPhoneSample = headphoneExposureSampleDTOs[0];
-      setItemAsync("HeadphoneSample", JSON.stringify(headPhoneSample));
+      let value = 0;
+      let duration = 0;
+     
+      for (let i = 0; i < headphoneExposureSampleDTOs.length; i++){
+        value += headphoneExposureSampleDTOs[i].value * headphoneExposureSampleDTOs[i].duration;
+        duration += headphoneExposureSampleDTOs[i].duration;
+
+      }
+      const headphoneAudioExposure: IHeadphoneAudioExposureLocal = {
+        userID: userId,
+        startDate: new Date(),
+        value: value / duration
+      }
+      setItemAsync("HeadphoneSample", JSON.stringify(headphoneAudioExposure));
+    
     }
+
   }
   catch (error){
     console.log(error)

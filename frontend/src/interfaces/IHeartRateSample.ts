@@ -8,10 +8,17 @@ export interface IHeartRateSample {
   }
   
   export interface IHeartRateSampleDTO {
-    userID: String;
+    userID: string;
     startDate: Date;
     bpm: number;
     hkID: string;
     hkWasUserEntered: boolean;
+  }
+
+  export interface IHeartRateSampleLocal{
+    userID: string;
+    startDate: Date;
+    bpm: number;
+
   }
   

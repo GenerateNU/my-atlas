@@ -15,3 +15,10 @@ export interface IHeartRateVariability {
     hkWasUserEntered: Boolean;
   }
   
+
+  export interface IHeartRateVariabilityLocal {
+    userID: String;
+    startDate: Date;
+    variability: number; // Seconds?
+  }
+  

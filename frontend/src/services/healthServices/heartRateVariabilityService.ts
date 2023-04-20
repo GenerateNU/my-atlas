@@ -2,7 +2,7 @@ import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
-import { IHeartRateVariability, IHeartRateVariabilityDTO } from '../../interfaces/IHeartRateVariability';
+import { IHeartRateVariability, IHeartRateVariabilityDTO, IHeartRateVariabilityLocal } from '../../interfaces/IHeartRateVariability';
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
 export const addHeartRateVariabilityLocal = async (userId: string) => {
@@ -12,8 +12,20 @@ export const addHeartRateVariabilityLocal = async (userId: string) => {
     const heartRateVariabilities : Array<HealthValue> = await retrieveHealthKitData("getHeartRateVariabilitySamples", today, new Date());
     const heartRateVariabilitiesDTOs : Array<IHeartRateVariabilityDTO>= convertHeartRateVariabilities(userId,heartRateVariabilities);
     if (heartRateVariabilitiesDTOs.length > 0){
-      setItemAsync("HeartRateVariability", JSON.stringify(heartRateVariabilitiesDTOs));
+      let sum = 0;
+      const count = heartRateVariabilitiesDTOs.length;
+     
+      for (let i = 0; i < heartRateVariabilitiesDTOs.length; i++){
+        sum += heartRateVariabilitiesDTOs[i].variability;
+      }
+      const heartRateVariabilityLocal: IHeartRateVariabilityLocal = {
+        userID: userId,
+        startDate: new Date(),
+        variability: sum / count
+      }
+      setItemAsync("HeartRateVariability", JSON.stringify(heartRateVariabilityLocal));
     }
+  
   }
   catch (error){
     console.log(error)

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
-import { IRestingHeartRate, IRestingHeartRateDTO } from '../../interfaces/IRestingHeartRate';
+import { IRestingHeartRate, IRestingHeartRateDTO, IRestingHeartRateLocal } from '../../interfaces/IRestingHeartRate';
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
 export const addRestingHeartRateLocal = async (userId: string) => {
@@ -11,8 +11,20 @@ export const addRestingHeartRateLocal = async (userId: string) => {
     const restHeartRates : Array<HealthValue> = await retrieveHealthKitData("getRestingHeartRateSamples", today, new Date());
     const restHeartRateDTOs : Array<IRestingHeartRateDTO>= convertRestingHeartRate(userId, restHeartRates);
     if (restHeartRateDTOs.length > 0){
-      setItemAsync("RestingHeartRate", JSON.stringify(restHeartRateDTOs));
+      let sum = 0;
+      const count = restHeartRateDTOs.length;
+     
+      for (let i = 0; i < restHeartRateDTOs.length; i++){
+        sum += restHeartRateDTOs[i].bpm;
+      }
+      const restingHeartRateLocal: IRestingHeartRateLocal = {
+        userID: userId,
+        startDate: new Date(),
+        bpm: sum / count
+      }
+      setItemAsync("RestingHeartRate", JSON.stringify(restingHeartRateLocal));
     }
+    
   }
   catch (error){
     console.log(error)

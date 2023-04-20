@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
-import { ISleepSample, ISleepSampleDTO } from '../../interfaces/ISleepSample';
+import { ISleepSample, ISleepSampleDTO, ISleepSampleLocal } from '../../interfaces/ISleepSample';
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 import { err } from 'react-native-svg/lib/typescript/xml';
 
@@ -15,33 +15,33 @@ export const addSleepSampleLocal = async (userId: string) => {
     console.log(sleepSampleDTOS)
     if (sleepSampleDTOS.length > 0){
      
-      let inBedSleepSampleDTO: ISleepSampleDTO = {
+      let inBedSleepSampleDTO: ISleepSampleLocal = {
         userID: userId,
-        startDate: today,
-      duration: 0,
+        startDate: new Date(),
+        duration: 0,
         sleepState: "INBED"
       }
-      let asleepSleepSampleDTO: ISleepSampleDTO = {
+      let asleepSleepSampleDTO: ISleepSampleLocal = {
         userID: userId,
-        startDate: today,
+        startDate: new Date(),
         duration: 0,
         sleepState: "ASLEEP"
       }
-      let deepSleepSampleDTO: ISleepSampleDTO = {
+      let deepSleepSampleDTO: ISleepSampleLocal = {
         userID: userId,
-        startDate: today,
+        startDate: new Date(),
         duration: 0,
         sleepState: "DEEP"
       }
-      let coreSleepSampleDTO: ISleepSampleDTO = {
+      let coreSleepSampleDTO: ISleepSampleLocal = {
         userID: userId,
-        startDate: today,
+        startDate: new Date(),
         duration: 0,
         sleepState: "CORE"
       }
-      let remSleepSampleDTO: ISleepSampleDTO = {
+      let remSleepSampleDTO: ISleepSampleLocal = {
         userID: userId,
-        startDate: today,
+        startDate: new Date(),
         duration: 0,
         sleepState: "REM"
       }

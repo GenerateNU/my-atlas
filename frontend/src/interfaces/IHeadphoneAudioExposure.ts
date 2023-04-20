@@ -14,3 +14,10 @@ export interface IHeadphoneAudioExposureDTO {
   value: number;
   hkID: string;
 }
+
+export interface IHeadphoneAudioExposureLocal{
+  userID: string;
+  startDate: Date;
+  value: number;
+
+}
