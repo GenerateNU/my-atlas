@@ -7,6 +7,7 @@ export interface IUser {
   age: number;
   createdAt: Date;
   updatedAt: Date;
+  role: string
   lastDateDataRetrieved: Date;
   __v: number
 }
