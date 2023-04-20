@@ -13,7 +13,6 @@ import useAxios from 'axios-hooks';
 
 
 const HomeScreen = ({navigation, route}) => {
-  const [loading, isLoading] = useState(false);
   const auth = useAuth();
   const userID  = auth.authData.user._id;
   const token = auth.authData.token;
@@ -22,7 +21,7 @@ const HomeScreen = ({navigation, route}) => {
   };
 
   const [{ data, loading, error }, refetch] = useAxios({
-    url: 'http://localhost:3000/api/onboarding/getPersonalityTestCompleted/' + userId,
+    url: 'http://localhost:3000/api/onboarding/getPersonalityTestCompleted/' + userID,
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
