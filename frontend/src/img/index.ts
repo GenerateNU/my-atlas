@@ -1,1 +1,1 @@
-export const AtlasLogo = require('./atlas.png');
+export const AtlasLogo = require('./logoNT.png');

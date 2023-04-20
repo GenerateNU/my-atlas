@@ -1,7 +1,7 @@
-import { Container, Heading } from 'native-base';
+import { Container, Heading, Image } from 'native-base';
 import { background } from 'native-base/lib/typescript/theme/styled-system';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View, Image, _Text } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View, _Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button, Progress } from 'native-base';
@@ -34,7 +34,7 @@ const AccessScreen = ({ route, navigation }) => {
         <Heading size="3xl" marginTop={hp('12%')} marginBottom={hp('7%')}>
           My Atlas
         </Heading>
-        <Image source={AtlasLogo} />
+        <Image alt="My Atlas Image" width={hp('20%')} height={hp('20%')} source={AtlasLogo} />
         <Button
           _text={{
             fontSize: 'xl',
