@@ -5,9 +5,10 @@ export interface IUser {
   phoneNumber: string;
   dob: string;
   age: number;
-  password: string;
-  salt: string;
+  createdAt: Date;
+  updatedAt: Date;
   lastDateDataRetrieved: Date;
+  __v: number
 }
 
 export interface IUserInputDTO {

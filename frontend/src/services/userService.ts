@@ -11,7 +11,7 @@ export const getUser = (token: string): Promise<IUser> => {
           .get('http://localhost:3000/api/users/me', {headers})
           .then(
             response => {
-  
+              console.log(response.data.user);
               resolve(response.data.user);
             },
             error => {
