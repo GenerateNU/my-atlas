@@ -17,7 +17,11 @@ export async function addMany(userId: string, token: string){
     console.log("****************************************************")
     try{
     const user = await getUser(token);
-    const lastRetrievalDate = new Date(user.lastDateDataRetrieved);
+    const oneMonthAgo = new Date(); // Create a new Date object
+    // Set the month of the new Date object to one month ago
+    oneMonthAgo.setMonth(today.getMonth() - 1)  
+
+    const lastRetrievalDate = user.lastDateDataRetrieved == null ? oneMonthAgo: new Date(user.lastDateDataRetrieved);
     console.log(lastRetrievalDate);
     if (lastRetrievalDate.getTime() < today.getTime()){ // Only try to add if the last retrieval date is before today
 
