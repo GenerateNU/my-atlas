@@ -28,7 +28,6 @@ const YesNo = (props: YesNoProps) => {
     props.noFunction();
   }
 
-  console.log(props.clicked)
   return (
     <Center>
       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>

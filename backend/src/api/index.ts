@@ -8,6 +8,10 @@ import activity from './routes/activity';
 import heartRateSample from './routes/heartRateSample';
 import heartRateVariability from './routes/heartRateVariability';
 import restingHeartRate from './routes/restingHeartRate';
+import sleepSample from './routes/sleepSample';
+import environmentalAudioExposure from './routes/environmentalAudioExposure';
+import headphoneAudioExposure from './routes/headphoneAudioExposure';
+import mindfulSession from './routes/mindfulSession';
 // guaranteed to get dependencies
 export default () => {
   const app = Router();
@@ -20,6 +24,11 @@ export default () => {
   heartRateSample(app);
   heartRateVariability(app);
   restingHeartRate(app);
+  sleepSample(app);
+  environmentalAudioExposure(app);
+  headphoneAudioExposure(app);
+  mindfulSession(app);
+
   return app;
 };
 

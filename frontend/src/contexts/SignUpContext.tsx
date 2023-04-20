@@ -20,6 +20,7 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
+    dob: undefined,
     email: undefined,
     password: undefined,
     name: undefined,
@@ -270,7 +271,7 @@ const useSignUp = (): SignUpContextData => {
   const context = useContext(SignUpContext);
 
   if (!context) {
-    throw new Error('useSignUp must be used within an SignUpProvider');
+    throw new Error('useSignUp must be used within an AuthProvider');
   }
 
   return context;

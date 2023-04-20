@@ -28,7 +28,7 @@ export default (app: Router) => {
         sexualOrientation: Joi.string(),
         sexAssignedAtBirth: Joi.string(),
         mentalHealthCare: Joi.string(),
-        haveSoughtCare: Joi.string(),
+        haveSoughtCare: Joi.boolean(),
         spiritual: Joi.boolean(),
         identifyYourself: Joi.string(),
         gender: Joi.string(),
@@ -89,7 +89,7 @@ export default (app: Router) => {
       try {
         const OnboardingServiceInstance = Container.get(OnboardingService);
         const { onboardingMany } = await OnboardingServiceInstance.addManyOnboarding(req.body);
-        return onboardingMany;
+        return res.status(201).json(onboardingMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

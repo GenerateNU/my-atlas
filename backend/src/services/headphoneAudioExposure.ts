@@ -9,7 +9,7 @@ import {IGPS, IGPSInputDTO} from "@/interfaces/IGPS";
 export default class HeadphoneExposureSample {
   constructor(
     // Add services/models
-    @Inject('headphoneExposureModel') private headphoneExposureModel: Models.HeadphoneAudioExposureModel, // connection to database and enables CRUD commands
+    @Inject('headphoneAudioExposureModel') private headphoneAudioExposureModel: Models.HeadphoneAudioExposureModel, // connection to database and enables CRUD commands
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -19,7 +19,7 @@ export default class HeadphoneExposureSample {
     IHeadphoneExposureSampleDTO: IHeadphoneAudioExposureDTO,
   ): Promise<{ headphoneExposure: IHeadphoneAudioExposure }> {
     try {
-      const exposureRecord = await this.headphoneExposureModel.create({
+      const exposureRecord = await this.headphoneAudioExposureModel.create({
         ...IHeadphoneExposureSampleDTO,
       });
       const headphoneExposure: IHeadphoneAudioExposure = exposureRecord.toObject();
@@ -37,7 +37,7 @@ export default class HeadphoneExposureSample {
     endDate: Date,
   ): Promise<IHeadphoneAudioExposure[]> {
     try {
-      return this.headphoneExposureModel.aggregate([
+      return this.headphoneAudioExposureModel.aggregate([
         {
           $match: {
             userID: userID,
@@ -62,7 +62,7 @@ export default class HeadphoneExposureSample {
     endDate: Date,
   ): Promise<IHeadphoneAudioExposure[]> {
     try {
-      const headphoneAudioExposureRecords: IHeadphoneAudioExposure[] = await this.headphoneExposureModel.aggregate([
+      const headphoneAudioExposureRecords: IHeadphoneAudioExposure[] = await this.headphoneAudioExposureModel.aggregate([
         {
           $match: {
             userID: userID,
@@ -86,7 +86,7 @@ export default class HeadphoneExposureSample {
   ): Promise<{ headphoneMany: IHeadphoneAudioExposure[] }> {
     try {
       this.logger.debug(headphoneAudioExposureDTO);
-      const headphoneRecord = await this.headphoneExposureModel.create(headphoneAudioExposureDTO);
+      const headphoneRecord = await this.headphoneAudioExposureModel.create(headphoneAudioExposureDTO);
       const headphoneMany: IHeadphoneAudioExposure[] = [];
       for (let i = 0; i < headphoneRecord.length; i++) {
         const headphone: IHeadphoneAudioExposure = headphoneRecord[i].toObject();
@@ -105,7 +105,7 @@ export default class HeadphoneExposureSample {
     startDate: Date,
   ): Promise<{ headphoneExposure: IHeadphoneAudioExposure }> {
     try {
-      const headphoneExposureRecord = await this.headphoneExposureModel.findOneAndDelete({
+      const headphoneExposureRecord = await this.headphoneAudioExposureModel.findOneAndDelete({
         userID: userID,
         startDate: Date,
       });

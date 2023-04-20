@@ -143,7 +143,7 @@ export default (app: Router) => {
       try {
         const ActivityServiceInstance = Container.get(ActivityService);
         const { activityMany } = await ActivityServiceInstance.addManyActivity(req.body);
-        return activityMany;
+        return res.status(201).json(activityMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

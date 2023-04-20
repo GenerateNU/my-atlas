@@ -4,7 +4,7 @@ export interface IUser {
   email: string;
   phoneNumber: string;
   dob: string;
-  age: number;
+  lastDateDataRetrieved: Date;
 }
 
 export interface IUserInputDTO {
@@ -13,5 +13,4 @@ export interface IUserInputDTO {
   password: string;
   phoneNumber: string;
   dob: string;
-  age: number;
 }

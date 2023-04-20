@@ -92,7 +92,7 @@ export default (app: Router) => {
       try {
         const EnvironmentalAudioExposureServiceInstance = Container.get(EnvironmentalAudioExposureService);
         const { environmentalMany } = await EnvironmentalAudioExposureServiceInstance.addManyEnvironmentalAudioExposure(req.body);
-        return environmentalMany;
+        return res.status(201).json(environmentalMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

@@ -7,6 +7,8 @@ type AuthContextData = {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signOut(): void;
+  signUp(): any;
+  setAuthData: (value: React.SetStateAction<AuthData>) => void;
 };
 
 type AuthProviderProps = {
@@ -43,8 +45,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email: 'test@email.com',
         password: 'test',
         phoneNumber: 'test',
-        dob: '06/24/2002',
-        age: 20,
+        dob: '06/24/2002'
       });
       setAuthData(_authData);
       setItemAsync('AuthData', JSON.stringify(_authData));
@@ -71,7 +72,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authData, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ authData, loading, signIn, signOut, signUp, setAuthData }}>
       {children}
     </AuthContext.Provider>
   );
