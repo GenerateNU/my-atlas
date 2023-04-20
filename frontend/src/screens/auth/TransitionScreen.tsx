@@ -27,9 +27,9 @@ const TransitionScreen = ({ route, navigation }) => {
     navigation.push(nextPage.page, { props: nextPage.props });
   };
 
-   useEffect(() => {
-     setTimeout(skip, 2000);
-   }, []);
+  useEffect(() => {
+    setTimeout(skip, 2000);
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -46,7 +46,11 @@ const TransitionScreen = ({ route, navigation }) => {
             marginTop={hp('5%')}
             marginBottom={hp('3%')}
             ml={wp('10%')}
-            marginX={wp('10%')}>
+            marginX={wp('10%')}
+            fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             Hi {signUpState.name}!
           </Heading>
           <Heading
@@ -54,7 +58,11 @@ const TransitionScreen = ({ route, navigation }) => {
             marginTop={hp('5%')}
             marginBottom={hp('3%')}
             ml={wp('10%')}
-            marginX={wp('10%')}>
+            marginX={wp('10%')}
+            fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             Nice to meet you.
           </Heading>
           <Svg height="50%" width="100%" viewBox="-10 -15 38 38">

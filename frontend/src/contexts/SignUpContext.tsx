@@ -49,7 +49,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Single Question Screen',
       props: {
-        question: "What's your name",
+        question: "What's your name?",
         inputName: 'Name',
         stateName: 'name',
         progress: 11,
@@ -62,7 +62,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Single Question Screen',
       props: {
-        question: "What's your phone number",
+        question: "What's your phone number?",
         inputName: '+1',
         stateName: 'phoneNumber',
         progress: 22,

@@ -40,8 +40,12 @@ const SignUpScreen = ({ route, navigation }) => {
             size="3xl"
             marginTop={hp('4%')}
             marginBottom={hp('3%')}
-            ml={wp('4%')}
-            marginX={wp('10%')}>
+            ml={wp('8%')}
+            marginX={wp('10%')}
+            fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             Welcome to My Atlas
           </Heading>
           <ScreenWideInput

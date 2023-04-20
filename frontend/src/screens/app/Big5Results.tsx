@@ -52,9 +52,11 @@ const Big5Results = ({ route, navigation }) => {
           <Text
             fontSize={hp('3%')}
             color={'midnight'}
-            fontWeight="semibold"
             lineHeight={hp('3.2%')}
-            letterSpacing={wp('0.23%')}>
+            fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             My Personality Type
           </Text>
           <Text fontSize={'md'} fontWeight="medium" color={'coal'} marginTop={hp('0.5%')}>

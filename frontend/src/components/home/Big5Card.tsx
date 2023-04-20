@@ -42,7 +42,10 @@ const Big5Card = (props: Big5CardProps) => {
       shadow="2">
       <View flexDirection={'row'}>
         <View>
-          <Text fontSize={'lg'} color={'midnight'} fontWeight="semibold">
+          <Text fontSize={'lg'} color={'midnight'} fontFamily="heading"
+            fontWeight={'600'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             {props.title}
           </Text>
           <Text fontSize={'sm'} color={'nectarineDark'} fontWeight="medium" marginTop={hp('-0.1%')}>

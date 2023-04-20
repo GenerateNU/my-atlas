@@ -43,7 +43,10 @@ const HelloAgain = (props: HelloAgainProps) => {
   return (
     <VStack>
       <Center>
-        <Heading size="2xl" marginTop={hp('5%')} marginBottom={hp('1%')} ml={wp('4%')}>
+        <Heading size="2xl" marginTop={hp('5%')} marginBottom={hp('1%')} fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
           Hello again!
         </Heading>
         <Text style={{ fontSize: 18 }} marginBottom={hp('4%')}>

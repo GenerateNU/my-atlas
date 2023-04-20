@@ -7,10 +7,10 @@ import Big5Redirect from '../../components/home/Big5Redirect';
 import useAxios from 'axios-hooks';
 
 const HomeScreen = ({ navigation, route }) => {
-  const auth = useAuth();
   const signOut = async () => {
     await auth.signOut();
   };
+  const auth = useAuth();
   const userId = auth.authData.user._id;
   const token = auth.authData.token;
 
@@ -33,13 +33,13 @@ const HomeScreen = ({ navigation, route }) => {
   const pressableRetrieval = () => {
     return data ? (
       <Big5Redirect
-        onPress={big5TestRedirect}
+        onPress={big5Redirect}
         titleText={'See Big 5 Personality Test Results'}
         subtitleText={'Quiz to measure 5 Personality Traits'}
       />
     ) : (
       <Big5Redirect
-        onPress={big5Redirect}
+        onPress={big5TestRedirect}
         titleText={'Complete Big 5 Personality Test'}
         subtitleText={'Quiz to measure 5 Personality Traits'}
       />

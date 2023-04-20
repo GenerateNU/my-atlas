@@ -19,7 +19,10 @@ const ProfileHeader = (props: HeaderProps) => {
       </View>
 
       <View marginLeft={wp('0.5%')}>
-        <Text fontSize={'2xl'} color={'midnight'} fontWeight="bold">
+        <Text fontSize={hp('2.5%')} color={'midnight'} fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
           Hello, {props.userName}
         </Text>
         <Text fontSize={'lg'} color={'lightGray'} marginTop={hp('-0.5%')}>
