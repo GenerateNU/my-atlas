@@ -11,11 +11,11 @@ export const getUser = (token: string): Promise<IUser> => {
           .get('http://localhost:3000/api/users/me', {headers})
           .then(
             response => {
-              console.log(response.data);
-              resolve(response.data);
+  
+              resolve(response.data.user);
             },
             error => {
-              console.log(error.response.data.errors.message);
+  
               reject(error.response.data.errors.message);
             },
           );
@@ -33,11 +33,11 @@ export const getUser = (token: string): Promise<IUser> => {
           .patch('http://localhost:3000/api/users/updateUserDataDate', {_id: _id, date: date},{headers})
           .then(
             response => {
-              console.log(response.data);
+     
               resolve(response.data);
             },
             error => {
-              console.log(error.response.data.errors.message);
+              
               reject(error.response.data.errors.message);
             },
           );

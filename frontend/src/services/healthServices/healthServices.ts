@@ -11,20 +11,17 @@ import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 import { getUser, updateUserDataDate } from "../userService";
 import { sameDate } from "./healthKitService";
 export async function addMany(userId: string, token: string){
-    const lastRetrievalDate = new Date(2023, 3, 10);
 
-    const user = await getUser(token);
     const today: Date = new Date();
     today.setHours(0,0,0,0)
-    const yesterday: Date = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
     console.log("****************************************************")
     try{
     const user = await getUser(token);
-    const lastRetrievalDate = user.lastDateDataRetrieved;
-    if (lastRetrievalDate < today){ // Only try to add if the last retrieval date is before today
+    const lastRetrievalDate = new Date(user.lastDateDataRetrieved);
+    console.log(lastRetrievalDate);
+    if (lastRetrievalDate.getTime() < today.getTime()){ // Only try to add if the last retrieval date is before today
 
-  
+        console.log("Adding many");
     await addManyEnvironmentalAudioExposure(userId, token, lastRetrievalDate, today);
     await addManyHeadphoneAudioExposure(userId, token, lastRetrievalDate, today);
     await addManySleepSample(userId, token, lastRetrievalDate, today);
@@ -33,7 +30,7 @@ export async function addMany(userId: string, token: string){
     await addManyRestingHeartRate(userId, token, lastRetrievalDate, today);
     await addManyMindfulSession(userId, token, lastRetrievalDate, today);
     await addManyActivities(userId, token, lastRetrievalDate, today);
-    const newUser = await updateUserDataDate(userId, today, token);
+    const newUser = await updateUserDataDate(userId,today, token); // update the last retrieval date
 }
     } catch (error){
         console.log("Couldn't find stuff")
@@ -44,7 +41,7 @@ export async function addMany(userId: string, token: string){
   export async function addHealthLocally(userId: string){
     try{
         const lastRetrievalDate = new Date(await getItemAsync('LastRetrievalDate'));
-        if (lastRetrievalDate.getMilliseconds() < new Date().getMilliseconds()){
+        if (lastRetrievalDate.getTime() + 60000< new Date().getTime()){
 
         
         console.log("****************************************************")

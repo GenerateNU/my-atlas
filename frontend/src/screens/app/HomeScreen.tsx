@@ -59,7 +59,7 @@ const HomeScreen = ({navigation, route}) => {
       <Button title="Click Me" onPress={redirect}/>
       <Button title="Stuff" onPress={doStuff}/>
       <Button title="Add Local" onPress={addDataLocally}/>
-      <Button title="Get Local" onPress={getLocallyData}/>
+      <Button title="Get Local" onPress={getUserStuff}/>
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (
