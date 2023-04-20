@@ -24,9 +24,26 @@ export default class UserService {
       throw e;
     }
   }
+
+  public async getUserDate(id: string) {
+    try {
+      const userRecord = await this.userModel.findById(id);
+      const user: IUser = userRecord.toObject();
+      const date: Date = user.lastDateDataRetrieved;
+      if (date == undefined) {
+        return null;
+      }
+      console.log(date);
+      return { date };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+
   public async updateUserDate(id: string, date: Date) {
     const userRecord = await this.userModel.findOneAndUpdate(
-      { id: id },
+      { _id: id },
       { lastDateDataRetrieved: date },
       { runValiators: true, new: true },
     );

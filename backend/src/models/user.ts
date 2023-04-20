@@ -26,7 +26,6 @@ const User = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     salt: String,
     lastDateDataRetrieved: Date,
     role: {

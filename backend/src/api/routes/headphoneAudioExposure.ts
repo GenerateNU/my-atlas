@@ -88,7 +88,7 @@ route.post(
     try {
       const HeadphoneAudioExposureServiceInstance = Container.get(HeadphoneAudioExposureService);
       const { headphoneMany } = await HeadphoneAudioExposureServiceInstance.addManyHeadphoneAudioExposure(req.body);
-      return headphoneMany;
+      return res.status(201).json(headphoneMany);
     } catch (e) {
       logger.error('🔥 error: %o', e);
       return next(e);

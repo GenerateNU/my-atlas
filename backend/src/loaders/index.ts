@@ -46,7 +46,6 @@ export default async ({ expressApp }) => {
 
   const headphoneAudioExposureModel = {
     name: 'headphoneAudioExposureModel',
-    // Notice the require syntax and the '.default'
     model: require('../models/headphoneAudioExposure').default,
   };
 

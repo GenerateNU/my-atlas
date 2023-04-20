@@ -5,6 +5,8 @@ import AppleHealthKit, { HealthValue, HealthKitPermissions } from 'react-native-
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/contexts/AuthContext';
 import Router from './src/navigation/Router';
+import ScreenWideButton from './src/components/question/ScreenWideButton';
+import { setupPermissions } from './src/services/healthServices/healthKitService';
 import {
   useFonts,
   Montserrat_100Thin,
@@ -26,31 +28,6 @@ import {
   Montserrat_800ExtraBold_Italic,
   Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
-/* Permission options */
-const permissions = {
-  permissions: {
-    read: [AppleHealthKit.Constants.Permissions.HeartRate],
-    write: [AppleHealthKit.Constants.Permissions.Steps],
-  },
-} as HealthKitPermissions;
-
-AppleHealthKit.initHealthKit(permissions, (error: string) => {
-  /* Called after we receive a response from the system */
-
-  if (error) {
-    console.log('[ERROR] Cannot grant permissions!');
-  }
-
-  /* Can now read or write to HealthKit */
-
-  const options = {
-    startDate: new Date(2020, 1, 1).toISOString(),
-  };
-
-  AppleHealthKit.getHeartRateSamples(options, (callbackError: string, results: HealthValue[]) => {
-    /* Samples are now collected from HealthKit */
-  });
-});
 
 let options = {
   date: new Date().toISOString(), // optional; default now
@@ -68,6 +45,7 @@ AppleHealthKit.getStepCount(options, (err: Object, results: HealthValue) => {
 });
 
 export default function App() {
+   
   let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
     Montserrat_200ExtraLight,
@@ -92,6 +70,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null // Prevent app from rendering until fonts are loaded. Nothing special here
   }
+  setupPermissions();
 
   // colors used in our app
   const theme = extendTheme({
@@ -165,12 +144,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

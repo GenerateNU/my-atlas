@@ -49,7 +49,7 @@ export default (app: Router) => {
       body: Joi.array().items({
         userID: Joi.string().required(),
         startDate: Joi.date().required(),
-        variability: Joi.number().required(),
+        bpm: Joi.number().required(),
         hkID: Joi.string().required(),
         hkWasUserEntered: Joi.boolean().required(),
       }),
@@ -60,7 +60,7 @@ export default (app: Router) => {
       try {
         const RestingHeartRateServiceInstance = Container.get(RestingHeartRateService);
         const { heartRateMany } = await RestingHeartRateServiceInstance.addManyRestingHeartRate(req.body);
-        return heartRateMany;
+        return res.status(201).json(heartRateMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

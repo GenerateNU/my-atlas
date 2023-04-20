@@ -62,7 +62,7 @@ export default (app: Router) => {
       try {
         const HeartRateVariabilityServiceInstance = Container.get(HeartRateVariabilityService);
         const { heartRateMany } = await HeartRateVariabilityServiceInstance.addManyHeartRateVariability(req.body);
-        return heartRateMany;
+        return res.status(201).json(heartRateMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

@@ -15,9 +15,6 @@ type big5FormProps = {
   handleChange: (name: number, value: any) => void;
 };
 
-const handlePress = () => {
-  console.log('Button pressed!');
-};
 
 const Big5Form = (props: big5FormProps) => {
   const buttonData = [

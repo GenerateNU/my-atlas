@@ -89,7 +89,7 @@ export default (app: Router) => {
       try {
         const OnboardingServiceInstance = Container.get(OnboardingService);
         const { onboardingMany } = await OnboardingServiceInstance.addManyOnboarding(req.body);
-        return onboardingMany;
+        return res.status(201).json(onboardingMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);

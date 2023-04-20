@@ -41,7 +41,7 @@ export default (app: Router) => {
 
   // make post request for adding many resting mindful session models
   route.post(
-    '/addManyMindfulSessoin',
+    '/addManyMindfulSession',
     middlewares.isAuth,
     middlewares.authorizeUser,
     celebrate({
@@ -53,11 +53,11 @@ export default (app: Router) => {
     }),
     async (req: Request, res: Response, next: NextFunction) => {
       const logger: Logger = Container.get('logger');
-      logger.debug('Calling addManyMindfulSessoin endpoint with body: %o', req.body);
+      logger.debug('Calling addManyMindfulSession endpoint with body: %o', req.body);
       try {
         const MindfulSessionServiceInstance = Container.get(MindfulSessionService);
         const { mindfulSessionMany } = await MindfulSessionServiceInstance.addManyMindfulSession(req.body);
-        return mindfulSessionMany;
+        return res.status(201).json(mindfulSessionMany);
       } catch (e) {
         logger.error('🔥 error: %o', e);
         return next(e);
