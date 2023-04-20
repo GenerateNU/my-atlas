@@ -8,15 +8,23 @@ import { addManyMindfulSession, addMindfulSessionLocal } from "./mindfulSessionS
 
 import { addManyActivities, addActivityLocal } from "./activityService";
 import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
-
+import { getUser, updateUserDataDate } from "../userService";
+import { sameDate } from "./healthKitService";
 export async function addMany(userId: string, token: string){
     const lastRetrievalDate = new Date(2023, 3, 10);
+
+    const user = await getUser(token);
     const today: Date = new Date();
     today.setHours(0,0,0,0)
     const yesterday: Date = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     console.log("****************************************************")
     try{
+    const user = await getUser(token);
+    const lastRetrievalDate = user.lastDateDataRetrieved;
+    if (lastRetrievalDate < today){ // Only try to add if the last retrieval date is before today
+
+  
     await addManyEnvironmentalAudioExposure(userId, token, lastRetrievalDate, today);
     await addManyHeadphoneAudioExposure(userId, token, lastRetrievalDate, today);
     await addManySleepSample(userId, token, lastRetrievalDate, today);
@@ -25,6 +33,8 @@ export async function addMany(userId: string, token: string){
     await addManyRestingHeartRate(userId, token, lastRetrievalDate, today);
     await addManyMindfulSession(userId, token, lastRetrievalDate, today);
     await addManyActivities(userId, token, lastRetrievalDate, today);
+    const newUser = await updateUserDataDate(userId, today, token);
+}
     } catch (error){
         console.log("Couldn't find stuff")
     }
