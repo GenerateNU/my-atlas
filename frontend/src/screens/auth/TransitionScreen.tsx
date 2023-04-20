@@ -28,7 +28,7 @@ const TransitionScreen = ({ route, navigation }) => {
   };
 
    useEffect(() => {
-     setTimeout(skip, 3000);
+     setTimeout(skip, 2000);
    }, []);
 
   return (
