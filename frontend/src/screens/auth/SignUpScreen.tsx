@@ -55,6 +55,7 @@ const SignUpScreen = ({ route, navigation }) => {
             onChangeText={handleChange}
             placeholderText="Password"
             text={signUpState.password}
+            pw={true}
           />
         </Container>
         <NextButton

@@ -8,9 +8,20 @@ import {
 } from 'react-native-responsive-screen';
 import Big5Card from '../../components/home/Big5Card';
 import { useEffect, useState } from 'react';
+import useAxios from 'axios-hooks';
 
 const Big5Results = ({ route, navigation }) => {
   const auth = useAuth();
+  const userId = auth.authData.user._id;
+  const token = auth.authData.token;
+
+  const [{ data, loading, error }, refetch] = useAxios({
+    url: 'http://localhost:3000/api/onboarding/getOnboarding/' + userId,
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const back = async () => {
     navigation.pop();
@@ -31,7 +42,7 @@ const Big5Results = ({ route, navigation }) => {
       'Individuals who score highly to experience enjoy variety and trying new things. Individuals who score lowly to experience prefer routine to novelty.',
   };
 
-  useEffect(() => {}, [expanded]);
+  useEffect(() => {}, [expanded, data]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFCFA' }}>
@@ -46,45 +57,51 @@ const Big5Results = ({ route, navigation }) => {
             letterSpacing={wp('0.23%')}>
             My Personality Type
           </Text>
-          <Text fontSize={'md'} fontWeight="medium" color={'coal'} marginTop={hp('0.5%')} >Tap on each section to learn more about your personality type</Text>
+          <Text fontSize={'md'} fontWeight="medium" color={'coal'} marginTop={hp('0.5%')}>
+            Tap on each section to learn more about your personality type
+          </Text>
         </View>
-        <View w={'full'}>
-          <Big5Card
-            title="Extraversion"
-            score={40}
-            description={descriptions.Extraversion}
-            expanded={expanded === 'Extraversion'}
-            updateExpanded={() => setExpanded('Extraversion')}
-          />
-          <Big5Card
-            title="Agreeableness"
-            score={20}
-            description={descriptions.Agreeableness}
-            expanded={expanded === 'Agreeableness'}
-            updateExpanded={() => setExpanded('Agreeableness')}
-          />
-          <Big5Card
-            title="Conscientiousness"
-            score={34}
-            description={descriptions.Conscientiousness}
-            expanded={expanded === 'Conscientiousness'}
-            updateExpanded={() => setExpanded('Conscientiousness')}
-          />
-          <Big5Card
-            title="Neuroticism"
-            score={48}
-            description={descriptions.Neuroticism}
-            expanded={expanded === 'Neuroticism'}
-            updateExpanded={() => setExpanded('Neuroticism')}
-          />
-          <Big5Card
-            title="Openness"
-            score={10}
-            description={descriptions.Openness}
-            expanded={expanded === 'Openness'}
-            updateExpanded={() => setExpanded('Openness')}
-          />
-        </View>
+        {loading ? (
+          <></>
+        ) : (
+          <View w={'full'}>
+            <Big5Card
+              title="Extraversion"
+              score={data.onboarding.personalityTestScore.Extraversion}
+              description={descriptions.Extraversion}
+              expanded={expanded === 'Extraversion'}
+              updateExpanded={() => setExpanded('Extraversion')}
+            />
+            <Big5Card
+              title="Agreeableness"
+              score={data.onboarding.personalityTestScore.Agreeableness}
+              description={descriptions.Agreeableness}
+              expanded={expanded === 'Agreeableness'}
+              updateExpanded={() => setExpanded('Agreeableness')}
+            />
+            <Big5Card
+              title="Conscientiousness"
+              score={data.onboarding.personalityTestScore.Conscientiousness}
+              description={descriptions.Conscientiousness}
+              expanded={expanded === 'Conscientiousness'}
+              updateExpanded={() => setExpanded('Conscientiousness')}
+            />
+            <Big5Card
+              title="Neuroticism"
+              score={data.onboarding.personalityTestScore.Neuroticism}
+              description={descriptions.Neuroticism}
+              expanded={expanded === 'Neuroticism'}
+              updateExpanded={() => setExpanded('Neuroticism')}
+            />
+            <Big5Card
+              title="Openness"
+              score={data.onboarding.personalityTestScore.Openness}
+              description={descriptions.Openness}
+              expanded={expanded === 'Openness'}
+              updateExpanded={() => setExpanded('Openness')}
+            />
+          </View>
+        )}
       </Container>
     </SafeAreaView>
   );
