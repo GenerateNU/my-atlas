@@ -12,9 +12,7 @@ export const addHeartRateSampleLocal = async (userId: string) => {
     const heartRateSamples : Array<HealthValue> = await retrieveHealthKitData("getHeartRateSamples", today, new Date());
     const heartRateSampleDTOs : Array<IHeartRateSampleDTO>= convertHeartRateSamples(userId, heartRateSamples);
     if (heartRateSampleDTOs.length > 0){
-      const heartRateSample = heartRateSampleDTOs[0];
-      console.log(heartRateSample);
-      setItemAsync("HeartRateSample", JSON.stringify(heartRateSample));
+      setItemAsync("HeartRateSample", JSON.stringify(heartRateSampleDTOs));
     }
   }
   catch (error){

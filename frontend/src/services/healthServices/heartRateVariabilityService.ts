@@ -12,8 +12,7 @@ export const addHeartRateVariabilityLocal = async (userId: string) => {
     const heartRateVariabilities : Array<HealthValue> = await retrieveHealthKitData("getHeartRateVariabilitySamples", today, new Date());
     const heartRateVariabilitiesDTOs : Array<IHeartRateVariabilityDTO>= convertHeartRateVariabilities(userId,heartRateVariabilities);
     if (heartRateVariabilitiesDTOs.length > 0){
-      const heartRateVariability = heartRateVariabilitiesDTOs[0];
-      setItemAsync("HeartRateVariability", JSON.stringify(heartRateVariability));
+      setItemAsync("HeartRateVariability", JSON.stringify(heartRateVariabilitiesDTOs));
     }
   }
   catch (error){
