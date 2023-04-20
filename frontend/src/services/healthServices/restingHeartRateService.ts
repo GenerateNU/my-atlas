@@ -6,8 +6,8 @@ import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
 export const addRestingHeartRateLocal = async (userId: string) => {
   try{
-    const today: Date = new Date();
-    today.setHours(0,0,0,0)
+    let today: Date = new Date();
+    today.setHours(0,0,0,0);
     const restHeartRates : Array<HealthValue> = await retrieveHealthKitData("getRestingHeartRateSamples", today, new Date());
     const restHeartRateDTOs : Array<IRestingHeartRateDTO>= convertRestingHeartRate(userId, restHeartRates);
     if (restHeartRateDTOs.length > 0){
