@@ -18,9 +18,7 @@ const HomeScreen = ({navigation, route}) => {
     isLoading(true);
     await auth.signOut();
   };
-  const handlePress = () => {
-    console.log('Button pressed!');
-  };
+
 
   const redirect = () => {
     navigation.push('Big 5 Stack', { screen: 'Big 5 Intro Screen' });

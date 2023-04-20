@@ -194,8 +194,6 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   ];
 
   const handleChange = (name: string, value: any) => {
-    console.log(value);
-    console.log(signUpState);
     setSignUpState(prevData => ({
       ...prevData,
       [name]: value,
