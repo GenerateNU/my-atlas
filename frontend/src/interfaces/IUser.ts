@@ -4,12 +4,8 @@ export interface IUser {
   email: string;
   phoneNumber: string;
   dob: string;
-  age: number;
-  createdAt: Date;
-  updatedAt: Date;
-  role: string
   lastDateDataRetrieved: Date;
-  __v: number
+
 }
 
 export interface IUserInputDTO {
