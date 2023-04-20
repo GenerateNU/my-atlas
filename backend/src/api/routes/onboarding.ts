@@ -163,8 +163,7 @@ export default (app: Router) => {
         pronouns: Joi.string(),
         pronounsOther: Joi.string(),
         concerns: Joi.array(),
-        goals: Joi.array(),
-        personalityTestScore: Joi.object(),
+        goals: Joi.array()
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
