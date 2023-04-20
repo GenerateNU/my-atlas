@@ -3,7 +3,24 @@ import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IHeartRateSample, IHeartRateSampleDTO } from '../../interfaces/IHeartRateSample';
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
+export const addHeartRateSampleLocal = async (userId: string) => {
+  try{
+    const today: Date = new Date();
+    today.setHours(0,0,0,0)
+    const heartRateSamples : Array<HealthValue> = await retrieveHealthKitData("getHeartRateSamples", today, new Date());
+    const heartRateSampleDTOs : Array<IHeartRateSampleDTO>= convertHeartRateSamples(userId, heartRateSamples);
+    if (heartRateSampleDTOs.length > 0){
+      const heartRateSample = heartRateSampleDTOs[0];
+      console.log(heartRateSample);
+      setItemAsync("HeartRateSample", JSON.stringify(heartRateSample));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
 
 
 /**

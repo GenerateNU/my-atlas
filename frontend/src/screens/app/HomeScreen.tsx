@@ -4,7 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import Question from '../../components/Question';
 import { addMany } from '../../services/healthServices/healthServices';
-import axios from 'axios';
+import { getUser } from '../../services/userService';
+import { addHealthLocally } from '../../services/healthServices/healthServices';
+import { getLocalData } from '../../services/healthServices/healthServices';
 
 const HomeScreen = ({navigation, route}) => {
   const [loading, isLoading] = useState(false);
@@ -35,12 +37,31 @@ const HomeScreen = ({navigation, route}) => {
    addMany(userID, token);
   }
 
+  function getUserStuff(){
+    try{
+      getUser(token);
+    }
+    catch (error){
+      console.log(error);
+    }
+   
+  }
+
+  function addDataLocally(){
+    addHealthLocally(userID);
+  }
+  function getLocallyData(){
+    getLocalData();
+  }
+
   return (
     <SafeAreaView>
       <Text>HOME SCREEN</Text>
       <Button title="Sign Out" onPress={signOut} />
       <Button title="Click Me" onPress={redirect}/>
       <Button title="Stuff" onPress={doStuff}/>
+      <Button title="Add Local" onPress={addDataLocally}/>
+      <Button title="Get Local" onPress={getLocallyData}/>
       {auth.authData ? (
         <Text>{auth.authData.user.name}</Text>
       ) : (

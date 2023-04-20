@@ -3,6 +3,26 @@ import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IMindfulSession, IMindfulSessionDTO } from '../../interfaces/IMindfulSession';
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
+
+export const addMindfulSessionLocal = async (userId: string) => {
+  try{
+    const today: Date = new Date();
+    today.setHours(0,0,0,0)
+    const mindfulSessions : Array<HealthValue> = await retrieveHealthKitData("getMindfulSession", today, new Date());
+
+    const mindfulSessionDTOS : Array<IMindfulSessionDTO>= convertMindfulSessions(userId, mindfulSessions);
+    console.log(mindfulSessionDTOS);
+    if (mindfulSessionDTOS.length > 0){
+      const mindfulSession = mindfulSessionDTOS[0];
+      
+      setItemAsync("MindfulSession", JSON.stringify(mindfulSession));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
 
 /**
  * 

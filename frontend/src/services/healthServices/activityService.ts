@@ -2,7 +2,40 @@ import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
-const userId = "hi";
+
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
+
+export const addActivityLocal = async (userId: string) => {
+  try{
+    const startDate: Date = new Date();
+    startDate.setHours(0,0,0,0)
+    const today = new Date();
+    const endDate = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const steps : HealthValue[] = await retrieveHealthKitData("getDailyStepCountSamples", startDate, endDate)
+    const walkingRunning : HealthValue[] = await retrieveHealthKitData("getDailyDistanceWalkingRunningSamples",startDate, endDate)
+    const swimming : HealthValue[] = await  retrieveHealthKitData("getDailyDistanceSwimmingSamples",  startDate, endDate)
+    const cycling : HealthValue[] = await retrieveHealthKitData("getDailyDistanceCyclingSamples", startDate, endDate)
+    const flights : HealthValue[]= await retrieveHealthKitData("getDailyFlightsClimbedSamples",startDate, endDate)
+    const activeEnergy : HealthValue[] = await retrieveHealthKitData("getActiveEnergyBurned",  startDate, endDate)
+    const basalEnergy : HealthValue[] = await retrieveHealthKitData("getBasalEnergyBurned",  startDate, endDate)
+    const standTime : HealthValue[] = await retrieveHealthKitData("getAppleStandTime", startDate, endDate)
+
+    const activitySamples: ActivityHealthValues = {
+      steps, walkingRunning, swimming, cycling, flights,
+      activeEnergy, basalEnergy, standTime
+    }
+    // Convert the Activities to IActivityDTO[]
+    const activityDTOS : IActivityDTO[] = convertActivity(userId, startDate, endDate, activitySamples);
+    if (activityDTOS.length > 0){
+      const activity = activityDTOS[0];
+      console.log(activity);
+      setItemAsync("Activity", JSON.stringify(activity));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
 
 /**
  * Can get the activities, but needs to be wrapped in a promise. I would use this to send healthvalues 
@@ -25,7 +58,7 @@ export async function addManyActivities(userId:string, authToken:string, startDa
         activeEnergy, basalEnergy, standTime
       }
       // Convert the Activities to IActivityDTO[]
-      const activityDTOS : IActivityDTO[] = convertActivity(startDate, endDate, activitySamples);
+      const activityDTOS : IActivityDTO[] = convertActivity(userId, startDate, endDate, activitySamples);
    
       const headers = {
         'Authorization': 'Bearer ' + authToken,
@@ -71,7 +104,7 @@ export async function addManyActivities(userId:string, authToken:string, startDa
    * @param activityHealthValues 
    * @returns IActivityDTO[]
    */
-  function convertActivity(startDate: Date, endDate:Date, activityHealthValues: ActivityHealthValues) : IActivityDTO[]{
+  function convertActivity(userId: string, startDate: Date, endDate:Date, activityHealthValues: ActivityHealthValues) : IActivityDTO[]{
     var activityDTOs : IActivityDTO[] = [];
     for (var d = startDate; d < endDate; d.setDate(d.getDate() + 1)) {
       let activityDTO: IActivityDTO = {

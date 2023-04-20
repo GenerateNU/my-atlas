@@ -2,7 +2,25 @@ import axios from 'axios';
 import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { ISleepSample, ISleepSampleDTO } from '../../interfaces/ISleepSample';
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
+
+export const addSleepSampleLocal = async (userId: string) => {
+  try{
+    const today: Date = new Date();
+    today.setHours(0,0,0,0)
+    const sleepSamples : Array<HealthValue> = await retrieveHealthKitData("getSleepSamples", today, new Date());
+    const sleepSampleDTOS : Array<ISleepSampleDTO>= convertSleepSamples(userId, sleepSamples);
+    if (sleepSampleDTOS.length > 0){
+      const sleepSample = sleepSampleDTOS[0];
+      setItemAsync("SleepSamples", JSON.stringify(sleepSample));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
 /**
  * 
  * @returns 

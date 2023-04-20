@@ -3,6 +3,25 @@ import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IEnvironmentalAudioExposureSample, IEnvironmentalAudioExposureSampleDTO } from '../../interfaces/IEnvironmentalAudioExposureSample';
 
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
+
+export const addEnvironmentAudioExposureLocal = async (userId: string) => {
+  try{
+    const today: Date = new Date();
+    today.setHours(0,0,0,0)
+    const environmentAudios : Array<HealthValue> = await retrieveHealthKitData("getEnvironmentalAudioExposure", today, new Date());
+    const environmentAudioDTOS : Array<IEnvironmentalAudioExposureSampleDTO>= convertEnvironmentAudioSamples(userId, environmentAudios);
+
+    if (environmentAudioDTOS.length > 0){
+      const environmentAudio = environmentAudioDTOS[0];
+      setItemAsync("EnvironmentAudio", JSON.stringify(environmentAudio));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
+
 /**
  * 
  * @returns 

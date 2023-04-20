@@ -3,7 +3,24 @@ import { HealthValue } from 'react-native-health';
 import { dateDifferenceInMilliSeconds, retrieveHealthKitData } from './healthKitService';
 import { IActivityDTO } from '../../interfaces/IActivity';
 import { IHeadphoneAudioExposureDTO, IHeadphoneAudioExposure } from '../../interfaces/IHeadphoneAudioExposure';
+import { getItemAsync, setItemAsync, deleteItemAsync } from 'expo-secure-store';
 
+export const addHeadphoneAudioExposureLocal = async (userId: string) => {
+  try{
+    const today: Date = new Date();
+    today.setHours(0,0,0,0)
+    const headphoneExposureSamples : Array<HealthValue> = await retrieveHealthKitData("getHeadphoneAudioExposure", today, new Date());
+    const headphoneExposureSampleDTOs : Array<IHeadphoneAudioExposureDTO>= convertHeadphoneExposureSamples(userId, headphoneExposureSamples);
+
+    if (headphoneExposureSampleDTOs.length > 0){
+      const headPhoneSample = headphoneExposureSampleDTOs[0];
+      setItemAsync("HeadphoneSample", JSON.stringify(headPhoneSample));
+    }
+  }
+  catch (error){
+    console.log(error)
+  }
+}
 /**
  * 
  * @returns 
