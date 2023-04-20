@@ -1,104 +1,62 @@
-// import React, {FC, useEffect} from 'react';
-// import {View, StyleSheet, SafeAreaView, PixelRatio} from 'react-native';
+import { useState, useEffect } from 'react';
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Svg, Circle } from 'react-native-svg';
 
-// import Animated, {
-//   useAnimatedProps,
-//   useDerivedValue,
-//   useSharedValue,
-//   withTiming,
-// } from 'react-native-reanimated';
-// import Svg, {Circle} from 'react-native-svg';
+const INITIAL_OFFSET = 0;
+const circleConfig = {
+  viewBox: '-10 -15 38 38',
+  x: '21',
+  y: '19',
+  radio: 3,
+  strokeWidth: 200,
+  //borderWidth: 20,
+  //borderRadius: 100,
+  //radio: '15.91549430918954',
+};
 
-// //properties to pass into circular progress bar
-// type CircularProgressProps = {
-//   strokeWidth: number;
-//   radius: number;
-//   strokeColor: string;
-//   backgroundColor: string;
-//   percentageComplete: number;
-//   animationDuration: number;
-// };
+const CircleProgressBarBase = ({ trailStrokeColor, strokeColor }) => {
+  const [progressBar, setProgressBar] = useState(0);
+  const percentage = 100;
 
-// const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+  const updatePercentage = () => {
+    setTimeout(() => {
+      setProgressBar(progressBar + 1);
+    }, 65);
+  };
 
-// export const CircularProgress: FC<CircularProgressProps> = ({
-//   radius,
-//   strokeWidth,
-//   strokeColor,
-//   backgroundColor,
-//   percentageComplete,
-//   animationDuration,
-// }) => {
-//   const innerRadius = radius - strokeWidth / 2;
-//   const circumference = 2 * Math.PI * innerRadius;
-//   const invertedCompletion = (100 - percentageComplete) / 100;
+  useEffect(() => {
+    if (percentage > 0) updatePercentage();
+  });
 
-//   const theta = useSharedValue(2 * Math.PI * 1.001);
-//   const animateTo = useDerivedValue(() => 2 * Math.PI * invertedCompletion);
+  useEffect(() => {
+    if (progressBar < percentage) updatePercentage();
+  });
 
-//   const animationTime = animationDuration
+  return (
+    <View>
+      <Svg viewBox={circleConfig.viewBox}>
+        <Circle
+        //   className="ring"
+          cx={circleConfig.x}
+          cy={circleConfig.y}
+          r={circleConfig.radio}
+          fill="transparent"
+          stroke={trailStrokeColor}
+        />
+        <Circle
+        //   className="path"
+          cx={circleConfig.x}
+          cy={circleConfig.y}
+          r={circleConfig.radio}
+          fill="transparent"
+          stroke={strokeColor}
+          strokeDasharray={`${progressBar} ${100 - progressBar}`}
+          strokeDashoffset={INITIAL_OFFSET}
+        />
+      </Svg>
+    </View>
+  );
+};
 
-//   //animates the stroke moving around the circle
-//   const animatedProps = useAnimatedProps(() => {
-//     return {
-//       strokeDashoffset: withTiming(theta.value * innerRadius, {
-//         duration: animationTime,
-//       }),
-//     };
-//   });
-
-//   useEffect(() => {
-//     theta.value = animateTo.value
-//       });
-
-//   const styles = StyleSheet.create({
-//     backgroundContainer: {
-//       flex: 1,
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//     },
-//     ringChartContainer: {
-//       width: radius * 2,
-//       height: radius * 2,
-//     },
-//     container: {
-//       ...StyleSheet.absoluteFillObject,
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//     },
-// });
-
-//   return (
-//     <SafeAreaView style={styles.backgroundContainer}>
-//       <SafeAreaView style={styles.ringChartContainer}>
-//         <SafeAreaView style={styles.container}>
-//           <Svg style={StyleSheet.absoluteFill}>
-//             <Circle
-//               cx={radius}
-//               cy={radius}
-//               fill={'transparent'}
-//               r={innerRadius}
-//               stroke= {backgroundColor}
-//               strokeDasharray={`${circumference} ${circumference}`}
-//               strokeWidth={strokeWidth}
-//               strokeLinecap="round"
-//             />
-//             <AnimatedCircle
-//               animatedProps={animatedProps}
-//               cx={radius}
-//               cy={radius}
-//               fill={'transparent'}
-//               r={innerRadius}
-//               stroke={strokeColor}
-//               strokeDasharray={`${circumference} ${circumference}`}
-//               strokeWidth={strokeWidth}
-//               strokeLinecap="round"
-//             />
-//           </Svg>
-//         </SafeAreaView>
-//       </SafeAreaView>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default CircularProgress;
+export default CircleProgressBarBase;

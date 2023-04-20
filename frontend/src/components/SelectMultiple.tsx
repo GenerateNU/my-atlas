@@ -1,3 +1,4 @@
+import { Stack } from 'native-base';
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, SafeAreaView, Pressable, Dimensions } from 'react-native';
 
@@ -38,19 +39,19 @@ const SingleButton = (props: SingleButtonProps) => {
     selectMultiple: {
       padding: 15,
       borderRadius: 12,
-      marginBottom: 20,
+      marginBottom: 8,
       alignItems: 'center',
       flexWrap: 'wrap',
-      marginLeft: 5,
-      marginRight: 5,
+      marginLeft: 6,
+      marginRight: 6,
+      marginTop: 8,
     },
     buttonText: {
-      fontSize: 28,
+      fontSize: 18,
       fontWeight: 'bold',
+      letterSpacing: 0.5,
     },
   });
-
-
 
   return (
     <Pressable
@@ -71,6 +72,7 @@ export const SelectMultipleButtons = (props: SelectMultipleButtonProps) => {
     buttonSizeScale: {
       flexShrink: 1,
       marginLeft: 5,
+      marginRight: 30,
       flexWrap: 'wrap',
       alignItems: 'flex-start', //not sure what this is doing
       alignContent: 'flex-start',
@@ -79,6 +81,13 @@ export const SelectMultipleButtons = (props: SelectMultipleButtonProps) => {
     subtitleText: {
       fontWeight: 'bold',
       textDecorationLine: 'underline',
+      margin: 10,
+      // marginRight: 70,
+      paddingTop: 10,
+      paddingBottom: 10,
+      width: 300,
+      fontSize: 16,
+      letterSpacing: 0.5
     },
   });
   {
@@ -86,13 +95,27 @@ export const SelectMultipleButtons = (props: SelectMultipleButtonProps) => {
   }
   return (
     <SafeAreaView style={styles.buttonSizeScale}>
-      <Text style={styles.subtitleText}>{props.subtitle}</Text>
-      <Text></Text>
-      {props.listOfButtonNames.map((element, key) => {
-        return <SingleButton state={props.state} handleChange = {props.handleChange} stateName={props.stateName} key={key} title = {element} />;
-      })}
+        <View>
+          {props.subtitle ? (
+            <Text style={styles.subtitleText}>{props.subtitle}</Text>
+          ) : (
+            <Text></Text>
+          )}
+        </View>
+        {props.listOfButtonNames.map((element, key) => {
+          return (
+            <SingleButton
+              state={props.state}
+              handleChange={props.handleChange}
+              stateName={props.stateName}
+              key={key}
+              title={element}
+            />
+          );
+        })}
     </SafeAreaView>
   );
 };
 
 export default SelectMultipleButtons;
+

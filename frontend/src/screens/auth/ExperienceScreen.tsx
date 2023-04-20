@@ -1,14 +1,12 @@
-import { KeyboardAvoidingView, SafeAreaView, ScrollView, Text } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View } from 'native-base';
 import ProgressBar from '../../components/ProgressBar';
-import { Alert } from 'react-native';
 import { useSignUp } from '../../contexts/SignUpContext';
 import NextButton from '../../components/NextButton';
 import { Container } from 'native-base';
 import Question from '../../components/Question';
 import SelectMultipleButtons from '../../components/SelectMultiple';
-import ScreenWideInput from '../../components/ScreenWideInput';
-import { GestureResponderEvent, StyleSheet } from 'react-native';
-import { Fragment, ReactNode } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -16,54 +14,34 @@ import {
 
 const ExperienceScreen = ({ route, navigation }) => {
   const { props } = route.params;
-  const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+  const {
+    page,
+    setPage,
+    signUpState,
+    setSignUpState,
+    signUpFlow,
+    handleChange,
+    handleChangeArray,
+  } = useSignUp();
 
   const styles = StyleSheet.create({
-    // button: {
-    //   paddingVertical: 12,
-    //   paddingHorizontal: 40,
-    //   borderRadius: 10,
-    //   backgroundColor: 'rgba(241, 195, 169, 1)',
-    //   shadowColor: '#52006A',
-    // },
     text: {
       fontStyle: 'normal',
       fontWeight: '300',
       lineHeight: hp('3.2%'),
-    //   letterSpacing: wp('0.23%'),
+      letterSpacing: wp('0.23%'),
       color: '#271E41',
-      //   fontSize: 18,
       marginLeft: wp('8%'),
-        marginRight: wp('20%'),
-        marginTop: wp('5%'),
-        marginBottom: wp('3%'),
-    //   fontSize: hp('3%'),
-
-      // // fontWeight="semibold"
-      // lineHeight={hp('3.2%')}
-      // letterSpacing={wp('0.23%')}
-      //   margin: 20
+      marginRight: wp('20%'),
+      marginTop: wp('5%'),
+      marginBottom: wp('3%'),
+      fontSize: hp('3%'),
     },
-    // buttonClicked: {
-    //   paddingVertical: 12,
-    //   paddingHorizontal: 40,
-    //   borderRadius: 10,
-    //   backgroundColor: 'rgba(197, 84, 21, 1);',
-    // },
-    // textClicked: {
-    //   fontStyle: 'normal',
-    //   fontWeight: '500',
-    //   lineHeight: 23,
-    //   letterSpacing: 0.6,
-    //   color: 'white',
-    //   fontSize: 20,
-    // },
   });
 
   const back = async () => {
     const prevPage = signUpFlow[page - 1];
     setPage(page - 1);
-    // navigation.navigate(prevPage.page, {props: prevPage.props});
     navigation.pop();
   };
 
@@ -73,60 +51,43 @@ const ExperienceScreen = ({ route, navigation }) => {
     navigation.push(nextPage.page, { props: nextPage.props });
   };
 
-  const yesFunction = async () => {
-    handleChange(props.stateName, true);
+  const substanceAbuse = ["Alcohol misuse", "Drug misuse", "Smoking or tobacco misuse"];
 
-    // Alert.alert('yes function');
-  };
+  const moodAndEmotions =
+    ["Anger",
+    "Anxiety",
+    "Irritability",
+    "Low motivation",
+    "Mood swings",
+    "Panic or anxiety attacks",
+    "Pessimism",
+    "Sadness",
+    "Suicidal thoughts"];
 
-  const noFunction = async () => {
-    handleChange(props.stateName, false);
-    // Alert.alert('no function');
-  };
+  const behavioralIssues =
+    ["Compulsions",
+    "Gambling",
+    "Procrastination",
+    "Unstable relationship with food"];
+  const interpersonalConflicts =
+    ["Career conerns",
+    "Friendship instability",
+    "Guilt",
+    "Interpersonal conflicts",
+    "Loneliness",
+    "Work trouble"];
 
-const substanceAbuse = [
-  { key: '1', title: 'Alcohol misuse' },
-  { key: '2', title: 'Drug misuse' },
-  { key: '3', title: 'Smoking or tobacco misuse' },
-];
-const moodAndEmotions = [
-  { key: '1', title: 'Anger' },
-  { key: '2', title: 'Anxiety' },
-  { key: '3', title: 'Irritability' },
-  { key: '4', title: 'Low motivation' },
-  { key: '5', title: 'Mood swings' },
-  { key: '6', title: 'Panic or anxiety attacks' },
-  { key: '7', title: 'Pessimism' },
-  { key: '8', title: 'Sadness' },
-  { key: '9', title: 'Suicidal thoughts' },
-];
-const behavioralIssues = [
-  { key: '1', title: 'Compulsions' },
-  { key: '2', title: 'Gambling' },
-  { key: '3', title: 'Procrastination' },
-  { key: '4', title: 'Unstable relationship with food' },
-];
-
-const interpersonalConflicts = [
-  { key: '1', title: 'Career conerns' },
-  { key: '2', title: 'Friendship instability' },
-  { key: '3', title: 'Guilt' },
-  { key: '4', title: 'Interpersonal conflicts' },
-  { key: '5', title: 'Loneliness' },
-  { key: '6', title: 'Work trouble' },
-];
-const cognitiveMentalHealth = [
-  { key: '1', title: 'Delusions' },
-  { key: '2', title: 'Distractibility' },
-  { key: '3', title: 'Fatigue' },
-  { key: '4', title: 'Fears/phobias' },
-  { key: '5', title: 'Impulsivenss' },
-  { key: '6', title: 'Perfectionism' },
-  { key: '7', title: 'Poor judgement' },
-  { key: '8', title: 'Self-esteem issues' },
-  { key: '9', title: 'Trouble sleeping' },
-  { key: '10', title: 'Memory issues' },
-];
+  const cognitiveMentalHealth =
+    ["Delusions",
+    "Distractibility",
+    "Fatigue",
+    "Fears/phobias",
+    "Impulsivenss",
+    "Perfectionism",
+    "Poor judgement",
+    "Self-esteem issues",
+    "Trouble sleeping",
+    "Memory issues"];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
@@ -143,15 +104,56 @@ const cognitiveMentalHealth = [
             contentContainerStyle={{ flexGrow: 1 }}
             width={'100%'}>
             <Question question={'Do you experience any of the following?'}>
-              <Text style={styles.text}>Select all that apply</Text>
-
-              <SelectMultipleButtons listOfButtonNames={substanceAbuse} subtitle={null} />
-              <SelectMultipleButtons listOfButtonNames={moodAndEmotions} subtitle={null} />
-              <SelectMultipleButtons listOfButtonNames={behavioralIssues} subtitle={null} />
-              <SelectMultipleButtons listOfButtonNames={interpersonalConflicts} subtitle={null} />
-              <SelectMultipleButtons listOfButtonNames={cognitiveMentalHealth} subtitle={null} />
+              <View>
+                <Text
+                  marginTop={wp('-4%')}
+                  marginBottom={wp('6%')}
+                  marginLeft={wp('8%')}
+                  color={'#271E41'}
+                  fontSize={16}
+                  letterSpacing={0.5}>
+                  Select all that apply
+                </Text>
+                <View marginLeft={wp('5%')}>
+                  <SelectMultipleButtons
+                    state={signUpState[props.stateName]}
+                    handleChange={handleChangeArray}
+                    listOfButtonNames={substanceAbuse}
+                    subtitle={'Substance Abuse'}
+                    stateName={props.stateName}
+                  />
+                  <SelectMultipleButtons
+                    state={signUpState[props.stateName]}
+                    handleChange={handleChangeArray}
+                    listOfButtonNames={moodAndEmotions}
+                    subtitle={'Mood and Emotions'}
+                    stateName={props.stateName}
+                  />
+                  <SelectMultipleButtons
+                    state={signUpState[props.stateName]}
+                    handleChange={handleChangeArray}
+                    listOfButtonNames={behavioralIssues}
+                    subtitle={'Behavioral and Compulsive Issues'}
+                    stateName={props.stateName}
+                  />
+                  <SelectMultipleButtons
+                    state={signUpState[props.stateName]}
+                    handleChange={handleChangeArray}
+                    listOfButtonNames={interpersonalConflicts}
+                    subtitle={'Interpersonal Conflicts'}
+                    stateName={props.stateName}
+                  />
+                  <SelectMultipleButtons
+                    state={signUpState[props.stateName]}
+                    handleChange={handleChangeArray}
+                    listOfButtonNames={cognitiveMentalHealth}
+                    subtitle={'Cognitive & Mental Health Issues'}
+                    stateName={props.stateName}
+                  />
+                </View>
+              </View>
             </Question>
-
+            <Container margin={50}></Container>
             <NextButton
               iconColor="#C55415"
               bgColor="#F1C3A9"
@@ -159,6 +161,7 @@ const cognitiveMentalHealth = [
               pressedIconColor="#FFFFFF"
               onPress={skip}
             />
+            <Container margin={5}></Container>
           </ScrollView>
         </KeyboardAvoidingView>
       </Container>
