@@ -7,29 +7,30 @@ import {
 } from 'react-native-responsive-screen';
 import ScreenWideInput from '../ScreenWideInput';
 
-type Option = {
-  id: number;
-  text: string;
-};
-
 type SelectOneProps = {
   title?: string;
   options: string[];
   other: boolean;
-  onAnswerPress: (answerId: number) => void;
+  onAnswerPress: (name: string, value: any) => void;
+  onAnswerPressOther?: (name: string, value: any, other: boolean) => void;
+  stateName: string;
+  state: any;
+  otherState: any;
 };
 
 const SelectOne = (props: SelectOneProps) => {
   return (
-    <View marginBottom={hp("2%")}>
+    <View marginBottom={hp('2%')}>
       {props.title ? (
         <Text
           font-family="body"
           fontStyle="normal"
           fontWeight="600"
           fontSize="xl"
+          fontFamily="heading"
+          letterSpacing={wp('0.1%')}
           ml={wp('8%')}
-          underline={true}>
+          paddingBottom={hp('1%')}>
           {props.title}
         </Text>
       ) : (
@@ -37,14 +38,20 @@ const SelectOne = (props: SelectOneProps) => {
       )}
 
       {props.options.map((option, key) => (
-        <ScreenWideButton key={key} text={option} onPress={() => props.onAnswerPress(key)} />
+        <ScreenWideButton
+          key={key}
+          text={option}
+          state={props.state}
+          onPress={() => props.onAnswerPress(props.stateName, option)}
+        />
       ))}
       {props.other ? (
         <ScreenWideInput
-          name="title"
-          text=""
+          name={props.stateName}
+          text={props.otherState}
           placeholderText="Other"
-          onChangeText={(name, value) => props.onAnswerPress(props.options.length + 1)}
+          onChangeText={props.onAnswerPressOther}
+          isOther
         />
       ) : null}
     </View>

@@ -52,7 +52,20 @@ export default class OnboardingService {
     try {
       const onboardingRecord = await this.onboardingModel.findOne({ userID: userID });
       const onboarding: IOnboarding = onboardingRecord.toObject();
+      console.log(onboarding);
       return { onboarding };
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    }
+  }
+  // Gets a boolean if the user has completed the personaity test
+  public async getPersonalityTestCompleted(userID: string): Promise<{ personalityTestCompleted: boolean }> {
+    try {
+      const onboardingRecord = await this.onboardingModel.findOne({ userID: userID });
+      const onboarding: IOnboarding = onboardingRecord.toObject();
+      const personalityTestCompleted = onboarding.personalityTestCompleted;
+      return { personalityTestCompleted };
     } catch (e) {
       this.logger.error(e);
       throw e;
@@ -80,8 +93,7 @@ export default class OnboardingService {
     try {
       const userID = onboardingInputDTO.userID;
       const onboardingRecord = await this.onboardingModel.findOneAndUpdate({ userID: userID }, onboardingInputDTO, {
-        runValidators: true,
-        new: true,
+        runValidators: true
       }); // new implies we want to return the new document
       const onboarding: IOnboarding = onboardingRecord.toObject();
       return { onboarding };

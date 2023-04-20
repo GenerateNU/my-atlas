@@ -1,5 +1,4 @@
 import { Container, KeyboardAvoidingView, ScrollView } from 'native-base';
-import { Fragment } from 'react';
 import { Keyboard, SafeAreaView, Text, TouchableWithoutFeedback, View } from 'react-native';
 import ProgressBar from '../../components/ProgressBar';
 import Question from '../../components/Question';
@@ -9,7 +8,7 @@ import NextButton from '../../components/NextButton';
 
 const SelectOneScreen = ({ route, navigation }) => {
   const { props } = route.params;
-  const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+  const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange, handleOtherChange } = useSignUp();
 
   const back = async () => {
     const prevPage = signUpFlow[page - 1];
@@ -20,6 +19,7 @@ const SelectOneScreen = ({ route, navigation }) => {
 
   const skip = async () => {
     const nextPage = signUpFlow[page + 1];
+    console.log(nextPage)
     setPage(page + 1);
     navigation.push(nextPage.page, { props: nextPage.props });
   };
@@ -30,7 +30,7 @@ const SelectOneScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
           <ProgressBar
             progress={props.progress}
@@ -38,33 +38,23 @@ const SelectOneScreen = ({ route, navigation }) => {
             hasProgress={true}
             backFunction={back}
             skipFunction={skip}></ProgressBar>
-          <KeyboardAvoidingView behavior="height" height={'100%'}>
-            <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{ flexGrow: 1 }}>
+          <KeyboardAvoidingView behavior="height" height={'100%'} w={'full'} maxWidth="100%">
+            <ScrollView keyboardShouldPersistTaps="never" contentContainerStyle={{ flexGrow: 1 }} width={'100%'}>
               <View onStartShouldSetResponder={() => true}>
-                <Question question={'Which best describes you?'}>
+                <Question question={props.question}>
                   {props.sections.map((selectOne, key) => (
                     <SelectOne
                       key={key}
                       title={selectOne.title}
-                      onAnswerPress={handlePress}
+                      onAnswerPress={handleChange}
+                      onAnswerPressOther={handleOtherChange}
                       options={selectOne.answers}
                       other={selectOne.other}
+                      stateName={selectOne.stateName}
+                      state={signUpState[selectOne.stateName]}
+                      otherState= {selectOne.other ? signUpState[selectOne.stateName + 'Other'] : undefined}
                     />
                   ))}
-
-                  {/* <SelectOne
-                title="Gender Identity"
-                options={[
-                  { id: 1, text: 'Woman' },
-                  { id: 2, text: 'Man' },
-                  { id: 3, text: 'Transgender woman' },
-                  { id: 4, text: 'Transgender man' },
-                  { id: 5, text: 'Non-binary' },
-                  { id: 6, text: 'Prefer not to say' },
-                ]}
-                other={false}
-                onAnswerPress={handlePress}
-              /> */}
                 </Question>
                 {props.isLong ? (
                   <>

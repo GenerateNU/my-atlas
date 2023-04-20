@@ -31,7 +31,6 @@ const YesNo = (props: YesNoProps) => {
   console.log(props.clicked)
   return (
     <Center>
-      <Question question={props.question}></Question>
       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
         <Pressable
           style={props.clicked == true ? styles.buttonClicked : styles.button}

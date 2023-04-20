@@ -36,7 +36,7 @@ const SignInScreen = ({route, navigation}) => {
   };
 
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <ProgressBar
           progress={20}
           hasSkip={false}

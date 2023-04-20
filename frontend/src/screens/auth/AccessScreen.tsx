@@ -1,7 +1,7 @@
-import { Container, Heading } from 'native-base';
+import { Container, Heading, Image } from 'native-base';
 import { background } from 'native-base/lib/typescript/theme/styled-system';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View, Image, _Text } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View, _Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button, Progress } from 'native-base';
@@ -11,8 +11,29 @@ import {
 } from 'react-native-responsive-screen';
 import { AtlasLogo } from '../../img';
 import { useSignUp } from '../../contexts/SignUpContext';
+import {
+  useFonts,
+  Montserrat_100Thin,
+  Montserrat_200ExtraLight,
+  Montserrat_300Light,
+  Montserrat_400Regular,
+  Montserrat_500Medium,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+  Montserrat_400Regular_Italic,
+  Montserrat_500Medium_Italic,
+  Montserrat_600SemiBold_Italic,
+  Montserrat_700Bold_Italic,
+  Montserrat_800ExtraBold_Italic,
+  Montserrat_900Black_Italic,
+} from '@expo-google-fonts/montserrat';
 
-const AccessScreen = ({route, navigation }) => {
+const AccessScreen = ({ route, navigation }) => {
   const [loading, isLoading] = useState(false);
 
   const signUp = async () => {
@@ -25,31 +46,35 @@ const AccessScreen = ({route, navigation }) => {
     navigation.navigate('Sign In Screen');
   };
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading]);
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
       <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
-        <Heading size="3xl" marginTop={hp('12%')} marginBottom={hp('7%')}>
+        <Heading
+          size="3xl"
+          marginTop={hp('12%')}
+          marginBottom={hp('7%')}
+          fontFamily="heading"
+          fontWeight={'700'}
+          fontStyle={'normal'}
+          letterSpacing={wp('0.1%')}
+          >
           My Atlas
         </Heading>
-        <Image source={AtlasLogo} />
+        <Image alt="My Atlas Image" width={hp('20%')} height={hp('20%')} source={AtlasLogo} />
         <Button
           _text={{
             fontSize: 'xl',
-            color: 'navy',
+            color: 'midnight',
             fontWeight: 'semibold',
             letterSpacing: 'lg',
           }}
           _pressed={{
-            backgroundColor: 'darkOrange',
+            backgroundColor: 'terra',
             _text: { color: 'white' },
           }}
           onPress={signUp}
           w={wp('75%')}
-          bg={'lightOrange'}
+          bg={'nectarine'}
           borderRadius="md"
           marginTop={hp('18%')}>
           Create Account
@@ -57,7 +82,7 @@ const AccessScreen = ({route, navigation }) => {
         <Button
           _text={{
             fontSize: 'xl',
-            color: 'navy',
+            color: 'midnight',
             fontWeight: 'semibold',
             letterSpacing: 'lg',
           }}

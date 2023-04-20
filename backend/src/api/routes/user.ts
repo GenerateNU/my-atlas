@@ -21,6 +21,7 @@ export default (app: Router) => {
     celebrate({
       body: Joi.object({
         _id: Joi.string().required(),
+        date: Joi.date().required()
       }),
     }),
     async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +29,7 @@ export default (app: Router) => {
       logger.debug('Calling updateUserDataDate endpoint with body: %o', req.body);
       try {
         const userServiceInstance = Container.get(UserService);
-        const user = await userServiceInstance.updateUserDate(req.body._id);
+        const user = await userServiceInstance.updateUserDate(req.body._id, req.body.date);
         return res.status(201).json({ user });
         return;
       } catch (e) {

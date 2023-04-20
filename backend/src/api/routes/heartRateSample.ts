@@ -21,7 +21,6 @@ export default (app: Router) => {
       body: Joi.object({
         userID: Joi.string().required(),
         startDate: Joi.date().required(),
-        duration: Joi.number().required(),
         bpm: Joi.number().required(),
         hkID: Joi.string().required(),
         hkWasUserEntered: Joi.boolean().required(),
@@ -51,7 +50,6 @@ export default (app: Router) => {
       body: Joi.array().items({
         userID: Joi.string().required(),
         startDate: Joi.date().required(),
-        duration: Joi.number().required(),
         bpm: Joi.number().required(),
         hkID: Joi.string().required(),
         hkWasUserEntered: Joi.boolean().required(),

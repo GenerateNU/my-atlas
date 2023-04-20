@@ -8,6 +8,8 @@ type SignUpContextData = {
   setSignUpState: React.Dispatch<React.SetStateAction<any>>;
   signUpFlow: Object;
   handleChange: (name: string, value: any) => void;
+  handleChangeArray: (name: string, value: any) => void;
+  handleOtherChange: (name: string, value: any, other: boolean) => void;
 };
 
 type SignUpProviderProps = {
@@ -18,14 +20,26 @@ const SignUpContext = createContext<SignUpContextData>({} as SignUpContextData);
 const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
   const [signUpState, setSignUpState] = useState<IOnboardingFlowState>({
-    name: undefined,
     email: undefined,
     password: undefined,
+    name: undefined,
     phoneNumber: undefined,
+    pronouns: undefined,
+    pronounsOther: undefined,
     dob: undefined,
-    age: undefined,
+    zipcode: undefined,
+    sexAssignedAtBirth: undefined,
+    gender: undefined,
+    genderOther: undefined,
+    sexualOrientation: undefined,
+    ethnicity: undefined,
+    religion: undefined,
+    religionOther: undefined,
+    mentalHealthStance: undefined,
     soughtCare: undefined,
-    spirituality: undefined
+    concerns: [],
+    goals: [],
+    spirituality: undefined,
   });
   const signUpFlow = [
     {
@@ -35,7 +49,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Single Question Screen',
       props: {
-        question: "What's your name",
+        question: "What's your name?",
         inputName: 'Name',
         stateName: 'name',
         progress: 11,
@@ -48,8 +62,8 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Single Question Screen',
       props: {
-        question: "What's your phone number",
-        inputName: '',
+        question: "What's your phone number?",
+        inputName: '+1',
         stateName: 'phoneNumber',
         progress: 22,
       },
@@ -57,7 +71,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Select One Screen',
       props: {
-        question: 'What are your pronouns',
+        question: 'What are your pronouns?',
         stateName: 'pronouns',
         sections: [
           {
@@ -74,7 +88,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
       page: 'Select Date Screen',
       props: {
         question: "What's your date of birth?",
-        inputName: "Enter date",
+        inputName: 'Enter date',
         stateName: 'dob',
         progress: 44,
       },
@@ -111,7 +125,7 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
               'Prefer not to say',
             ],
             other: false,
-            stateName: 'genderIdentity',
+            stateName: 'gender',
           },
           {
             title: 'Sexual Orientation',
@@ -158,9 +172,10 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Select One Screen',
       props: {
+        question: 'When it comes to self-care and wellness, you are…',
         sections: [
           {
-            question: 'When it comes to taking care of your mental health, you are...',
+            question: '',
             answers: ['Informed', 'Curious', 'Skeptical'],
           },
         ],
@@ -173,6 +188,21 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
         question: 'Have you sought behavioral health or wellness care in the past?',
         progress: 88,
         stateName: 'soughtCare',
+      },
+    },
+    {
+      page: 'Wellness Goals Screen',
+      props: {
+        progress: 88,
+        stateName: 'goals'
+        // question: 'Choose your behavioral health and wellness goals',
+      },
+    },
+    {
+      page: 'Experience Screen',
+      props: {
+        progress: 88,
+        stateName: 'concerns'
       },
     },
     {
@@ -192,9 +222,45 @@ const SignUpProvider: React.FC<SignUpProviderProps> = ({ children }) => {
     }));
   };
 
+  const handleChangeArray = (name: string, value: any) => {
+    const arr: string[] = signUpState[name];
+    if (arr.includes(value)) {
+      arr.splice(arr.indexOf(value));
+    } else {
+      arr.push(value);
+    }
+    setSignUpState(prevData => ({
+      ...prevData,
+      [name]: arr,
+    }));
+    console.log(arr);
+  };
+
+  const handleOtherChange = (name: string, value: any, other: boolean) => {
+    if (other) {
+      setSignUpState(prevData => ({
+        ...prevData,
+        [name]: 'Other',
+        [name + 'Other']: value,
+      }));
+    } else {
+      handleChange(name, value);
+    }
+    console.log(signUpState);
+  };
+
   return (
     <SignUpContext.Provider
-      value={{ page, setPage, signUpState, setSignUpState, signUpFlow, handleChange }}>
+      value={{
+        page,
+        setPage,
+        signUpState,
+        setSignUpState,
+        signUpFlow,
+        handleChange,
+        handleOtherChange,
+        handleChangeArray,
+      }}>
       {children}
     </SignUpContext.Provider>
   );

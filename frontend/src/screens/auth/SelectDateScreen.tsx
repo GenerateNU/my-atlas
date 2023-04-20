@@ -24,7 +24,7 @@ const SelectDateScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
       <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
         <ProgressBar
           progress={props.progress}
@@ -33,7 +33,7 @@ const SelectDateScreen = ({ route, navigation }) => {
           backFunction={back}
           skipFunction={skip}></ProgressBar>
         <Question question={props.question}></Question>
-        <DateSelector inputName={props.stateName} text={signUpState.user.dob} onChangeText={handleChange}></DateSelector>
+        <DateSelector inputName={props.stateName} text={signUpState[props.stateName]} onChangeText={handleChange}></DateSelector>
       </Container>
       <NextButton
         iconColor="#C55415"

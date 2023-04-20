@@ -33,15 +33,19 @@ const SignUpScreen = ({ route, navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF9F1' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF4F0' }}>
         <Container h={'full'} w={'full'} maxWidth="100%" maxHeight="100%" alignItems={'center'}>
           <ProgressBar backFunction={back} hasProgress={false} hasSkip={false} />
           <Heading
             size="3xl"
             marginTop={hp('4%')}
             marginBottom={hp('3%')}
-            ml={wp('4%')}
-            marginX={wp('10%')}>
+            ml={wp('8%')}
+            marginX={wp('10%')}
+            fontFamily="heading"
+            fontWeight={'700'}
+            fontStyle={'normal'}
+            letterSpacing={wp('0.1%')}>
             Welcome to My Atlas
           </Heading>
           <ScreenWideInput
@@ -55,6 +59,7 @@ const SignUpScreen = ({ route, navigation }) => {
             onChangeText={handleChange}
             placeholderText="Password"
             text={signUpState.password}
+            pw={true}
           />
         </Container>
         <NextButton

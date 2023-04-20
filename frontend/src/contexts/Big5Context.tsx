@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { IOnboardingFlowState } from '../interfaces/IOnboardingFlowState';
+import { IPersonalityScore } from '../interfaces/IPersonalityScore';
 
 type Big5ContextData = {
   page: number;
@@ -8,6 +8,7 @@ type Big5ContextData = {
   setBig5State: React.Dispatch<React.SetStateAction<any>>;
   big5Flow: Object;
   handleChange: (name: number, value: any) => void;
+  calculateScore: () => IPersonalityScore;
 };
 
 type SignUpProviderProps = {
@@ -18,7 +19,7 @@ const Big5Context = createContext<Big5ContextData>({} as Big5ContextData);
 
 const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
   const [page, setPage] = useState(0);
-  const [big5State, setBig5State] = useState(Array.apply(null, Array(50)).map(function () {}));
+  const [big5State, setBig5State] = useState<string[]>(Array.apply(null, Array(50)).map(function () {}));
   const big5Flow = [
     {
       page: 'Big 5 Intro Screen',
@@ -31,6 +32,7 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
     {
       page: 'Big 5 Selection Screen',
       props: {
+        progress: 20,
         questions: [
           {
             question: 'I am the life of the party',
@@ -76,8 +78,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 40,
         questions: [
           {
             question: 'I feel comfortable around people',
@@ -123,8 +126,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 60,
         questions: [
           {
             question: 'I start conversations',
@@ -170,8 +174,9 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 80,
         questions: [
           {
             question: 'I talk to a lot of different people at parties',
@@ -217,48 +222,49 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
       },
     },
     {
-      page: 'Big 5 Selection',
+      page: 'Big 5 Selection Screen',
       props: {
+        progress: 100,
         questions: [
           {
             question: "I don't mind being the center of attention",
-            stateName: 41,
+            stateName: 40,
           },
           {
             question: "I feel others' emotions",
-            stateName: 42,
+            stateName: 41,
           },
           {
             question: 'I follow a schedule',
-            stateName: 43,
+            stateName: 42,
           },
           {
             question: 'I get irritated easily',
-            stateName: 44,
+            stateName: 43,
           },
           {
             question: 'I spend time reflecting on things',
-            stateName: 45,
+            stateName: 44,
           },
           {
             question: 'I am quiet around strangers',
-            stateName: 46,
+            stateName: 45,
           },
           {
             question: 'I make people feel at ease',
-            stateName: 47,
+            stateName: 46,
           },
           {
             question: 'I am exacting in my work',
-            stateName: 48,
+            stateName: 47,
           },
           {
             question: 'I often feel blue',
-            stateName: 49,
+            stateName: 48,
           },
           {
             question: 'I am full od ideas',
-            stateName: 50,
+            stateName: 49,
           },
         ],
       },
@@ -273,9 +279,25 @@ const Big5Provider: React.FC<SignUpProviderProps> = ({ children }) => {
     ]);
   };
 
+  const calculateScore = () : IPersonalityScore => {
+    const scores : number[] = big5State.map((s : string) => (Number.parseInt(s)))
+    const E = 20 + scores[0] - scores[5] + scores[10] - scores[15] + scores[20] - scores[25] + scores[30] - scores[35] + scores[40] - scores[45]
+    const A = 14 - scores[1] + scores[6] - scores[11] + scores[16] - scores[21] + scores[26] - scores[31] + scores[36] + scores[41] + scores[46]
+    const C = 14 + scores[2] - scores[7] + scores[12] - scores[17] + scores[22] - scores[27] + scores[32] - scores[37] + scores[42] + scores[47]
+    const N = 38 - scores[3] + scores[8] - scores[13] + scores[18] - scores[23] - scores[28] - scores[33] - scores[38] - scores[43] - scores[48]
+    const O = 8 + scores[4] - scores[9] + scores[14] - scores[19] + scores[24] - scores[29] + scores[34] + scores[39] + scores[44] + scores[49]
+    return {  
+      Openness: O,
+      Conscientiousness: C,
+      Extraversion: E,
+      Agreeableness: A,
+      Neuroticism: N
+    }
+  }
+
   return (
     <Big5Context.Provider
-      value={{ page, setPage, big5State, setBig5State, big5Flow, handleChange }}>
+      value={{ page, setPage, big5State, setBig5State, big5Flow, handleChange, calculateScore }}>
       {children}
     </Big5Context.Provider>
   );
