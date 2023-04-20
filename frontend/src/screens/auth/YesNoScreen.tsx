@@ -6,10 +6,20 @@ import { useSignUp } from '../../contexts/SignUpContext';
 import NextButton from '../../components/NextButton';
 import { Container } from 'native-base';
 import Question from '../../components/Question';
+import { onboardingService } from '../../services/onboardingService';
+import { IOnboardingDTO } from '../../interfaces/IOnboardingDTO';
+import { IOnboardingFlowState } from '../../interfaces/IOnboardingFlowState';
+import { authService } from '../../services/authService';
+import { IUserInputDTO } from '../../interfaces/IUser';
+import { useAuth } from '../../contexts/AuthContext';
+import { setItemAsync } from 'expo-secure-store';
 
 const YesNoScreen = ({ route, navigation }) => {
   const { props } = route.params;
   const { page, setPage, signUpState, setSignUpState, signUpFlow, handleChange } = useSignUp();
+
+  const auth = useAuth()
+  const setAuth = auth.setAuthData;
 
   const back = async () => {
     const prevPage = signUpFlow[page - 1];
@@ -19,9 +29,42 @@ const YesNoScreen = ({ route, navigation }) => {
   };
 
   const skip = async () => {
-    const nextPage = signUpFlow[page + 1];
-    setPage(page + 1);
-    navigation.push(nextPage.page, { props: nextPage.props });
+    if (page > 11) {
+      const data : IOnboardingFlowState = signUpState;
+
+      const onboardingLoad : IOnboardingDTO = {
+        zipcode : data.zipcode,
+        religion : data.religion,
+        religionOther : data.religion,
+        ethnicity : data.ethnicity,
+        sexualOrientation : data.sexualOrientation,
+        sexAssignedAtBirth : data.sexAssignedAtBirth,
+        mentalHealthCare : data.mentalHealthStance,
+        haveSoughtCare : data.soughtCare,
+        spiritual : data.spirituality,
+        gender : data.gender,
+        genderOther : data.genderOther,
+        pronouns : data.pronouns,
+        pronounsOther : data.pronounsOther,
+        concerns : data.concerns,
+        goals : data.goals
+      }
+      const userData : IUserInputDTO = {
+        name : data.name,
+        email : data.email,
+        password : data.password,
+        phoneNumber : data.phoneNumber,
+        dob : data.dob
+      }
+      const authData = await authService.signUp(userData)
+      await onboardingService.addOnboarding(onboardingLoad, authData.user._id, authData.token)
+      setAuth(authData)
+      setItemAsync('AuthData', JSON.stringify(authData))
+    } else {
+      const nextPage = signUpFlow[page + 1];
+      setPage(page + 1);
+      navigation.push(nextPage.page, { props: nextPage.props });
+    }
   };
 
   const yesFunction = async () => {

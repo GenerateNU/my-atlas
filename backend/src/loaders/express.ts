@@ -3,6 +3,7 @@ import cors from 'cors';
 import { OpticMiddleware } from '@useoptic/express-middleware';
 import routes from '@/api';
 import config from '@/config';
+import { errors } from 'celebrate'
 export default ({ app }: { app: express.Application }) => {
   /**
    * Health Check endpoints
@@ -45,6 +46,8 @@ export default ({ app }: { app: express.Application }) => {
     err['status'] = 404;
     next(err);
   });
+
+  app.use(errors())
 
   /// error handlers
   app.use((err, req, res, next) => {

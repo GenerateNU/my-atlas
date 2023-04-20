@@ -1,30 +1,32 @@
+import { IPersonalityScore } from "./IPersonalityScore";
+
 export interface IOnboarding {
     _id: string;
     nickname?: string;
     city?: string;
-    zipcode?: number;
+    zipcode?: string;
     religion?: string;
     religionOther?: string;
     ethnicity?: string;
     sexualOrientation?: string;
     sexAssignedAtBirth?: string;
     mentalHealthCare?: string;
-    haveSoughtCare?: boolean;
+    haveSoughtCare?: string;
     identifyYourself?: string;
     gender?: string;
     genderOther?: string;
     pronouns?: string;
     pronounsOther?: string;
-    spiritual?: boolean;
+    spiritual?: string;
     concerns?: string[];
     goals?: string[];
-    personalityTestScore?: number[];
+    personalityTestScore?: IPersonalityScore;
   }
   
   export interface IOnboardingDTO {
     nickname?: string;
     city?: string;
-    zipcode?: number;
+    zipcode?: string;
     religion?: string;
     religionOther?: string;
     ethnicity?: string;
@@ -40,6 +42,7 @@ export interface IOnboarding {
     spiritual?: boolean;
     concerns?: string[];
     goals?: string[];
-    personalityTestScore?: number[];
+    personalityTestScore?: IPersonalityScore;
+    personalityTestCompleted?: boolean;
   }
   
